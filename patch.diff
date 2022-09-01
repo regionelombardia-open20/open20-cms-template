@@ -1,0 +1,47 @@
+From 5e8d521bfedf1ebdda60b61eda49d3a5de166b1a Mon Sep 17 00:00:00 2001
+From: elenapontecchiani <elena.pontecchiani@elitedivision.it>
+Date: Wed, 22 Jun 2022 16:08:14 +0200
+Subject: [PATCH] fix per recaptcha
+
+---
+ frontend/configs/env-local.php | 9 +++++++--
+ frontend/configs/params.php    | 4 ++--
+ 2 files changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/frontend/configs/env-local.php b/frontend/configs/env-local.php
+index be78c1b..35fb665 100644
+--- a/frontend/configs/env-local.php
++++ b/frontend/configs/env-local.php
+@@ -7,6 +7,11 @@
+  */
+ 
+ return [
+-
+-    
++    'components'=>[
++        'newReCaptcha' => [
++            'class' => 'himiklab\yii2\recaptcha\ReCaptchaConfig',
++            'siteKeyV2' => '',
++            'secretV2' => '',
++        ],
++    ]    
+ ];
+\ No newline at end of file
+diff --git a/frontend/configs/params.php b/frontend/configs/params.php
+index 31346be..4066a12 100644
+--- a/frontend/configs/params.php
++++ b/frontend/configs/params.php
+@@ -22,8 +22,8 @@ return [
+         'key' => $googleMapsApiKey
+     ],
+     'googleMapsApiKey' => $googleMapsApiKey,
+-    'google_recaptcha_site_key' => '6LdI3dMZAAAAAJl9K51R5hU034jksuFOblYgFnUX',
+-    'google_recaptcha_secret' => '6LdI3dMZAAAAAB-OeoJA1dGAUkxrWVo_WIBKOdkB',
++    'google_recaptcha_site_key' => '',
++    'google_recaptcha_secret' => '',
+     'noWizardNewLayout' => true,
+     'menuModules' => [
+         'amosadmin',
+-- 
+2.14.2.windows.3
+

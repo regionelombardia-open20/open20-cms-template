@@ -1,0 +1,152 @@
+<?php
+/**
+ * Lombardia Informatica S.p.A.
+ * OPEN 2.0
+ *
+ * @see http://example.com Developers'community
+ * @license GPLv3
+ * @license https://opensource.org/licenses/gpl-3.0.html GNU General Public License version 3
+ *
+ * @package    elitedivision\amos\basic\template
+ * @category   CategoryName
+ * @author     Lombardia Informatica S.p.A.
+ */
+
+namespace app\controllers;
+
+use luya\admin\models\Config;
+use elitedivision\amos\cwh\AmosCwh;
+use luya\cms\helpers\Url;
+use luya\cms\menu\QueryOperatorFieldInterface;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\web\Controller;
+use yii\web\Response;
+use amos\userauth\models\UserLoginForm;
+
+/**
+ * Class SiteController
+ * @package frontend\controllers
+ */
+class SiteController extends Controller
+{
+
+    const USERAUTH_CONFIG_REDIRECT_NAV_ID = 'userauth_redirect_nav_id';
+    const USERAUTH_CONFIG_AFTER_LOGIN_NAV_ID = 'userauth_afterlogin_nav_id';
+    const NOPERMISSION_CONFIG_REDIRECT_NAV_ID ='nopermission_redirect_nav_id';
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['logout', 'login','privacy-policy'],
+                'rules' => [
+                    [
+                        'actions' => ['login','privacy-policy'],
+                        'allow' => true,
+                        'roles' => ['?', '@'],
+                    ],
+                    [
+                        'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['get'],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ]
+        ];
+    }
+
+    /**
+     * Logs in a user.
+     * @return string|Response
+     */
+    public function actionLogin($redir = null)
+    {
+        if (!Yii::$app->user->isGuest && \Yii::$app->user->id != Yii::$app->params['platformConfigurations']['guestUserId']) {
+            return Yii::$app->response->redirect(Url::home(true));
+        }
+
+        if (!empty($navItem)) {
+            return Yii::$app->response->redirect($navItem->getLink());
+        }
+
+<<<<<<< HEAD
+
+        // redirect to the given nav item
+        if (!empty($navItem)) {
+                return Yii::$app->response->redirect($navItem->getLink());
+        }
+
+        return $this->redirect(\Yii::$app->params['platform']['frontendUrl'] . '/' . \Yii::$app->params['linkConfigurations']['loginLinkCommon'] );
+=======
+        $firstPartUrl  = \Yii::$app->params['platform']['frontendUrl'];
+        $isSlah1       = ((substr($firstPartUrl, -1) == '/') ? true : false);
+        if ($isSlah1) $firstPartUrl  = substr($firstPartUrl, 0, strlen($firstPartUrl) - 1);
+        $secondPartUrl = \Yii::$app->params['linkConfigurations']['loginLinkCommon'];
+        $isSlah2       = ((strpos($secondPartUrl, '/') === 0) ? true : false);
+        if ($isSlah2) $secondPartUrl = substr($secondPartUrl, 1);
+
+        return $this->redirect($firstPartUrl.'/'.$secondPartUrl);
+>>>>>>> test/1.2.0/5
+    }
+
+    /**
+     * Logs out the current user.
+     * @return Response
+     */
+    public function actionLogout($redir = null)
+    {
+        Yii::$app->user->logout();
+        $referrer = \Yii::$app->request->referrer;
+        if($redir){
+            return $this->redirect($redir);
+        }
+        return $this->redirect($referrer ? $referrer : \Yii::$app->params['platform']['frontendUrl']);
+
+    }
+    
+    /**
+     * 
+     */
+    public function actionToMenuUrl($url)
+    {
+
+        $moduleCwh = AmosCwh::instance();
+        if (!is_null($moduleCwh)) {
+            $moduleCwh->resetCwhScopeInSession();
+        }
+        return Yii::$app->controller->redirect($url);
+    }
+
+    /**
+     *
+     */
+    public function actionPrivacyPolicy()
+    {
+        return $this->redirect('/privacy-policy');
+    }
+    
+}

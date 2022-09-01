@@ -1,0 +1,52 @@
+<?php
+
+use trk\uikit\Uikit;
+
+if(!empty( $item['category'])){
+    $categoryColor='#000';
+    if(!empty( $item['category_color'])){
+        $categoryColor=$item['category_color'];
+    }
+}
+
+
+$titleThumb = !empty($item['thumbcontent']) ? base64_encode($item['thumbcontent']) : base64_encode($item['content']);
+
+?>
+<?php
+if (!$data['hidethumb']) {
+    ?>
+    <li class="lSliderItem sliderItemThumb" data-thumb="<?= $item['image'] ?>" 
+        data-caption="<?= $titleThumb ?>"
+        data-category="<?= $item['category'] ?>"
+        data-category-color="<?= $categoryColor ?>"
+        >
+        
+            <?php
+        } else {
+            ?>
+    <li class="lSliderItem sliderItemDot">
+        <?php }
+    ?>
+<<<<<<< HEAD
+    <img src="<?= $item['image'] ?>" alt="<?= $item['image_alt'] ?>" />
+=======
+    <img src="<?= $item['image'] ?> " alt="<?= $item['image_alt'] ?>" />
+>>>>>>> origin/cms20/1.2.0/11
+    <div class="caption">
+        <div class="el-content container h1 text-white">
+            <?php
+                if (!empty($item['link'])) {
+            ?>
+                <a href="<?= $item['link'] ?>" title="Vai alla pagina <?= strip_tags($item['content']) ?>">
+                    <?= $item['content'] ?>
+                </a>
+            <?php
+            } else {
+                ?>
+                  <?= $item['content'] ?>
+            <?php }
+            ?>
+        </div>
+    </div>
+</li>
