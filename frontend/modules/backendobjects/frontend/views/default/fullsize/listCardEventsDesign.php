@@ -4,6 +4,7 @@ use yii\widgets\ListView;
 use open20\amos\core\module\BaseAmosModule;
 use open20\design\assets\BootstrapItaliaDesignAsset;
 use open20\design\utility\DesignUtility;
+use open20\amos\events\AmosEvents;
 
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
 
@@ -17,22 +18,22 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
     <?php if (!($cssClass == 'hide-bi-plugin-header')) : ?>
         <?php
         if ($isGuest) {
-            $titleSection = BaseAmosModule::t('amosapp', 'Eventi');
-            $urlLinkAll = BaseAmosModule::t('amosapp', '/events/event/all-events');
-            $labelLinkAll = BaseAmosModule::t('amosapp', 'Tutti gli eventi');
-            $titleLinkAll = BaseAmosModule::t('amosapp', 'Visualizza la lista degli eventi');
+            $titleSection = AmosEvents::t('amosevents', 'Eventi');
+            $urlLinkAll = '/events/event/all-events';
+            $labelLinkAll = AmosEvents::t('amosevents', 'Tutti gli eventi');
+            $titleLinkAll = AmosEvents::t('amosevents', 'Visualizza la lista degli eventi');
         } else {
-            $titleSection = BaseAmosModule::t('amosapp', 'Eventi di mio interesse');
-            $urlLinkAll = BaseAmosModule::t('amosapp', '/events/event/own-interest');
-            $labelLinkAll = BaseAmosModule::t('amosapp', 'Tutti gli eventi di mio interesse');
-            $titleLinkAll = BaseAmosModule::t('amosapp', 'Visualizza la lista degli eventi di mio interesse');
+            $titleSection = AmosEvents::t('amosevents', 'Eventi di mio interesse');
+            $urlLinkAll = '/events/event/own-interest';
+            $labelLinkAll = AmosEvents::t('amosevents', 'Tutti gli eventi di mio interesse');
+            $titleLinkAll = AmosEvents::t('amosevents', 'Visualizza la lista degli eventi di mio interesse');
         }
 
-        $labelCreate = BaseAmosModule::t('amosapp', 'Nuovo');
-        $titleCreate = BaseAmosModule::t('amosapp', 'Crea una nuovo evento');
-        $labelManage = BaseAmosModule::t('amosapp', 'Gestisci');
-        $titleManage = BaseAmosModule::t('amosapp', 'Gestisci gli eventi');
-        $urlCreate = BaseAmosModule::t('amosapp', '/events/event/create');
+        $labelCreate = AmosEvents::t('amosevents', 'Nuovo');
+        $titleCreate = AmosEvents::t('amosevent', 'Crea una nuovo evento');
+        $labelManage = AmosEvents::t('amosevents', 'Gestisci');
+        $titleManage = AmosEvents::t('amosevents', 'Gestisci gli eventi');
+        $urlCreate = AmosEvents::t('amosevents', '/events/event/create');
 
         $manageLinks = [];
         $controller = \open20\amos\events\controllers\EventController::class;

@@ -37,7 +37,7 @@ class AmosFileSystem extends \luya\admin\storage\BaseFileSystemStorage
             $model = new \open20\amos\attachments\models\EmptyContentModel();
             $file = File::findOne([
                 'name' => $fileName,
-                'itemId' => $model->id,
+                'item_id' => $model->id,
                 'attribute' => 'file',
                 'model' => $model->className()
             ]);
@@ -70,7 +70,7 @@ class AmosFileSystem extends \luya\admin\storage\BaseFileSystemStorage
             $model = new \open20\amos\attachments\models\EmptyContentModel();
             $file = File::findOne([
                 'name' => $fileName,
-                'itemId' => $model->id,
+                'item_id' => $model->id,
                 'attribute' => 'file',
                 'model' => $model->className()
             ]);
@@ -102,7 +102,7 @@ class AmosFileSystem extends \luya\admin\storage\BaseFileSystemStorage
             $fileFind = pathinfo($fileName, PATHINFO_FILENAME);
             $file = File::findOne([
                 'name' => $fileFind,
-                'itemId' => $model->id,
+                'item_id' => $model->id,
                 'attribute' => 'file',
                 'model' => $model->className()
             ]);
@@ -128,7 +128,7 @@ class AmosFileSystem extends \luya\admin\storage\BaseFileSystemStorage
             $fileFind = pathinfo($fileName, PATHINFO_FILENAME);
             $file = File::findOne([
                 'name' => $fileFind,
-                'itemId' => $model->id,
+                'item_id' => $model->id,
                 'attribute' => 'file',
                 'model' => $model->className()
             ]);
@@ -155,7 +155,7 @@ class AmosFileSystem extends \luya\admin\storage\BaseFileSystemStorage
             $model = new \open20\amos\attachments\models\EmptyContentModel();
             $file = File::findOne([
                 'name' => $fileName,
-                'itemId' => $model->id,
+                'item_id' => $model->id,
                 'attribute' => 'file',
                 'model' => $model->className()
             ]);
@@ -182,7 +182,7 @@ class AmosFileSystem extends \luya\admin\storage\BaseFileSystemStorage
         $fileName = pathinfo($fileName, PATHINFO_FILENAME);
         $exists = File::findOne([
             'name' => $fileName,
-            'itemId' => $model->id,
+            'item_id' => $model->id,
             'attribute' => 'file',
             'model' => $model->className()
         ]);
@@ -206,7 +206,7 @@ class AmosFileSystem extends \luya\admin\storage\BaseFileSystemStorage
             $model = new \open20\amos\attachments\models\EmptyContentModel();
             $file = File::findOne([
                 'name' => $filefind,
-                'itemId' => $model->id,
+                'item_id' => $model->id,
                 'attribute' => 'file',
                 'model' => $model->className()
             ]);

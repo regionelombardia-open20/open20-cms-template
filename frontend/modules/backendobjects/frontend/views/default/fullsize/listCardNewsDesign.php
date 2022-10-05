@@ -12,7 +12,6 @@ use open20\amos\core\module\BaseAmosModule;
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
 
 $isGuest = \Yii::$app->user->isGuest;
-
 ?>
 
 
@@ -31,16 +30,33 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
             $urlLinkAll   = '/news/news/all-news';
             $titleLinkAll = AmosNews::t('amosnews', 'Visualizza la lista delle notizie');
 
+            $labelSigninOrSignup = AmosNews::t('amosnews', '#beforeActionCtaLoginRegister');
+            $titleSigninOrSignup = AmosNews::t(
+                'amosnews',
+                '#beforeActionCtaLoginRegisterTitle',
+                ['platformName' => \Yii::$app->name]
+            );
+            $labelSignin = AmosNews::t('amosnews', '#beforeActionCtaLogin');
+            $titleSignin = AmosNews::t(
+                'amosnews',
+                '#beforeActionCtaLoginTitle',
+                ['platformName' => \Yii::$app->name]
+            );
+
+            $labelLink = $labelSigninOrSignup;
+            $titleLink = $titleSigninOrSignup;
+            $socialAuthModule = Yii::$app->getModule('socialauth');
+            if ($socialAuthModule && ($socialAuthModule->enableRegister == false)) {
+                $labelLink = $labelSignin;
+                $titleLink = $titleSignin;
+            }
+
             $ctaLoginRegister = Html::a(
-                AmosNews::t('amosnews', '#beforeActionCtaLoginRegister'),
+                $labelLink,
                 isset(\Yii::$app->params['linkConfigurations']['loginLinkCommon']) ? \Yii::$app->params['linkConfigurations']['loginLinkCommon']
                     : \Yii::$app->params['platform']['backendUrl'] . '/' . AmosAdmin::getModuleName() . '/security/login',
                 [
-                    'title' => AmosNews::t(
-                        'amosnews',
-                        'Clicca per accedere o registrarti alla piattaforma {platformName}',
-                        ['platformName' => \Yii::$app->name]
-                    )
+                    'title' => $titleLink
                 ]
             );
             $subTitleSection  = Html::tag(
@@ -48,9 +64,10 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
                 AmosNews::t(
                     'amosnews',
                     '#beforeActionSubtitleSectionGuest',
-                    ['ctaLoginRegister' => $ctaLoginRegister]
+                    ['platformName' => \Yii::$app->name, 'ctaLoginRegister' => $ctaLoginRegister]
                 )
             );
+
         } else {
             $titleSection = AmosNews::t('amosnews', 'Notizie di mio interesse');
             $labelLinkAll = AmosNews::t('amosnews', 'Tutte le notizie di mio interesse');

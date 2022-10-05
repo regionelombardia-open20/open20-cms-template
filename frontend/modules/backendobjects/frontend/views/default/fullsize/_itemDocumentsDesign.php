@@ -16,7 +16,7 @@ if (!empty($model->link_document)) {
 
 <?=
   $this->render(
-    '@vendor/open20/design/src/components/bootstrapitalia/views/bi-document-card',
+    '@vendor/open20/design/src/components/bootstrapitalia/views/bi-document-item',
     [
       'title' => $model->titolo,
       'nameSurname' => $model->createdUserProfile->nomeCognome,
@@ -27,11 +27,13 @@ if (!empty($model->link_document)) {
       'nameFile' =>  $documentMainFile->name,
       'fileUrl' => $fileUrl,
       'type' => $documentMainFile->type,
+      'typeFolder' => $model->is_folder,
       'description' =>  $model->descrizione_breve,
       'size' => $model->documentMainFile->size%1024,
+      'date' => $model->created_at,
+      'model' => $model,
       'actionModify' => '/documenti/documenti/update?id='.$model->id,
-      'actionDelete' => '/documenti/documenti/delete?id=1'.$model->id,
-      'widthColumn' => 'col-lg-4 col-md-6',
+      'actionDelete' => 'documenti/documenti/delete?id=1'.$model->id
     ]
   );
 ?>

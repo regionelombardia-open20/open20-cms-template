@@ -27,7 +27,7 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
         if (\Yii::$app->user->isGuest) {
             $titleSection = AmosSondaggi::t('amossondaggi', 'Sondaggi');
             $labelLinkAll = AmosSondaggi::t('amossondaggi', 'Tutti i sondaggi');
-            $urlLinkAll   = AmosSondaggi::t('amossondaggi', '/sondaggi/pubblicazione/all');
+            $urlLinkAll   = '/sondaggi/pubblicazione/all';
             $titleLinkAll = AmosSondaggi::t('amossondaggi', 'Visualizza la lista dei sondaggi pubblicati');
 
             $ctaLoginRegister = Html::a(
@@ -53,7 +53,7 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
         } else {
             $titleSection = AmosSondaggi::t('amossondaggi', 'Sondaggi di mio interesse');
             $labelLinkAll = AmosSondaggi::t('amossondaggi', 'Tutte i sondaggi di mio interesse');
-            $urlLinkAll   = AmosSondaggi::t('amossondaggi', '/sondaggi/pubblicazione/own-interest');
+            $urlLinkAll   = '/sondaggi/pubblicazione/own-interest';
             $titleLinkAll = AmosSondaggi::t('amossondaggi', 'Visualizza la lista dei sondaggi di tuo interesse');
 
             $subTitleSection = Html::tag('p', AmosSondaggi::t('amossondaggi', '#beforeActionSubtitleSectionLogged'));

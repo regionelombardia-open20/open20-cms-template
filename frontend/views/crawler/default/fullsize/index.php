@@ -54,7 +54,7 @@ $endPaginatorIcon = '<svg class="icon icon-sm"><use xlink:href="' . $currentAsse
                         ?>
 
                             <li>
-                                <a class="list-item right-icon p-0" href="<?= $item->url ?>" title="<?= BaseAmosModule::t('amosapp', 'Vedi dettaglio su {titleResult}', ['titleResult' => $item->getHighlightedTitle($query)]) ?>">
+                                <a class="list-item right-icon p-0" href="<?= $item->url ?>" title="<?= BaseAmosModule::t('amosapp', 'Vedi dettaglio su {titleResult}', ['titleResult' => $item->title]) ?>">
                                     <span class="h5 text-black mb-0"><?= $item->getHighlightedTitle($query) ?></span>
                                     <svg class="icon icon-primary icon-right">
                                         <use xlink:href="<?= $currentAsset->baseUrl ?>/node_modules/bootstrap-italia/dist/svg/sprite.svg#it-arrow-right"></use>

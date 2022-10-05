@@ -79,6 +79,20 @@ return [
         'cache_age' => '2592000',
         'disableGallery' => true
     ],
+    'audit' => [
+        'class' => 'open20\amos\audit\Audit',
+        'db' => 'db',
+        'accessRoles' => ['ADMIN'],
+        'ignoreActions' => [
+            '*',
+        ],
+    //This avoid all post data in audit
+    /* 'panels' => [
+      'audit/request' => [
+      'ignoreKeys' => ['POST', 'requestBody'],
+      ],
+      ], */
+    ],
     'chrono' => [
         'class' => 'amos\chrono\Module',
     ],
@@ -93,11 +107,11 @@ return [
     'dashboard' => [
         'class' => 'open20\amos\dashboard\AmosDashboard',
     ],
-    'elasticsearch' =>[
-        'class' => '\open20\elasticsearch\Module',
-        'modelsEnabled' => [
-        ],
-    ],
+    // 'elasticsearch' =>[
+    //     'class' => '\open20\elasticsearch\Module',
+    //     'modelsEnabled' => [
+    //     ],
+    // ],
     'email' => [
         'class' => 'open20\amos\emailmanager\AmosEmail',
         'templatePath' => '@common/mail/emails',

@@ -67,6 +67,9 @@ return [
         'hideCmsMenuPluginHeader' => true,
         'showAlwaysHamburgerMenuHeader' => true
     ],
+    'menuCmsConfigurations' => [
+        
+    ],
     'layoutMailConfigurations' => [
         'logoMail' => [
             'logoImg' => 'img/logoRL.png',

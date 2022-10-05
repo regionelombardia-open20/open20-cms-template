@@ -20,6 +20,9 @@ if($model->seats_management){
       'type' => $tag,
       'isPaid' => $model->paid_event,
       'availableSeats' => $availableSeats,
+      'model' => $model,
+      'actionModify' => '/events/event/update?id='.$model->id,
+      'actionDelete' => '/events/event/delete?id=1'.$model->id,
     ]
   );
 ?>

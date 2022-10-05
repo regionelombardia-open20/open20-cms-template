@@ -4,7 +4,6 @@ namespace app\components;
 
 use luya\admin\models\Lang;
 use luya\cms\models\NavItem;
-use open20\design\utility\DesignIcon;
 use open20\design\utility\DesignUtility;
 use Yii;
 use yii\helpers\Html;

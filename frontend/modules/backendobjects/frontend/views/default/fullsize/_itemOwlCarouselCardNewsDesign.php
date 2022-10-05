@@ -22,6 +22,8 @@ if ($newsCategories->count() == 1) {
 } else {
     $category = $model->newsCategorie->titolo;
     $customCategoryClass = 'mb-1 px-1 ' . 'custom-category-bg-' . str_replace(' ', '-', strtolower($category));
+    $colorBgCategory = $model->newsCategorie->color_background;
+    $colorTextCategory = $model->newsCategorie->color_text;
 }
 ?>
 
@@ -33,6 +35,8 @@ if ($newsCategories->count() == 1) {
                 'category' => $category,
                 'hideCategory' => $hideCategory,
                 'customCategoryClass' => $customCategoryClass,
+                'colorBgCategory' => $colorBgCategory,
+                'colorTextCategory' => $colorTextCategory,
                 'image' => $image,
                 'date' => $model->data_pubblicazione,
                 'title' => $model->getTitle(),

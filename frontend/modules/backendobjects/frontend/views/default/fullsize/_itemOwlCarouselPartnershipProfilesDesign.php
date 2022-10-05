@@ -16,7 +16,7 @@ $shortTitle = $model->getShortDescription();
   $this->render(
     '@vendor/open20/design/src/components/bootstrapitalia/views/bi-proposte-collaborazione',
     [
-      'model' => $model, //da tenere per l'avatar?
+      'model' => $model,
       'expireDate' => $expireDate,
       'publishedAt' => $publishedAt,
       'title' => $title,

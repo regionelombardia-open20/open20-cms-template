@@ -6,6 +6,7 @@ use open20\design\assets\BootstrapItaliaDesignAsset;
 use open20\amos\admin\AmosAdmin;
 use yii\helpers\Html;
 use open20\design\utility\DesignUtility;
+use open20\amos\news\AmosNews;
 
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
 
@@ -20,18 +21,18 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
     <?php if (!($cssClass == 'hide-bi-plugin-header')) : ?>
         <?php
         if ($isGuest) {
-            $titleSection = BaseAmosModule::t('amosapp', 'Notizie');
-            $urlLinkAll = BaseAmosModule::t('amosapp', 'news/news/all-news');
-            $labelLinkAll = BaseAmosModule::t('amosapp', 'Tutte le notizie');
-            $titleLinkAll = BaseAmosModule::t('amosapp', 'Visualizza la lista delle notizie');
+            $titleSection = AmosNews::t('amosnews', 'Notizie');
+            $urlLinkAll = '/news/news/all-news';
+            $labelLinkAll = AmosNews::t('amosnews', 'Tutte le notizie');
+            $titleLinkAll = AmosNews::t('amosnews', 'Visualizza la lista delle notizie');
 
             $ctaLoginRegister = Html::a(
-                BaseAmosModule::t('amosapp', 'accedi o registrati alla piattaforma'),
+                AmosNews::t('amosnews', 'accedi o registrati alla piattaforma'),
                 isset(\Yii::$app->params['linkConfigurations']['loginLinkCommon']) ? \Yii::$app->params['linkConfigurations']['loginLinkCommon']
                     : \Yii::$app->params['platform']['backendUrl'] . '/' . AmosAdmin::getModuleName() . '/security/login',
                 [
-                    'title' => BaseAmosModule::t(
-                        'amosapp',
+                    'title' => AmosNews::t(
+                        'amosnews',
                         'Clicca per accedere o registrarti alla piattaforma {platformName}',
                         ['platformName' => \Yii::$app->name]
                     )
@@ -39,26 +40,26 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
             );
             $subTitleSection  .= Html::tag(
                 'p',
-                BaseAmosModule::t(
-                    'amosapp',
+                AmosNews::t(
+                    'amosnews',
                     'Per partecipare alla pubblicazione di nuove notizie, {ctaLoginRegister}',
                     ['ctaLoginRegister' => $ctaLoginRegister]
                 )
             );
         } else {
-            $titleSection = BaseAmosModule::t('amosapp', 'Notizie di mio interesse');
-            $urlLinkAll = BaseAmosModule::t('amosapp', 'news/news/own-interest-news');
-            $labelLinkAll = BaseAmosModule::t('amosapp', 'Tutte le notizie di mio interesse');
-            $titleLinkAll = BaseAmosModule::t('amosapp', 'Visualizza la lista delle notizie di mio interesse');
+            $titleSection = AmosNews::t('amosnews', 'Notizie di mio interesse');
+            $urlLinkAll = '/news/news/own-interest-news';
+            $labelLinkAll = AmosNews::t('amosnews', 'Tutte le notizie di mio interesse');
+            $titleLinkAll = AmosNews::t('amosnews', 'Visualizza la lista delle notizie di mio interesse');
 
-            $subTitleSection = Html::tag('p', BaseAmosModule::t('amosnews', ''));
+            $subTitleSection = Html::tag('p', AmosNews::t('amosnews', ''));
         }
 
-        $labelCreate = BaseAmosModule::t('amosapp', 'Nuova');
-        $titleCreate = BaseAmosModule::t('amosapp', 'Crea una nuova notizia');
-        $labelManage = BaseAmosModule::t('amosapp', 'Gestisci');
-        $titleManage = BaseAmosModule::t('amosapp', 'Gestisci le notizie');
-        $urlCreate = BaseAmosModule::t('amosapp', '/news/news/create');
+        $labelCreate = AmosNews::t('amosnews', 'Nuova');
+        $titleCreate = AmosNews::t('amosnews', 'Crea una nuova notizia');
+        $labelManage = AmosNews::t('amosnews', 'Gestisci');
+        $titleManage = AmosNews::t('amosnews', 'Gestisci le notizie');
+        $urlCreate = AmosNews::t('amosnews', '/news/news/create');
 
         $manageLinks = [];
         $controller = \open20\amos\news\controllers\NewsController::class;

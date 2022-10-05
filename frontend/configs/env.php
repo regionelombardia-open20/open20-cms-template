@@ -1,7 +1,10 @@
 <?php
 require(__DIR__ . '/defines.php');
 
-$common = require(__DIR__ . '/../../common/config/main.php');
+$commonGeneral = require(__DIR__ . '/../../common/config/main.php');
+$commonLocal = require(__DIR__ . '/../../common/config/main-local.php');
+
+$common = yii\helpers\ArrayHelper::merge($commonGeneral, $commonLocal);
 
 
 $modules = yii\helpers\ArrayHelper::merge(
@@ -13,9 +16,9 @@ $components = yii\helpers\ArrayHelper::merge(
 $bootstrap = yii\helpers\ArrayHelper::merge(
         $common ['bootstrap'],require(__DIR__ . '/bootstrap.php'));
 
-$paramcommon = require(__DIR__ . '/../../common/config/params.php');
+
 $params = yii\helpers\ArrayHelper::merge(
-        $paramcommon,
+        $common['params'],
         require(__DIR__ . '/params.php'),
         require(__DIR__ . '/params-local.php')
 );

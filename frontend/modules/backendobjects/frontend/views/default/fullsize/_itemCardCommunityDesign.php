@@ -5,8 +5,6 @@ use open20\amos\community\models\CommunityType;
 use open20\amos\community\utilities\CommunityUtil;
 use open20\amos\core\user\User;
 
-//$model->usePrettyUrl = true;
-
 $isOpenCommunity = false;
 $isClosedCommunity = false;
 $isPrivateCommunity = false;
@@ -64,6 +62,9 @@ if ($model->community_type_id == CommunityType::COMMUNITY_TYPE_OPEN) {
       'isWaitingToSigned' => $isWaitingToSigned,
       'hideAllCtaGuest' => $hideAllCtaGuest,
       'widthColumn' => 'col-md-3 col-6',
+      'model' => $model,
+      'actionModify' => '/community/community/update?id='.$model->id,
+      'actionDelete' => '/community/community/delete?id=1'.$model->id,
     ]
   );
 ?>

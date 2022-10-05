@@ -21,7 +21,9 @@ if ($newsCategories->count() == 1) {
     $hideCategory = true;
 } else {
     $category = $model->newsCategorie->titolo;
-    $customCategoryClass = 'mb-1 px-1 ' . 'custom-category-bg-' . str_replace(' ','-',strtolower($category));
+    $customCategoryClass = 'mb-1 px-1 ' . ' ' . 'custom-category-bg-' . str_replace(' ','-',strtolower($category));
+    $colorBgCategory = $model->newsCategorie->color_background;
+    $colorTextCategory = $model->newsCategorie->color_text;
 }
 $url='';
 if( $detailPage ){
@@ -29,7 +31,6 @@ if( $detailPage ){
 }else{
 	$url=$model->getFullViewUrl();
 }
-
 
 ?>
 
@@ -40,11 +41,13 @@ $this->render(
     'category' => $category,
     'hideCategory' => $hideCategory,
     'customCategoryClass' => $customCategoryClass,
+    'colorBgCategory' => $colorBgCategory,
+    'colorTextCategory' => $colorTextCategory,
     'image' => $image,
     'date' => $model->data_pubblicazione,
     'title' => $model->getTitle(),
-    'abstract' => $model->descrizione_breve,
-    'description' => $model->descrizione,
+    'abstract' => $model->getShortDescription(),
+    'description' => strip_tags($model->getDescription(true)),
     'url' => $url,
     'nameSurname' => $model->createdUserProfile->nomeCognome,
     'imageAvatar' => $model->createdUserProfile->getAvatarUrl('table_small'),

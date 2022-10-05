@@ -2,6 +2,7 @@
 
 use yii\widgets\ListView;
 use open20\amos\core\module\BaseAmosModule;
+use open20\amos\discussioni\AmosDiscussioni;
 use open20\design\assets\BootstrapItaliaDesignAsset;
 use open20\amos\admin\AmosAdmin;
 use yii\helpers\Html;
@@ -20,18 +21,18 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
     <?php if (!($cssClass == 'hide-bi-plugin-header')) : ?>
         <?php
         if ($isGuest) {
-            $titleSection = BaseAmosModule::t('amosapp', 'Discussioni');
-            $urlLinkAll = BaseAmosModule::t('amosapp', '/discussioni/discussioni-topic/all-discussions');
-            $labelLinkAll = BaseAmosModule::t('amosapp', 'Tutte le discussioni');
-            $titleLinkAll = BaseAmosModule::t('amosapp', 'Visualizza la lista delle discussioni');
+            $titleSection = AmosDiscussioni::t('amosdiscussioni', 'Discussioni');
+            $urlLinkAll = '/discussioni/discussioni-topic/all-discussions';
+            $labelLinkAll = AmosDiscussioni::t('amosdiscussioni', 'Tutte le discussioni');
+            $titleLinkAll = BaseAmAmosDiscussioniosModule::t('amosdiscussioni', 'Visualizza la lista delle discussioni');
 
             $ctaLoginRegister = Html::a(
-                BaseAmosModule::t('amosapp', 'accedi o registrati alla piattaforma'),
+                AmosDiscussioni::t('amosdiscussioni', 'accedi o registrati alla piattaforma'),
                 isset(\Yii::$app->params['linkConfigurations']['loginLinkCommon']) ? \Yii::$app->params['linkConfigurations']['loginLinkCommon']
                     : \Yii::$app->params['platform']['backendUrl'] . '/' . AmosAdmin::getModuleName() . '/security/login',
                 [
-                    'title' => BaseAmosModule::t(
-                        'amosapp',
+                    'title' => AmosDiscussioni::t(
+                        'amosdiscussioni',
                         'Clicca per accedere o registrarti alla piattaforma {platformName}',
                         ['platformName' => \Yii::$app->name]
                     )
@@ -39,26 +40,26 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
             );
             $subTitleSection  .= Html::tag(
                 'p',
-                BaseAmosModule::t(
-                    'amosapp',
+                AmosDiscussioni::t(
+                    'amosdiscussioni',
                     'Per partecipare alla creazione di nuove discussioni, {ctaLoginRegister}',
                     ['ctaLoginRegister' => $ctaLoginRegister]
                 )
             );
         } else {
-            $titleSection = BaseAmosModule::t('amosapp', 'Discussioni di mio interesse');
-            $urlLinkAll = BaseAmosModule::t('amosapp', '/discussioni/discussioni-topic/own-interest-discussions');
-            $labelLinkAll = BaseAmosModule::t('amosapp', 'Tutte le discussioni di mio interesse');
-            $titleLinkAll = BaseAmosModule::t('amosapp', 'Visualizza la lista delle discussioni di mio interesse');
+            $titleSection = AmosDiscussioni::t('amosdiscussioni', 'Discussioni di mio interesse');
+            $urlLinkAll = '/discussioni/discussioni-topic/own-interest-discussions';
+            $labelLinkAll = AmosDiscussioni::t('amosdiscussioni', 'Tutte le discussioni di mio interesse');
+            $titleLinkAll = AmosDiscussioni::t('amosdiscussioni', 'Visualizza la lista delle discussioni di mio interesse');
 
-            $subTitleSection = Html::tag('p', BaseAmosModule::t('amosapp', ''));
+            $subTitleSection = Html::tag('p', AmosDiscussioni::t('amosapp', ''));
         }
 
-        $labelCreate = BaseAmosModule::t('amosapp', 'Nuova');
-        $titleCreate = BaseAmosModule::t('amosapp', 'Crea una nuova discussione');
-        $labelManage = BaseAmosModule::t('amosapp', 'Gestisci');
-        $titleManage = BaseAmosModule::t('amosapp', 'Gestisci le discussioni');
-        $urlCreate = BaseAmosModule::t('amosapp', '/discussioni/discussioni-topic/create');
+        $labelCreate = AmosDiscussioni::t('amosdiscussioni', 'Nuova');
+        $titleCreate = AmosDiscussioni::t('amosdiscussioni', 'Crea una nuova discussione');
+        $labelManage = AmosDiscussioni::t('amosdiscussioni', 'Gestisci');
+        $titleManage = AmosDiscussioni::t('amosdiscussioni', 'Gestisci le discussioni');
+        $urlCreate = AmosDiscussioni::t('amosdiscussioni', '/discussioni/discussioni-topic/create');
 
         $manageLinks = [];
         $controller = \open20\amos\discussioni\controllers\DiscussioniTopicController::class;

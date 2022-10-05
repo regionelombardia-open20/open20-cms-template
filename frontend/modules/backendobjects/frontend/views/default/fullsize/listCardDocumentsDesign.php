@@ -4,6 +4,8 @@ use yii\widgets\ListView;
 use open20\amos\core\module\BaseAmosModule;
 use open20\design\assets\BootstrapItaliaDesignAsset;
 use open20\design\utility\DesignUtility;
+use open20\amos\documenti\AmosDocumenti;
+use yii\helpers\Html;
 
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
 
@@ -18,22 +20,61 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
     <?php if (!($cssClass == 'hide-bi-plugin-header')) : ?>
         <?php
         if ($isGuest) {
-            $titleSection = BaseAmosModule::t('amosapp', 'Documenti');
-            $urlLinkAll = BaseAmosModule::t('amosapp', '/documenti/documenti/all-documents');
-            $labelLinkAll = BaseAmosModule::t('amosapp', 'Tutti i documenti');
-            $titleLinkAll = BaseAmosModule::t('amosapp', 'Visualizza la lista dei documenti');
+            $titleSection = AmosDocumenti::t('amosdocumenti', 'Documenti');
+            $urlLinkAll = '/documenti/documenti/all-documents';
+            $labelLinkAll = AmosDocumenti::t('amosdocumenti', 'Tutti i documenti');
+            $titleLinkAll = AmosDocumenti::t('amosdocumenti', 'Visualizza la lista dei documenti');
+
+            $labelSigninOrSignup = AmosDocumenti::t('amosdocumenti', '#beforeActionCtaLoginRegister');
+            $titleSigninOrSignup = AmosDocumenti::t(
+                'amosdocumenti',
+                '#beforeActionCtaLoginRegisterTitle',
+                ['platformName' => \Yii::$app->name]
+            );
+            $labelSignin = AmosDocumenti::t('amosdocumenti', '#beforeActionCtaLogin');
+            $titleSignin = AmosDocumenti::t(
+                'amosdocumenti',
+                '#beforeActionCtaLoginTitle',
+                ['platformName' => \Yii::$app->name]
+            );
+
+            $labelLink = $labelSigninOrSignup;
+            $titleLink = $titleSigninOrSignup;
+            $socialAuthModule = Yii::$app->getModule('socialauth');
+            if ($socialAuthModule && ($socialAuthModule->enableRegister == false)) {
+                $labelLink = $labelSignin;
+                $titleLink = $titleSignin;
+            }
+
+            $ctaLoginRegister = Html::a(
+                $labelLink,
+                isset(\Yii::$app->params['linkConfigurations']['loginLinkCommon']) ? \Yii::$app->params['linkConfigurations']['loginLinkCommon']
+                    : \Yii::$app->params['platform']['backendUrl'] . '/' . AmosAdmin::getModuleName() . '/security/login',
+                [
+                    'title' => $titleLink
+                ]
+            );
+            $subTitleSection  = Html::tag(
+                'p',
+                AmosDocumenti::t(
+                    'amosdocumenti',
+                    '#beforeActionSubtitleSectionGuest',
+                    ['platformName' => \Yii::$app->name, 'ctaLoginRegister' => $ctaLoginRegister]
+                )
+            );
+
         } else {
-            $titleSection = BaseAmosModule::t('amosapp', 'Documenti di mio interesse');
-            $urlLinkAll = BaseAmosModule::t('amosapp', '/documenti/documenti/own-interest-documents');
-            $labelLinkAll = BaseAmosModule::t('amosapp', 'Tutti documenti di mio interesse');
-            $titleLinkAll = BaseAmosModule::t('amosapp', 'Visualizza la lista dei documenti di mio interesse');
+            $titleSection = AmosDocumenti::t('amosdocumenti', 'Documenti di mio interesse');
+            $urlLinkAll = '/documenti/documenti/own-interest-documents';
+            $labelLinkAll = AmosDocumenti::t('amosdocumenti', 'Tutti documenti di mio interesse');
+            $titleLinkAll = AmosDocumenti::t('amosdocumenti', 'Visualizza la lista dei documenti di mio interesse');
         }
 
-        $labelCreate = BaseAmosModule::t('amosapp', 'Nuovo');
-        $titleCreate = BaseAmosModule::t('amosapp', 'Crea un nuovo documento');
-        $labelManage = BaseAmosModule::t('amosapp', 'Gestisci');
-        $titleManage = BaseAmosModule::t('amosapp', 'Gestisci i documenti');
-        $urlCreate = BaseAmosModule::t('amosapp', '/documenti/documenti/create');
+        $labelCreate = AmosDocumenti::t('amosdocumenti', 'Nuovo');
+        $titleCreate = AmosDocumenti::t('amosdocumenti', 'Crea un nuovo documento');
+        $labelManage = AmosDocumenti::t('amosdocumenti', 'Gestisci');
+        $titleManage = AmosDocumenti::t('amosdocumenti', 'Gestisci i documenti');
+        $urlCreate = AmosDocumenti::t('amosdocumenti', '/documenti/documenti/create');
 
         $manageLinks = [];
         $controller = \open20\amos\documenti\controllers\DocumentiController::class;
@@ -75,7 +116,7 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
 
             echo ListView::widget([
                 'dataProvider' => $dataProvider,
-                'itemView' => '_itemListCardDocumentsDesign',
+                'itemView' => '_itemCardDocumentsDesign',
                 'viewParams' => [
                     'detailPage' => $detailPage,
                     'viewFields' => $viewFields,

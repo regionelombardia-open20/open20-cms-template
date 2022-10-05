@@ -65,20 +65,7 @@ return [
             ],
         ]
     ],
-    'audit' => [
-        'class' => 'open20\amos\audit\Audit',
-        'db' => 'db',
-        'accessRoles' => ['ADMIN'],
-        'ignoreActions' => [
-            '*',
-        ],
-    //This avoid all post data in audit
-    /* 'panels' => [
-      'audit/request' => [
-      'ignoreKeys' => ['POST', 'requestBody'],
-      ],
-      ], */
-    ],
+    
     'backendobjects' => [
         'class' => 'app\modules\backendobjects\frontend\Module',
         'modulesEnabled' => [

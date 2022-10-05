@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use open20\design\assets\BootstrapItaliaDesignAsset;
 use open20\amos\admin\AmosAdmin;
 use open20\design\utility\DesignUtility;
+use open20\amos\community\AmosCommunity;
 
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
 
@@ -20,34 +21,63 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
     <?php if (!($cssClass == 'hide-bi-plugin-header')) : ?>
         <?php
         if ($isGuest) {
-            $titleSection = BaseAmosModule::t('amosapp', 'Community');
-            $urlLinkAll = BaseAmosModule::t('amosapp', 'community/community/index');
-            $labelLinkAll = BaseAmosModule::t('amosapp', 'Tutte le community');
-            $titleLinkAll = BaseAmosModule::t('amosapp', 'Visualizza la lista delle community');
+            $titleSection = AmosCommunity::t('amoscommunity', 'Community');
+            $urlLinkAll = '/community/community/index';
+            $labelLinkAll = AmosCommunity::t('amoscommunity', 'Tutte le community');
+            $titleLinkAll = AmosCommunity::t('amoscommunity', 'Visualizza la lista delle community');
 
-            $subTitleSection = Html::tag('p', BaseAmosModule::t('amosapp', 'Cocreazione per la generazione di nuove idee: le community sono uno degli strumenti caratteristici di questa piattaforma. Attraverso gruppi di lavoro dedicati, le iniziative di {platformName} creano spazi di collaborazione, innovazione, condivisione e networking.', ['platformName' => \Yii::$app->name]));
+            $labelSigninOrSignup = AmosCommunity::t('amoscommunity', '#beforeActionCtaLoginRegister');
+            $titleSigninOrSignup = AmosCommunity::t(
+                'amoscommunity',
+                '#beforeActionCtaLoginRegisterTitle',
+                ['platformName' => \Yii::$app->name]
+            );
+            $labelSignin = AmosCommunity::t('amoscommunity', '#beforeActionCtaLogin');
+            $titleSignin = AmosCommunity::t(
+                'amoscommunity',
+                '#beforeActionCtaLoginTitle',
+                ['platformName' => \Yii::$app->name]
+            );
+
+            $labelLink = $labelSigninOrSignup;
+            $titleLink = $titleSigninOrSignup;
+            $socialAuthModule = Yii::$app->getModule('socialauth');
+            if ($socialAuthModule && ($socialAuthModule->enableRegister == false)) {
+                $labelLink = $labelSignin;
+                $titleLink = $titleSignin;
+            }
+
             $ctaLoginRegister = Html::a(
-                BaseAmosModule::t('amosapp', 'accedi o registrati alla piattaforma'),
-                isset(\Yii::$app->params['linkConfigurations']['loginLinkCommon']) ? \Yii::$app->params['linkConfigurations']['loginLinkCommon'] : \Yii::$app->params['platform']['backendUrl'] . '/' . AmosAdmin::getModuleName() . '/security/login',
+                $labelLink,
+                isset(\Yii::$app->params['linkConfigurations']['loginLinkCommon']) ? \Yii::$app->params['linkConfigurations']['loginLinkCommon']
+                    : \Yii::$app->params['platform']['backendUrl'] . '/' . AmosAdmin::getModuleName() . '/security/login',
                 [
-                    'title' => BaseAmosModule::t('amosapp', 'Clicca per accedere o registrarti alla piattaforma {platformName}', ['platformName' => \Yii::$app->name])
+                    'title' => $titleLink
                 ]
             );
-            $subTitleSection .= Html::tag('p', BaseAmosModule::t('amosapp', 'Se vuoi accedere ai contenuti delle community di {platformName} {ctaLoginRegister}', ['platformName' => \Yii::$app->name, 'ctaLoginRegister' => $ctaLoginRegister]));
-        } else {
-            $titleSection = BaseAmosModule::t('amosapp', 'Le mie community');
-            $urlLinkAll = BaseAmosModule::t('amosapp', '/community/community/my-communities');
-            $labelLinkAll = BaseAmosModule::t('amosapp', 'Tutte le community a cui partecipi');
-            $titleLinkAll = BaseAmosModule::t('amosapp', 'Visualizza la lista delle community a cui partecipi');
+            $subTitleSection  = Html::tag(
+                'p',
+                AmosCommunity::t(
+                    'amoscommunity',
+                    '#beforeActionSubtitleSectionGuest',
+                    ['platformName' => \Yii::$app->name, 'ctaLoginRegister' => $ctaLoginRegister]
+                )
+            );
 
-            $subTitleSection = Html::tag('p', BaseAmosModule::t('amosapp', 'Cocreazione per la generazione di nuove idee: le community sono uno degli strumenti caratteristici di questa piattaforma. Attraverso gruppi di lavoro dedicati, le iniziative di {platformName} creano spazi di collaborazione, innovazione, condivisione e networking.', ['platformName' => \Yii::$app->name]));
+        } else {
+            $titleSection = AmosCommunity::t('amoscommunity', 'Le mie community');
+            $urlLinkAll = '/community/community/my-communities';
+            $labelLinkAll = AmosCommunity::t('amoscommunity', 'Tutte le community a cui partecipi');
+            $titleLinkAll = AmosCommunity::t('amamoscommunityosapp', 'Visualizza la lista delle community a cui partecipi');
+
+            $subTitleSection = Html::tag('p', AmosCommunity::t('amoscommunity', 'Cocreazione per la generazione di nuove idee: le community sono uno degli strumenti caratteristici di questa piattaforma. Attraverso gruppi di lavoro dedicati, le iniziative di {platformName} creano spazi di collaborazione, innovazione, condivisione e networking.', ['platformName' => \Yii::$app->name]));
         }
 
-        $labelCreate = BaseAmosModule::t('amosapp', 'Nuova');
-        $titleCreate = BaseAmosModule::t('amosapp', 'Crea una nuova community');
-        $labelManage = BaseAmosModule::t('amosapp', 'Gestisci');
-        $titleManage = BaseAmosModule::t('amosapp', 'Gestisci le community');
-        $urlCreate = BaseAmosModule::t('amosapp', '/community/community/create');
+        $labelCreate = AmosCommunity::t('amoscommunity', 'Nuova');
+        $titleCreate = AmosCommunity::t('amoscommunity', 'Crea una nuova community');
+        $labelManage = AmosCommunity::t('amoscommunity', 'Gestisci');
+        $titleManage = AmosCommunity::t('amoscommunity', 'Gestisci le community');
+        $urlCreate = AmosCommunity::t('amoscommunity', '/community/community/create');
 
         $manageLinks = [];
         $controller = \open20\amos\community\controllers\CommunityController::class;

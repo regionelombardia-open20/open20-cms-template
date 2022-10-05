@@ -5,6 +5,7 @@ use open20\amos\core\module\BaseAmosModule;
 use yii\helpers\Html;
 use open20\design\assets\BootstrapItaliaDesignAsset;
 use open20\amos\admin\AmosAdmin;
+use open20\amos\een\AmosEen;
 
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
 
@@ -24,42 +25,42 @@ $isGuest = \Yii::$app->user->isGuest;
             $dataProvider = $modelSearch->searchAll([]);
             $n = $dataProvider->getTotalCount();
             if ($isGuest) {
-                $titleSection = BaseAmosModule::t('amosapp', 'Proposte di collaborazione');
-                $urlLinkAll = BaseAmosModule::t('amosapp', 'een/een-partnership-proposal/index');
-                $labelLinkAll = BaseAmosModule::t('amosapp', 'Tutte le proposte');
-                $titleLinkAll = BaseAmosModule::t('amosapp', 'Visualizza la lista delle proposte');
+                $titleSection = AmosEen::t('amoseen', 'Proposte di collaborazione');
+                $urlLinkAll = '/een/een-partnership-proposal/index';
+                $labelLinkAll = AmosEen::t('amoseen', 'Tutte le proposte');
+                $titleLinkAll = AmosEen::t('amoseen', 'Visualizza la lista delle proposte');
 
 
                 $ctaLoginRegister = Html::a(
-                    BaseAmosModule::t('amosapp', 'accedi o registrati alla piattaforma'),
+                    AmosEen::t('amoseen', 'accedi o registrati alla piattaforma'),
                     isset(\Yii::$app->params['linkConfigurations']['loginLinkCommon']) ? \Yii::$app->params['linkConfigurations']['loginLinkCommon'] : \Yii::$app->params['platform']['backendUrl'] . '/' . AmosAdmin::getModuleName() . '/security/login',
                     [
-                        'title' => BaseAmosModule::t('amosapp', 'Clicca per accedere o registrarti alla piattaforma {platformName}', ['platformName' => \Yii::$app->name])
+                        'title' => AmosEen::t('amoseen', 'Clicca per accedere o registrarti alla piattaforma {platformName}', ['platformName' => \Yii::$app->name])
                     ]
                 );
-                $subTitleSection = Html::tag('p', BaseAmosModule::t('amosapp', 'Scopri più di {n} proposte di collaborazione internazionale promosse da Enterprise Europe Network (EEN), la rete mondiale dei centri di supporto all\'innovazione, all\'internazionalizzazione e alla competitività delle imprese. Aziende, enti pubblici e multinazionali da tutto il mondo offrono opportunità di cooperazione per le aziende.', [
+                $subTitleSection = Html::tag('p', AmosEen::t('amoseen', 'Scopri più di {n} proposte di collaborazione internazionale promosse da Enterprise Europe Network (EEN), la rete mondiale dei centri di supporto all\'innovazione, all\'internazionalizzazione e alla competitività delle imprese. Aziende, enti pubblici e multinazionali da tutto il mondo offrono opportunità di cooperazione per le aziende.', [
                     'platformName' => \Yii::$app->name,
                     'n' => $n
                 ]));
-                $subTitleSection .= Html::tag('p', BaseAmosModule::t('amosapp', 'Se vuoi vedere o lanciare delle proposte di collaborazione {ctaLoginRegister}', ['platformName' => \Yii::$app->name, 'ctaLoginRegister' => $ctaLoginRegister]));
+                $subTitleSection .= Html::tag('p', AmosEen::t('amoseen', 'Se vuoi vedere o lanciare delle proposte di collaborazione {ctaLoginRegister}', ['platformName' => \Yii::$app->name, 'ctaLoginRegister' => $ctaLoginRegister]));
             } else {
-                $titleSection = BaseAmosModule::t('amosapp', 'Proposte di mio interesse');
-                $urlLinkAll = BaseAmosModule::t('amosapp', '/een/een-partnership-proposal/own-interest');
-                $labelLinkAll = BaseAmosModule::t('amosapp', 'Tutte le proposte di mio interesse');
-                $titleLinkAll = BaseAmosModule::t('amosapp', 'Visualizza tutte le proposte');
+                $titleSection = AmosEen::t('amoseen', 'Proposte di mio interesse');
+                $urlLinkAll = '/een/een-partnership-proposal/own-interest';
+                $labelLinkAll = AmosEen::t('amoseen', 'Tutte le proposte di mio interesse');
+                $titleLinkAll = AmosEen::t('amoseen', 'Visualizza tutte le proposte');
 
-                $subTitleSection = Html::tag('p', BaseAmosModule::t('amosapp', 'Scopri più di {n} proposte di collaborazione internazionale promosse da Enterprise Europe Network (EEN), la rete mondiale dei centri di supporto all\'innovazione, all\'internazionalizzazione e alla competitività delle imprese. Aziende, enti pubblici e multinazionali da tutto il mondo offrono opportunità di cooperazione per le aziende.', [
+                $subTitleSection = Html::tag('p', AmosEen::t('amoseen', 'Scopri più di {n} proposte di collaborazione internazionale promosse da Enterprise Europe Network (EEN), la rete mondiale dei centri di supporto all\'innovazione, all\'internazionalizzazione e alla competitività delle imprese. Aziende, enti pubblici e multinazionali da tutto il mondo offrono opportunità di cooperazione per le aziende.', [
                     'platformName' => \Yii::$app->name,
                     'n' => $n
                 ]));
-                $subTitleSection .= Html::tag('p', BaseAmosModule::t('amosapp', 'Lancia una nuova proposta di collaborazione sulla piattaforma, clicca su “NUOVA”!', ['platformName' => \Yii::$app->name]));
+                $subTitleSection .= Html::tag('p', AmosEen::t('amoseen', 'Lancia una nuova proposta di collaborazione sulla piattaforma, clicca su “NUOVA”!', ['platformName' => \Yii::$app->name]));
             }
 
-            $labelCreate = BaseAmosModule::t('amosapp', 'Nuova');
-            $titleCreate = BaseAmosModule::t('amosapp', 'Crea una nuova proposta');
-            $labelManage = BaseAmosModule::t('amosapp', 'Gestisci');
-            $titleManage = BaseAmosModule::t('amosapp', 'Gestisci le proposte');
-            $urlCreate = BaseAmosModule::t('amosapp', '/een/een-partnership-proposal/create-proposal');
+            $labelCreate = AmosEen::t('amoseen', 'Nuova');
+            $titleCreate = AmosEen::t('amoseen', 'Crea una nuova proposta');
+            $labelManage = AmosEen::t('amoseen', 'Gestisci');
+            $titleManage = AmosEen::t('amoseen', 'Gestisci le proposte');
+            $urlCreate = AmosEen::t('amoseen', '/een/een-partnership-proposal/create-proposal');
 
             $manageLinks = [];
 

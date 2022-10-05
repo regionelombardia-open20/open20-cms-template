@@ -21,35 +21,35 @@ $isGuest = \Yii::$app->user->isGuest;
         <?php if (!($cssClass == 'hide-bi-plugin-header')) : ?>
             <?php
             if ($isGuest) {
-                $titleSection = BaseAmosModule::t('amosapp', 'Proposte di collaborazione');
-                $urlLinkAll = BaseAmosModule::t('amosapp', 'partnershipprofiles/partnership-profiles/index');
-                $labelLinkAll = BaseAmosModule::t('amosapp', 'Tutte le proposte');
-                $titleLinkAll = BaseAmosModule::t('amosapp', 'Visualizza la lista delle proposte');
+                $titleSection = Module::t('amospartnershipprofiles', 'Proposte di collaborazione');
+                $urlLinkAll = '/partnershipprofiles/partnership-profiles/index';
+                $labelLinkAll = Module::t('amospartnershipprofiles', 'Tutte le proposte');
+                $titleLinkAll = Module::t('amospartnershipprofiles', 'Visualizza la lista delle proposte');
 
-                $subTitleSection = Html::tag('p', BaseAmosModule::t('amosapp', 'Innovazione, competitività e networking: la piattaforma Open Innovation offre ai suoi utenti l’opportunità di entrare in contatto con centinaia di imprese e collaborare nello sviluppo di progetti e attività.', ['platformName' => \Yii::$app->name]));
+                $subTitleSection = Html::tag('p', Module::t('amospartnershipprofiles', 'Innovazione, competitività e networking: la piattaforma Open Innovation offre ai suoi utenti l’opportunità di entrare in contatto con centinaia di imprese e collaborare nello sviluppo di progetti e attività.', ['platformName' => \Yii::$app->name]));
                 $ctaLoginRegister = Html::a(
-                    BaseAmosModule::t('amosapp', 'accedi o registrati alla piattaforma'),
+                    Module::t('amospartnershipprofiles', 'accedi o registrati alla piattaforma'),
                     isset(\Yii::$app->params['linkConfigurations']['loginLinkCommon']) ? \Yii::$app->params['linkConfigurations']['loginLinkCommon'] : \Yii::$app->params['platform']['backendUrl'] . '/' . AmosAdmin::getModuleName() . '/security/login',
                     [
-                        'title' => BaseAmosModule::t('amosapp', 'Clicca per accedere o registrarti alla piattaforma {platformName}', ['platformName' => \Yii::$app->name])
+                        'title' => Module::t('amospartnershipprofiles', 'Clicca per accedere o registrarti alla piattaforma {platformName}', ['platformName' => \Yii::$app->name])
                     ]
                 );
-                $subTitleSection .= Html::tag('p', BaseAmosModule::t('amosapp', 'Se vuoi rispondere alle proposte di collaborazione di {platformName} {ctaLoginRegister}', ['platformName' => \Yii::$app->name, 'ctaLoginRegister' => $ctaLoginRegister]));
+                $subTitleSection .= Html::tag('p', Module::t('amospartnershipprofiles', 'Se vuoi rispondere alle proposte di collaborazione di {platformName} {ctaLoginRegister}', ['platformName' => \Yii::$app->name, 'ctaLoginRegister' => $ctaLoginRegister]));
             } else {
-                $titleSection = BaseAmosModule::t('amosapp', 'Proposte di mio interesse');
-                $urlLinkAll = BaseAmosModule::t('amosapp', '/partnershipprofiles/partnership-profiles/own-interest');
-                $labelLinkAll = BaseAmosModule::t('amosapp', 'Tutte le proposte di mio interesse');
-                $titleLinkAll = BaseAmosModule::t('amosapp', 'Visualizza tutte le proposte');
+                $titleSection = Module::t('amospartnershipprofiles', 'Proposte di mio interesse');
+                $urlLinkAll = '/partnershipprofiles/partnership-profiles/own-interest';
+                $labelLinkAll = Module::t('amospartnershipprofiles', 'Tutte le proposte di mio interesse');
+                $titleLinkAll = Module::t('amospartnershipprofiles', 'Visualizza tutte le proposte');
 
-                $subTitleSection = Html::tag('p', BaseAmosModule::t('amosapp', 'Innovazione, competitività e networking: la piattaforma {platformName} offre ai suoi utenti l’opportunità di entrare in contatto con centinaia di imprese e collaborare nello sviluppo di progetti e attività.', ['platformName' => \Yii::$app->name]));
-                $subTitleSection .= Html::tag('p', BaseAmosModule::t('amosapp', 'Lancia una nuova proposta di collaborazione sulla piattaforma, clicca su “NUOVA”!', ['platformName' => \Yii::$app->name]));
+                $subTitleSection = Html::tag('p', Module::t('amospartnershipprofiles', 'Innovazione, competitività e networking: la piattaforma {platformName} offre ai suoi utenti l’opportunità di entrare in contatto con centinaia di imprese e collaborare nello sviluppo di progetti e attività.', ['platformName' => \Yii::$app->name]));
+                $subTitleSection .= Html::tag('p', Module::t('amospartnershipprofiles', 'Lancia una nuova proposta di collaborazione sulla piattaforma, clicca su “NUOVA”!', ['platformName' => \Yii::$app->name]));
             }
 
-            $labelCreate = BaseAmosModule::t('amosapp', 'Nuova');
-            $titleCreate = BaseAmosModule::t('amosapp', 'Crea una nuova proposta');
-            $labelManage = BaseAmosModule::t('amosapp', 'Gestisci');
-            $titleManage = BaseAmosModule::t('amosapp', 'Gestisci le proposte');
-            $urlCreate = BaseAmosModule::t('amosapp', '/partnershipprofiles/partnership-profiles/create');
+            $labelCreate = Module::t('amospartnershipprofiles', 'Nuova');
+            $titleCreate = Module::t('amospartnershipprofiles', 'Crea una nuova proposta');
+            $labelManage = Module::t('amospartnershipprofiles', 'Gestisci');
+            $titleManage = Module::t('amospartnershipprofiles', 'Gestisci le proposte');
+            $urlCreate = '/partnershipprofiles/partnership-profiles/create';
 
             $manageLinks = [];
 

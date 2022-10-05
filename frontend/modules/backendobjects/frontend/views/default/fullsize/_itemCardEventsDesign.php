@@ -27,7 +27,10 @@ if($model->seats_management){
       'isPaid' => $model->paid_event,
       'availableSeats' => $availableSeats,
       'customlabelCreateView' => 'Visualizza evento',
-      'customlabelCreateSubscribe' => 'Visualizza evento'
+      'customlabelCreateSubscribe' => 'Visualizza evento',
+      'model' => $model,
+      'actionModify' => '/events/event/update?id='.$model->id,
+      'actionDelete' => '/events/event/delete?id=1'.$model->id,
     ]
   );
 ?>
