@@ -2,9 +2,9 @@
 
 namespace app\modules\uikit\blocks;
 
-
+use Yii;
 use app\modules\uikit\Module;
-use luya\cms\frontend\blockgroups\MediaGroup;
+use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
 use trk\uikit\Uikit;
 
 class DocumentAttachmentsBlock extends \app\modules\uikit\BaseUikitBlock
@@ -14,12 +14,16 @@ class DocumentAttachmentsBlock extends \app\modules\uikit\BaseUikitBlock
      */
     protected $component = "documentattachments";
 
+    public function disable()
+    {
+        return true;
+    }
     /**
      * @inheritdoc
      */
     public function blockGroup()
     {
-        return MediaGroup::class;
+        return ElementiBaseGroup::class;
     }
 
     /**
@@ -27,7 +31,7 @@ class DocumentAttachmentsBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function name()
     {
-        return Module::t('documentattachments');
+        return Yii::t('backendobjects', 'block_module_backend_documentattachments');
     }
 
     /**

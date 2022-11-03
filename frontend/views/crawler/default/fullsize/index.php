@@ -4,6 +4,7 @@ use luya\helpers\Url;
 use yii\widgets\LinkPager;
 use open20\amos\core\module\BaseAmosModule;
 use open20\design\assets\BootstrapItaliaDesignAsset;
+use app\modules\cms\helpers\CmsHelper;
 
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
 
@@ -35,9 +36,27 @@ $endPaginatorIcon = '<svg class="icon icon-sm"><use xlink:href="' . $currentAsse
                     <p><?= BaseAmosModule::t('amosapp', 'Sono emersi {numResults} risultati che corrispondono alla tua ricerca', ['numResults' => $provider->totalCount]) ?></p>
                 </div>
             <?php else : ?>
-                <div class="search-results-label col-12">
-                    <p><?= BaseAmosModule::t('amosapp', 'Non sono emersi risultati che corrispondono alla tua ricerca') ?></p>
-                </div>
+                <?php if (isset($provider->query)) : ?>
+                    <div class="search-results-label col-12">
+                        <p><?= BaseAmosModule::t('amosapp', 'Non sono emersi risultati che corrispondono alla tua ricerca') ?></p>
+                    </div>
+                <?php else : ?>
+                    <div class="col-12">
+                        <p>
+                            <?= BaseAmosModule::t('amosapp', 'Per effettuare una ricerca inserisci nella riga in alto parole o frasi quali tag, argomenti, titoli, community,... e premi INVIO sulla tastiera oppure fai clic sul bottone "Cerca".') ?>
+                        </p>
+                        <div class="vh-50">
+                            <?php
+                            $url = '/img/cerca.png';
+
+                            $contentImage = CmsHelper::img($url, [
+                                'class' => 'el-image',
+                            ]);
+                            ?>
+                            <?= $contentImage; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
     </div>
@@ -52,7 +71,6 @@ $endPaginatorIcon = '<svg class="icon icon-sm"><use xlink:href="' . $currentAsse
                         <?php
                         foreach ($provider->models as $item) : /* @var $item \luya\crawler\models\Index */
                         ?>
-
                             <li>
                                 <a class="list-item right-icon p-0" href="<?= $item->url ?>" title="<?= BaseAmosModule::t('amosapp', 'Vedi dettaglio su {titleResult}', ['titleResult' => $item->title]) ?>">
                                     <span class="h5 text-black mb-0"><?= $item->getHighlightedTitle($query) ?></span>

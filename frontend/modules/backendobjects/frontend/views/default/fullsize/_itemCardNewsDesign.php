@@ -3,35 +3,47 @@
 use open20\amos\news\utility\NewsUtility;
 use open20\amos\core\utilities\CurrentUser;
 use open20\amos\admin\AmosAdmin;
+use open20\amos\core\record\CachedActiveQuery;
 
 $model->usePrettyUrl = true;
+
+$relationQuery      = $model->getCreatedUserProfile();
+$relationCreated    = CachedActiveQuery::instance($relationQuery);
+$relationCreated->cache(60);
+$createdUserProfile = $relationCreated->one();
 
 $image = null;
 foreach ($viewFields as $field) {
     if ($field->type == 'IMAGE') {
         $image = (!is_null($model[$field->name])) ? $model[$field->name]->getWebUrl('square_medium', false, true) : '/img/img_default.jpg';
-    } else if(!empty($field['type']) && $field['type'] == 'IMAGE'){
-		 $image = (!is_null($model[$field['name']])) ? $model[$field['name']]->getWebUrl('square_medium', false, true) : '/img/img_default.jpg';
-	}
+    } else if (!empty($field['type']) && $field['type'] == 'IMAGE') {
+        $image = (!is_null($model[$field['name']])) ? $model[$field['name']]->getWebUrl('square_medium', false, true) : '/img/img_default.jpg';
+    }
 }
 
-$hideCategory   = false;
-$newsCategories = NewsUtility::getAllNewsCategories();
-if ($newsCategories->count() == 1) {
+$hideCategory        = false;
+$hasMany             = NewsUtility::getAllNewsCategories();
+$hasManyCache        = CachedActiveQuery::instance($hasMany);
+$hasManyCache->cache(60);
+$newsCategoriesCount = $hasManyCache->count();
+if ($newsCategoriesCount == 1) {
     $hideCategory = true;
 } else {
-    $category = $model->newsCategorie->titolo;
-    $customCategoryClass = 'mb-1 px-1 ' . ' ' . 'custom-category-bg-' . str_replace(' ','-',strtolower($category));
-    $colorBgCategory = $model->newsCategorie->color_background;
-    $colorTextCategory = $model->newsCategorie->color_text;
+    $hasOne              = $model->getNewsCategorie();
+    $hasOneCache         = CachedActiveQuery::instance($hasOne);
+    $hasOneCache->cache(60);
+    $categoryCache       = $hasOneCache->one();
+    $category            = $categoryCache->titolo;
+    $customCategoryClass = 'mb-1 px-1'.' '.'custom-category-bg-'.str_replace(' ', '-', strtolower($category));
+    $colorBgCategory     = $categoryCache->color_background;
+    $colorTextCategory   = $categoryCache->color_text;
 }
-$url='';
-if( $detailPage ){
+$url = '';
+if ($detailPage) {
     $url = Yii::$app->getModule('backendobjects')::getSeoUrl($model->getPrettyUrl(), $blockItemId);
-}else{
-	$url=$model->getFullViewUrl();
+} else {
+    $url = $model->getFullViewUrl();
 }
-
 ?>
 
 <?=
@@ -39,7 +51,7 @@ $this->render(
     '@vendor/open20/design/src/components/bootstrapitalia/views/bi-news',
     [
     'category' => $category,
-    'hideCategory' => $hideCategory,
+    'hideCategory' => ($hideCategoryFromCMS) ? $hideCategoryFromCMS : $hideCategory,
     'customCategoryClass' => $customCategoryClass,
     'colorBgCategory' => $colorBgCategory,
     'colorTextCategory' => $colorTextCategory,
@@ -49,10 +61,11 @@ $this->render(
     'abstract' => $model->getShortDescription(),
     'description' => strip_tags($model->getDescription(true)),
     'url' => $url,
-    'nameSurname' => $model->createdUserProfile->nomeCognome,
-    'imageAvatar' => $model->createdUserProfile->getAvatarUrl('table_small'),
-    'urlAvatar' => '/'.AmosAdmin::getModuleName().'/user-profile/view?id='.$model->createdUserProfile->id,
-    'additionalInfoAvatar' => (!empty($model->createdUserProfile->prevalentPartnership) ? $model->createdUserProfile->prevalentPartnership->name : ''),
+    'nameSurname' => $createdUserProfile->nomeCognome,
+    'imageAvatar' => $createdUserProfile->getAvatarWebUrl('table_small'),
+    'urlAvatar' => '/'.AmosAdmin::getModuleName().'/user-profile/view?id='.$createdUserProfile->id,
+    'additionalInfoAvatar' => (!empty($createdUserProfile->prevalentPartnership) ? $createdUserProfile->prevalentPartnership->name
+            : ''),
     'contentScopesAvatar' => \open20\amos\core\utilities\CwhUtility::getTargetsString($model),
     'model' => $model,
     'actionModify' => '/news/news/update?id='.$model->id,

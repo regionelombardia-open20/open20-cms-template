@@ -64,7 +64,7 @@ if ($model->community_type_id == CommunityType::COMMUNITY_TYPE_OPEN) {
       'widthColumn' => 'col-md-3 col-6',
       'model' => $model,
       'actionModify' => '/community/community/update?id='.$model->id,
-      'actionDelete' => '/community/community/delete?id=1'.$model->id,
+      'actionDelete' => '/community/community/delete?id='.$model->id,
     ]
   );
 ?>

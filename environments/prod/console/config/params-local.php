@@ -10,10 +10,5 @@
  */
 
 return [
-    'components' => [
-        'urlManager' => [
-            'baseUrl' => '/',
-            'hostInfo' => 'SITE_URL_HERE',
-        ],
-    ],
+  
 ];

@@ -1,0 +1,101 @@
+{
+    "vars": [
+        {
+            "var": "image",
+            "label": "Image",
+            "description": "",
+            "initvalue": "",
+            "options": {
+                "no_filter": false
+            },
+            "type": "zaa-image-upload"
+        },
+        {
+            "var": "title",
+            "label": "Title",
+            "description": "Enter banner title attribute.",
+            "initvalue": "",
+            "type": "zaa-text"
+        },
+        {
+            "var": "title_element",
+            "label": "Title Dimension",
+            "description": "Choose one of the elements to fit your semantic structure.",
+            "initvalue": "h1",
+            "options": [{
+                    "value": "h1",
+                    "label": "H1"
+                }, {
+                    "value": "h2",
+                    "label": "H2"
+                }, {
+                    "value": "h3",
+                    "label": "H3"
+                }, {
+                    "value": "h4",
+                    "label": "H4"
+                }, {
+                    "value": "h5",
+                    "label": "H5"
+                }, {
+                    "value": "h6",
+                    "label": "H6"
+                }, {
+                    "value": "div",
+                    "label": "div"
+                }],
+            "type": "zaa-select"
+        },
+        {
+            "var": "label_category",
+            "label": "Label Category",
+            "description": "Define banner label category",
+            "initvalue": "",
+            "type": "zaa-text"
+        },
+        {
+            "var": "text",
+            "label": "Text",
+            "description": "Define bannertext",
+            "initvalue": "",
+            "type": "zaa-text"
+        },
+        {
+            "var": "overlay",
+            "label": "Overlay",
+            "description": "Define if overlay.",
+            "initvalue": "",
+            "type": "zaa-checkbox"
+        },
+        {
+            "var": "smallSize",
+            "label": "Banner Small",
+            "description": "Define banner in small size.",
+            "initvalue": "",
+            "type": "zaa-checkbox"
+        }
+    ],
+    "cfgs": [
+        {
+            "var": "title_image",
+            "label": "Image title",
+            "description": "Enter the image's title attribute.",
+            "initvalue": "",
+            "type": "zaa-text"
+        },
+        {
+            "var": "alt_image",
+            "label": "Image alt",
+            "description": "Enter the image's alt attribute.",
+            "initvalue": "",
+            "type": "zaa-text"
+        },
+        {
+            "var": "title_class",
+            "label": "Title class",
+            "description": "Define one or more class names for the title. Separate multiple classes with spaces.",
+            "initvalue": "",
+            "type": "zaa-text"
+        }
+    ]
+}

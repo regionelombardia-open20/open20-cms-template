@@ -2,11 +2,11 @@
 
 namespace app\modules\uikit\blocks;
 
+use Yii;
 use app\modules\uikit\Module;
-use luya\cms\frontend\blockgroups\DevelopmentGroup;
+use app\modules\backendobjects\frontend\blockgroups\ElementiAvanzatiGroup;
 use app\modules\uikit\BaseUikitBlock;
 use trk\uikit\Uikit;
-use Yii;
 
 
 class VerticalMenuListBlock extends BaseUikitBlock
@@ -21,7 +21,7 @@ class VerticalMenuListBlock extends BaseUikitBlock
      */
     public function blockGroup()
     {
-        return DevelopmentGroup::className();
+        return ElementiAvanzatiGroup::className();
     }
 
     /**
@@ -29,7 +29,7 @@ class VerticalMenuListBlock extends BaseUikitBlock
      */
     public function name()
     {
-        return Module::t('vertical-menu-list');
+        return Yii::t('backendobjects', 'block_module_backend_vertical-menu-list');
     }
 
     /**

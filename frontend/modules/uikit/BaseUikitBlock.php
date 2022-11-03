@@ -20,6 +20,8 @@ abstract class BaseUikitBlock extends \trk\uikit\BaseUikitBlock
     const CONFIGS_EXT = ".json";
     const COMPONENTS_PATH = __DIR__ . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR;
 
+    private $_vars = [];
+    private $_cfgs = [];
     /**
      * @param string $component
      * @return array|mixed
@@ -28,7 +30,7 @@ abstract class BaseUikitBlock extends \trk\uikit\BaseUikitBlock
     {
         $component = $component ?: $this->component;
         $configs = $this->getJsonContent(self::COMPONENTS_PATH . $component . self::CONFIGS_EXT);
-        $configs['vars'] = $this->setConfigFields(Uikit::element("vars", $configs, []));
+        $configs['vars'] = $this->setConfigFields(Uikit::element("vars", $configs, []));        
         $configs["cfgs"] = $this->setConfigFields(Uikit::element("cfgs", $configs, []));
         return $configs;
     }
@@ -36,5 +38,34 @@ abstract class BaseUikitBlock extends \trk\uikit\BaseUikitBlock
     public function getViewPath()
     {
         return __DIR__ . '/views';
+    }
+    
+    public function getConfigVarsExport()
+    {
+        $config = $this->config();
+        
+        if (isset($config['vars'])) {
+            foreach ($config['vars'] as $item) {                
+                $iteration = count($this->_vars) + 500;
+                $this->_vars[$iteration] = (new BlockVar($item))->toArray();
+            }
+        }
+       
+        ksort($this->_vars);
+        return array_values($this->_vars);
+    }
+    
+    public function getConfigCfgsExport()
+    {
+        $config = $this->config();
+        
+        if (isset($config['cfgs'])) {
+            foreach ($config['cfgs'] as $item) {
+                $iteration = count($this->_cfgs) + 500;
+                $this->_cfgs[$iteration] = (new BlockCfg($item))->toArray();
+            }
+        }
+        ksort($this->_cfgs);
+        return array_values($this->_cfgs);
     }
 }

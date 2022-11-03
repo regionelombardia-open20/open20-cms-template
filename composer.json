@@ -36,7 +36,7 @@
     "open20/amos-tag": "^1.7.0",
     "open20/amos-translation": "~1.0.31",
     "open20/amos-upload": "^1.0.8",
-    "open20/amos-utility":"dev-test/1.8.0 as 1.8.0",
+    "open20/amos-utility":"^1.11.0",
     "open20/amos-wizflow": "^1.0.5",
     "open20/amos-workflow": "^1.1.0",
     "kartik-v/yii2-datecontrol": "@dev",

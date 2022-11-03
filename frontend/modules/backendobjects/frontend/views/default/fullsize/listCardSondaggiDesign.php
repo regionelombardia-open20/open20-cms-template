@@ -17,9 +17,17 @@ $isGuest = \Yii::$app->user->isGuest;
 
 <?php
 $modelLabel = strtolower($model->getGrammar()->getModelLabel());
+$hideBiPluginHeader = (strpos($cssClass, 'hide-bi-plugin-header') !== false) ? true : false;
+$hideModuleBackendIfEmptyList = (strpos($cssClass, 'hide-module-if-empty-list') !== false && $dataProvider->getTotalCount() <= 0) ? true : false;
+
+$classModuloBackend = 'modulo-backend-' . $modelLabel . ' ' . $cssClass;
+if ($hideModuleBackendIfEmptyList) {
+    $classModuloBackend .= ' ' . 'd-none';
+}
+
 ?>
-<div class="modulo-backend-<?= $modelLabel ?> <?= $cssClass ?>">
-    <?php if (!($cssClass == 'hide-bi-plugin-header')) : ?>
+<div class="<?= $classModuloBackend ?>">
+    <?php if (!$hideBiPluginHeader) : ?>
         <?php
         $modelLabel = strtolower($model->getGrammar()->getModelLabel());
 
@@ -123,7 +131,27 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
         } else { ?>
             <?php if (!$isGuest) : ?>
                 <div class="no-<?= str_replace(' ', '-', $modelLabel) ?>-alert">
-                    <p><?= BaseAmosModule::t('amosapp', 'Non ci sono contenuti che corrispondono ai tuoi interessi') ?></p>
+                    <div class="alert alert-warning" role="alert">
+                        <p class="mb-0"><strong><?= AmosSondaggi::t('amossondaggi', 'Non ci sono sondaggi che corrispondono ai tuoi interessi!') ?></strong></p>
+                        <?=
+                        Html::a(
+                            AmosSondaggi::t('amossondaggi', 'Clicca qui'),
+                            '/sondaggi/pubblicazione/all',
+                            [
+                                'title' => AmosSondaggi::t('amossondaggi', 'Clicca e scopri tutti i sondaggi della piattaforma {platformName}', ['platformName' => \Yii::$app->name]),
+                                'class' => 'btn btn-xs btn-primary'
+                            ]
+                        )
+                            . ' ' .
+                            AmosSondaggi::t('amossondaggi', 'e scopri ora tutti i sondaggi di {platformName}', ['platformName' => \Yii::$app->name])
+                        ?>
+                    </div>
+                </div>
+            <?php else : ?>
+                <div class="no-<?= str_replace(' ', '-', $modelLabel) ?>-alert">
+                    <div class="alert alert-warning" role="alert">
+                        <p class="mb-0"><strong><?= AmosSondaggi::t('amossondaggi', 'Non sono presenti sondaggi') ?></strong></p>
+                    </div>
                 </div>
             <?php endif; ?>
         <?php } ?>

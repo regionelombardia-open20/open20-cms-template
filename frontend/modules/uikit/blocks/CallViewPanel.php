@@ -1,9 +1,10 @@
 <?php
 namespace app\modules\uikit\blocks;
 
+use Yii;
 use app\modules\uikit\BaseUikitBlock;
 use app\modules\uikit\Module;
-use luya\cms\frontend\blockgroups\TextGroup;
+use app\modules\backendobjects\frontend\blockgroups\SviluppoGroup;
 use trk\uikit\Uikit;
 
 /**
@@ -23,14 +24,14 @@ final class CallViewPanel extends BaseUikitBlock {
      * @inheritdoc
      */
     public function blockGroup() {
-        return TextGroup::class;
+        return SviluppoGroup::class;
     }
 
     /**
      * @inheritdoc
      */
     public function name() {
-        return Module::t('callviewpanel');
+        return Yii::t('backendobjects', 'block_module_backend_callviewpanel');
     }
 
     /**

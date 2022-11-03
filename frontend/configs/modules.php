@@ -18,15 +18,15 @@ return [
         'interfaceLanguage' => 'it', // Admin interface default language. Currently supported: en, de, ru, es, fr, ua, it, el, vi, pt, fa
         'apis' => [
             'api-admin-logger' => 'luya\admin\apis\LoggerController',
-            'api-admin-common' => 'luya\admin\apis\CommonController',
+            'api-admin-common' => 'app\modules\cms\admin\apis\CommonController',
             'api-admin-remote' => 'luya\admin\apis\RemoteController',
             'api-admin-storage' => 'luya\admin\apis\StorageController',
-            'api-admin-menu' => 'luya\admin\apis\MenuController',
+            'api-admin-menu' => 'app\modules\cms\admin\apis\MenuController',
             'api-admin-timestamp' => 'luya\admin\apis\TimestampController',
             'api-admin-search' => 'luya\admin\apis\SearchController',
-            'api-admin-user' => 'luya\admin\apis\UserController',
+            'api-admin-user' => 'app\modules\cms\admin\apis\UserController',
             'api-admin-apiuser' => 'luya\admin\apis\ApiUserController',
-            'api-admin-group' => 'luya\admin\apis\GroupController',
+            'api-admin-group' => 'app\modules\cms\admin\apis\GroupController',
             'api-admin-lang' => 'luya\admin\apis\LangController',
             'api-admin-effect' => 'luya\admin\apis\EffectController',
             'api-admin-filter' => 'luya\admin\apis\FilterController',
@@ -37,7 +37,7 @@ return [
             'api-admin-config' => 'luya\admin\apis\ConfigController',
             'api-admin-queuelog' => 'luya\admin\apis\QueueLogController',
             'login' => 'app\modules\cms\controllers\LoginController',
-            'login-cms-admin' => 'app\modules\cms\controllers\LoginController'
+            'login-cms-admin' => 'app\modules\cms\controllers\LoginController',
         ]
     ],
     'adminuikit' => [
@@ -84,7 +84,7 @@ return [
         'contentCompression' => true,
         'controllerMap' => [
             'default' => 'app\modules\cms\base\DefaultController'
-        ],
+        ],       
     ],
     /*
      * Admin module for the `cms` module.

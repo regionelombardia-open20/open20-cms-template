@@ -3,6 +3,7 @@
 use yii\widgets\ListView;
 use open20\amos\core\module\BaseAmosModule;
 use open20\design\assets\BootstrapItaliaDesignAsset;
+use yii\helpers\Html;
 use open20\design\utility\DesignUtility;
 use open20\amos\events\AmosEvents;
 
@@ -35,15 +36,15 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
         $titleCreate = AmosEvents::t('amosevents', 'Crea un nuovo evento');
         $labelManage = AmosEvents::t('amosevents', 'Gestisci');
         $titleManage = AmosEvents::t('amosevents', 'Gestisci gli eventi');
-        $urlCreate = AmosEvents::t('amosevents', '/events/event/create');
+        $urlCreate = '/events/event/create';
 
         $manageLinks = [];
-        $controller = \open20\amos\events\controllers\EventsController::class;
+        $controller = \open20\amos\events\controllers\EventController::class;
         if (method_exists($controller, 'getManageLinks')) {
             $manageLinks = $controller::getManageLinks();
         }
 
-        $canCreate = \Yii::$app->user->can('EVENTS_CREATE', ['model' => $model]);
+        $canCreate = \Yii::$app->user->can('EVENT_CREATE', ['model' => $model]);
 
         ?>
         <?=
@@ -69,7 +70,7 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
         ?>
     <?php endif ?>
 
-    <div class="list-<?= $modelLabel ?>-container d-flex flex-wrap">
+    <div class="list-<?= $modelLabel ?>-container">
         <?php
         if ($dataProvider->getTotalCount() > 0) {
 
@@ -95,7 +96,27 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
         } else { ?>
             <?php if (!$isGuest) : ?>
                 <div class="no-<?= str_replace(' ', '-', $modelLabel) ?>-alert">
-                    <p><?= BaseAmosModule::t('amosapp', 'Non ci sono contenuti che corrispondono ai tuoi interessi') ?></p>
+                    <div class="alert alert-warning" role="alert">
+                        <p class="mb-0"><strong><?= AmosEvents::t('amosevents', 'Non ci sono eventi di tuo interesse!') ?></strong></p>
+                        <?=
+                        Html::a(
+                            AmosEvents::t('amosevents', 'Clicca qui'),
+                            '/events/event/all-events',
+                            [
+                                'title' => AmosEvents::t('amosevents', 'Clicca e scopri tutti gli eventi della piattaforma {platformName}', ['platformName' => \Yii::$app->name]),
+                                'class' => 'btn btn-xs btn-primary'
+                            ]
+                        )
+                            . ' ' .
+                            AmosEvents::t('amosevents', 'e scopri ora tutti gli eventi di {platformName}', ['platformName' => \Yii::$app->name])
+                        ?>
+                    </div>
+                </div>
+            <?php else : ?>
+                <div class="no-<?= str_replace(' ', '-', $modelLabel) ?>-alert">
+                    <div class="alert alert-warning" role="alert">
+                        <p class="mb-0"><strong><?= AmosEvents::t('amosevents', 'Non sono presenti eventi') ?></strong></p>
+                    </div>
                 </div>
             <?php endif; ?>
         <?php } ?>

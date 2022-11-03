@@ -2,9 +2,10 @@
 
 namespace app\modules\uikit\blocks;
 
+use Yii;
 use app\modules\uikit\BaseUikitBlock;
 use app\modules\uikit\Module;
-use luya\cms\frontend\blockgroups\DevelopmentGroup;
+use app\modules\backendobjects\frontend\blockgroups\ElementiAvanzatiGroup;
 use trk\uikit\Uikit;
 
 class SiteMapBlock extends BaseUikitBlock
@@ -27,7 +28,7 @@ class SiteMapBlock extends BaseUikitBlock
      */
     public function blockGroup()
     {
-        return DevelopmentGroup::className();
+        return ElementiAvanzatiGroup::className();
     }
 
     /**
@@ -35,7 +36,7 @@ class SiteMapBlock extends BaseUikitBlock
      */
     public function name()
     {
-        return Module::t('sitemap');
+        return Yii::t('backendobjects', 'block_module_backend_sitemap');
     }
 
     /**
@@ -51,7 +52,7 @@ class SiteMapBlock extends BaseUikitBlock
      */
     public function admin(array $params = array())
     {
-        return '<div><span class="block__empty-text">'.Module::t('no_content').'</span></div>';
+        return $this->frontend();
     }
 
     public function frontend(array $params = array())

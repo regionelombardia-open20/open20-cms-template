@@ -8,7 +8,12 @@ use open20\amos\core\helpers\Html;
 SocialAsset::register($this);
 
 ?>
-<?php if (!\Yii::$app->user->isGuest) {?>
+<?php 
+
+    $render = isset($data['for_logged']) && !empty($data['for_logged']) ? !\Yii::$app->user->isGuest : true;             
+    if ($render):
+        
+?>
 
     <div>
         <?php
@@ -26,19 +31,12 @@ SocialAsset::register($this);
 
         <div class="uk-form-controls">
             <div>
-                <?php
-                    echo Html::hiddenInput('id', $data['id']);
-                    echo !empty($data['description']) ? $data['description'] : 'Export';
-                ?>
+                <?= Html::hiddenInput('id', $data['id']); ?>
             </div>
-            <?=
-            Html::submitButton(!empty($data['submitlabel']) ? $data['submitlabel'] : 'Esporta i dati in un Excel',
+            <?= Html::submitButton(!empty($data['submitlabel']) ? $data['submitlabel'] : 'Esporta i dati in un Excel',
                 ['class' => 'btn btn-primary'])
             ?>
         </div>
     </div>
-    <?php
-    ActiveForm::end();
-    ?>
-    </div>
-<?php } ?>
+    <?php ActiveForm::end(); ?>
+<?php endif; ?>

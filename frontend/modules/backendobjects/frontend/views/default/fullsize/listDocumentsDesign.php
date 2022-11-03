@@ -8,16 +8,25 @@ use open20\amos\documenti\AmosDocumenti;
 use yii\helpers\Html;
 
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
-
+$moduleDocuments = AmosDocumenti::instance();
 $isGuest = \Yii::$app->user->isGuest;
 ?>
 
 
 <?php
 $modelLabel = strtolower($model->getGrammar()->getModelLabel());
+
+$hideBiPluginHeader = (strpos($cssClass, 'hide-bi-plugin-header') !== false) ? true : false;
+$hideModuleBackendIfEmptyList = (strpos($cssClass, 'hide-module-if-empty-list') !== false && $dataProvider->getTotalCount() <= 0) ? true : false;
+
+$classModuloBackend = 'modulo-backend-' . $modelLabel . ' ' . $cssClass;
+if ($hideModuleBackendIfEmptyList) {
+    $classModuloBackend .= ' ' . 'd-none';
+}
+
 ?>
-<div class="modulo-backend-<?= $modelLabel ?> <?= $cssClass ?>">
-    <?php if (!($cssClass == 'hide-bi-plugin-header')) : ?>
+<div class="<?= $classModuloBackend ?>">
+    <?php if (!$hideBiPluginHeader) : ?>
         <?php
         if ($isGuest) {
             $titleSection = AmosDocumenti::t('amosdocumenti', 'Documenti');
@@ -62,7 +71,6 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
                     ['platformName' => \Yii::$app->name, 'ctaLoginRegister' => $ctaLoginRegister]
                 )
             );
-
         } else {
             $titleSection = AmosDocumenti::t('amosdocumenti', 'Documenti di mio interesse');
             $urlLinkAll = '/documenti/documenti/own-interest-documents';
@@ -74,7 +82,11 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
         $titleCreate = AmosDocumenti::t('amosdocumenti', 'Crea un nuovo documento');
         $labelManage = AmosDocumenti::t('amosdocumenti', 'Gestisci');
         $titleManage = AmosDocumenti::t('amosdocumenti', 'Gestisci i documenti');
-        $urlCreate = AmosDocumenti::t('amosdocumenti', '/documenti/documenti/create');
+        $urlCreate = '/documenti/documenti/create';
+
+        $urlSecondAction = '/documenti/documenti/create?isFolder=1';
+        $labelSecondAction = AmosDocumenti::t('amosdocumenti', 'Nuova Cartella');
+        $titleSecondAction = AmosDocumenti::t('amosdocumenti', 'Crea una nuova cartella');
 
         $manageLinks = [];
         $controller = \open20\amos\documenti\controllers\DocumentiController::class;
@@ -103,12 +115,16 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
                 'titleManage' => $titleManage,
                 'urlCreate' => $urlCreate,
                 'manageLinks' => $manageLinks,
+                'urlSecondAction' => $urlSecondAction,
+                'labelSecondAction' => $labelSecondAction,
+                'titleSecondAction' => $titleSecondAction,
+                'hideSecondAction' => (!empty($moduleDocuments) && !empty($moduleDocuments->enableFolders) && $moduleDocuments->enableFolders == true) ? true : false,
             ]
         );
         ?>
     <?php endif ?>
 
-    <div class="card-<?= $modelLabel ?>-container d-flex flex-wrap">
+    <div class="card-<?= $modelLabel ?>-container">
         <?php
         if ($dataProvider->getTotalCount() > 0) {
 
@@ -135,7 +151,27 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
         } else { ?>
             <?php if (!$isGuest) : ?>
                 <div class="no-<?= str_replace(' ', '-', $modelLabel) ?>-alert">
-                    <p><?= BaseAmosModule::t('amosapp', 'Non ci sono contenuti che corrispondono ai tuoi interessi') ?></p>
+                    <div class="alert alert-warning" role="alert">
+                        <p class="mb-0"><strong><?= AmosDocumenti::t('amosdocumenti', 'Non ci sono documenti di tuo interesse da visualizzare!') ?></strong></p>
+                        <?=
+                        Html::a(
+                            AmosDocumenti::t('amosdocumenti', 'Clicca qui'),
+                            '/documenti/documenti/all-documents',
+                            [
+                                'title' => AmosDocumenti::t('amosdocumenti', 'Clicca e scopri tutti i documenti della piattaforma {platformName}', ['platformName' => \Yii::$app->name]),
+                                'class' => 'btn btn-xs btn-primary'
+                            ]
+                        )
+                            . ' ' .
+                            AmosDocumenti::t('amosdocumenti', 'e scopri ora tutti i documenti di {platformName}', ['platformName' => \Yii::$app->name])
+                        ?>
+                    </div>
+                </div>
+            <?php else : ?>
+                <div class="no-<?= str_replace(' ', '-', $modelLabel) ?>-alert">
+                    <div class="alert alert-warning" role="alert">
+                        <p class="mb-0"><strong><?= AmosDocumenti::t('amosdocumenti', 'Non sono presenti documenti') ?></strong></p>
+                    </div>
                 </div>
             <?php endif; ?>
         <?php } ?>

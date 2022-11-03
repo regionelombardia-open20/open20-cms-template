@@ -1,0 +1,23 @@
+// /* PRIMARY-COLOR OVERRIDE*/
+// $primary-h: 000;
+// $primary-s: 000;
+// $primary-b: 000;
+
+// /* THEME COLOR */
+// $primary: #000;
+// $secondary: #000;
+// $tertiary: #000;
+
+
+// $myplatform-theme-colors: (
+//   "primary": $primary,
+//   "secondary": $secondary,
+//   "tertiary": $tertiary,
+// );
+// $theme-colors: map-merge($theme-colors, $myplatform-theme-colors);
+
+.page-search-results {
+  input[type='search'] {
+      background: transparent;
+  }
+}

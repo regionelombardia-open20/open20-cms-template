@@ -21,7 +21,7 @@ class MetaGooglebotProperty extends Property {
     }
 
     public function label() {
-        return \Yii::t('app','page_property_meta_googlebot_label');
+        return \Yii::t('seo','page_property_meta_googlebot_label');
     }
 
     public function type() {

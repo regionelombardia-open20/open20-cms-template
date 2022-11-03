@@ -2,7 +2,12 @@
 
 use open20\amos\core\utilities\CurrentUser;
 use open20\amos\admin\AmosAdmin;
+use open20\amos\core\record\CachedActiveQuery;
 
+$relationQuery = $model->getCreatedUserProfile();
+$relationCreated = CachedActiveQuery::instance($relationQuery);
+$relationCreated->cache(60);
+$createdUserProfile = $relationCreated->one();
 //$model->usePrettyUrl = true;
 
 $image = null;
@@ -23,12 +28,12 @@ $this->render(
     'date' => $model->created_at,
     'title' => $model->getTitle(),
     'url' => $model->getFullViewUrl(),
-    'nameSurname' => $model->createdUserProfile->nomeCognome,
+    'nameSurname' => $createdUserProfile->nomeCognome,
     'hideNameSurname' => true,
     'showTooltip' => true,
-    'imageAvatar' => $model->createdUserProfile->getAvatarUrl('table_small'),
-    'urlAvatar' => '/'.AmosAdmin::getModuleName().'/user-profile/view?id='.$model->createdUserProfile->id,
-    //'additionalInfoAvatar' => (!empty($model->createdUserProfile->prevalentPartnership) ? $model->createdUserProfile->prevalentPartnership->name : ''),
+    'imageAvatar' => $createdUserProfile->getAvatarUrl('table_small'),
+    'urlAvatar' => '/'.AmosAdmin::getModuleName().'/user-profile/view?id='.$createdUserProfile->id,
+    //'additionalInfoAvatar' => (!empty($createdUserProfile->prevalentPartnership) ? $createdUserProfile->prevalentPartnership->name : ''),
     'communityTitle' => \open20\amos\core\utilities\CwhUtility::getTargetsString($model),
     'numbersOfAnswer' => $model->getDiscussionComments()->count(),
     'numbersOfVisits' => $model->hints,

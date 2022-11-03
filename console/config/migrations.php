@@ -44,5 +44,6 @@ return[
     '@vendor/lispa/yii2-tree-manager/src/migrations',
     '@vendor/luyadev/luya-module-admin/src/migrations',
     '@vendor/luyadev/luya-module-cms/src/admin/migrations',
+    '@vendor/open20/cms-dashboard/src/migrations',
     
 ];

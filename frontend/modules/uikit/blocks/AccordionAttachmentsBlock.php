@@ -2,8 +2,9 @@
 
 namespace app\modules\uikit\blocks;
 
+use Yii;
 use app\modules\uikit\Module;
-use luya\cms\frontend\blockgroups\MediaGroup;
+use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
 
 class AccordionAttachmentsBlock extends \app\modules\uikit\BaseUikitBlock
 {
@@ -12,12 +13,16 @@ class AccordionAttachmentsBlock extends \app\modules\uikit\BaseUikitBlock
      */
     protected $component = "accordionattachments";
 
+    public function disable()
+    {
+        return true;
+    }
     /**
      * @inheritdoc
      */
     public function blockGroup()
     {
-        return MediaGroup::class;
+        return ElementiBaseGroup::class;
     }
 
     /**
@@ -25,7 +30,7 @@ class AccordionAttachmentsBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function name()
     {
-        return Module::t('accordionattachments');
+        return Yii::t('backendobjects', 'block_module_backend_accordionattachments');
     }
 
     /**

@@ -22,7 +22,7 @@ if($model->seats_management){
       'availableSeats' => $availableSeats,
       'model' => $model,
       'actionModify' => '/events/event/update?id='.$model->id,
-      'actionDelete' => '/events/event/delete?id=1'.$model->id,
+      'actionDelete' => '/events/event/delete?id='.$model->id,
     ]
   );
 ?>

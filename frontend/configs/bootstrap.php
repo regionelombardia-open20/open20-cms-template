@@ -18,6 +18,7 @@ $bootstrap[] = 'backendobjects';
 $bootstrap[] = 'amosadmin';
 $bootstrap[] = 'socialauth';
 $bootstrap[] = 'seo';
+$bootstrap[] = 'frontend\bootstrap\AddGoogleTagManager';
 
 /* $bootstrap[] = [
   'class' => 'open20\amos\core\components\LanguageSelector',

@@ -16,9 +16,17 @@ $isGuest = \Yii::$app->user->isGuest;
 
 <?php
 $modelLabel = strtolower($model->getGrammar()->getModelLabel());
+$hideBiPluginHeader = (strpos($cssClass, 'hide-bi-plugin-header') !== false) ? true : false;
+$hideModuleBackendIfEmptyList = (strpos($cssClass, 'hide-module-if-empty-list') !== false && $dataProvider->getTotalCount() <= 0) ? true : false;
+
+$classModuloBackend = 'modulo-backend-' . $modelLabel . ' ' . $cssClass;
+if ($hideModuleBackendIfEmptyList) {
+    $classModuloBackend .= ' ' . 'd-none';
+}
+
 ?>
-<div class="modulo-backend-<?= $modelLabel ?> <?= $cssClass ?>">
-    <?php if (!($cssClass == 'hide-bi-plugin-header')) : ?>
+<div class="<?= $classModuloBackend ?>">
+    <?php if (!$hideBiPluginHeader) : ?>
         <?php
         if ($isGuest) {
             $titleSection = AmosCommunity::t('amoscommunity', 'Community');
@@ -63,7 +71,6 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
                     ['platformName' => \Yii::$app->name, 'ctaLoginRegister' => $ctaLoginRegister]
                 )
             );
-
         } else {
             $titleSection = AmosCommunity::t('amoscommunity', 'Le mie community');
             $urlLinkAll = '/community/community/my-communities';
@@ -77,7 +84,7 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
         $titleCreate = AmosCommunity::t('amoscommunity', 'Crea una nuova community');
         $labelManage = AmosCommunity::t('amoscommunity', 'Gestisci');
         $titleManage = AmosCommunity::t('amoscommunity', 'Gestisci le community');
-        $urlCreate = AmosCommunity::t('amoscommunity', '/community/community/create');
+        $urlCreate = '/community/community/create';
 
         $manageLinks = [];
         $controller = \open20\amos\community\controllers\CommunityController::class;
@@ -139,7 +146,27 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
         } else { ?>
             <?php if (!$isGuest) : ?>
                 <div class="no-<?= str_replace(' ', '-', $modelLabel) ?>-alert">
-                    <p><?= BaseAmosModule::t('amosapp', 'Non ci sono contenuti che corrispondono ai tuoi interessi') ?></p>
+                    <div class="alert alert-warning" role="alert">
+                        <p class="mb-0"><strong><?= AmosCommunity::t('amoscommunity', 'Non sei ancora iscritto a nessuna community!') ?></strong></p>
+                        <?=
+                        Html::a(
+                            AmosCommunity::t('amoscommunity', 'Clicca qui'),
+                            '/community/community/index',
+                            [
+                                'title' => AmosCommunity::t('amoscommunity', 'Clicca e scopri tutte le community di {platformName}', ['platformName' => \Yii::$app->name]),
+                                'class' => 'btn btn-xs btn-primary'
+                            ]
+                        )
+                            . ' ' .
+                            AmosCommunity::t('amoscommunity', 'e scopri ora tutte le community di {platformName}', ['platformName' => \Yii::$app->name])
+                        ?>
+                    </div>
+                </div>
+            <?php else : ?>
+                <div class="no-<?= str_replace(' ', '-', $modelLabel) ?>-alert">
+                    <div class="alert alert-warning" role="alert">
+                        <p class="mb-0"><strong><?= AmosCommunity::t('amoscommunity', 'Non sono presenti community') ?></strong></p>
+                    </div>
                 </div>
             <?php endif; ?>
         <?php } ?>

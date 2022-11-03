@@ -38,8 +38,8 @@ class m130524_201442_init extends Migration
         ], $tableOptions);        
         
         // Aggiungo l'amministratore
-        $this->batchInsert('{{%user}}',['id', 'username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'status'], [
-            [1, 'admin', '8uSwKw27mKv-SprmqWzK8K5gvlpGnr8v', '$2y$13$ab216g/Nd6qwBowDuYDnNOTsYvrEwzcXsiSxc1zQGYaG5H2wnTNY.', 'bqDiF8NgsMNjHtGnSSxX4qg1ezrrJ7xm_1469790400', 'nome.cognome@example.com', 10]
+        $this->batchInsert('{{%user}}',['id', 'username', 'auth_key', 'password_hash', 'email', 'status'], [
+            [1, 'admin', '___', '___', 'nome.cognome@example.com', 10]
         ]);
         return true;
     }

@@ -18,7 +18,7 @@
             "description": "",
             "placeholder": "Etichetta bottone di submit",
             "type": "zaa-text"
-        },
+        }, 
         {
             "var": "reCaptcha",
             "label": "reCaptcha",
@@ -53,11 +53,42 @@
                     "type": "zaa-text"
                 },
                 {
+                    "var": "autocomplete",
+                    "label": "Autocomplete",
+                    "description": "",
+                    "initvalue": "",
+                    "type": "zaa-checkbox"
+                },
+                {
                     "var": "required",
                     "label": "Required",
                     "description": "",
                     "initvalue": "",
                     "type": "zaa-checkbox"
+                },
+                {
+                    "var": "error_message_required",
+                    "label": "Custom 'Error Message' Required",
+                    "description": "Siccome il messaggio di errore prende come attributo il campo Label, se questo è lungo si può cambiare il messaggio di errore seguendo le opzioni proposte",
+                    "initvalue": "original",
+                    "options": [{
+                        "value": "original",
+                        "label": "Messaggio di errore originale"
+                    }, {
+                        "value": "attribute",
+                        "label": "Messaggio di errore originale con sostituzione solo del campo Label"
+                    }, {
+                        "value": "message",
+                        "label": "Messaggio di errore completamente custom"
+                    }],
+                    "type": "zaa-select"
+                },
+                {
+                    "var": "text_error_message_required",
+                    "label": "Error message 'required'",
+                    "description": "in base alla selezione del campo 'Custom Error Message Required' inserire o la parte relativa a Label oppure l'intero messaggio",
+                    "initvalue": "",
+                    "type": "zaa-text"
                 },
                 {
                     "var": "max_length",
@@ -106,6 +137,9 @@
                             "value": "email",
                             "label": "Email"
                         }, {
+                            "value": "conferma_email",
+                            "label": "Conferma Email"
+                        }, {
                             "value": "password",
                             "label": "Password"
                         }
@@ -127,10 +161,36 @@
                         }, {
                             "value": "checkList",
                             "label": "CheckList"
+                        },{
+                            "value": "url",
+                            "label": "Url"
                         }],
                     "type": "zaa-select"
-                }
-                ,
+                },
+                {
+                    "var": "error_message",
+                    "label": "Custom Error Message",
+                    "description": "Siccome il messaggio di errore prende come attributo il campo Label, se questo è lungo si può cambiare il messaggio di errore seguendo le opzioni proposte",
+                    "initvalue": "original",
+                    "options": [{
+                        "value": "original",
+                        "label": "Messaggio di errore originale"
+                    }, {
+                        "value": "attribute",
+                        "label": "Messaggio di errore originale con sostituzione solo del campo Label"
+                    }, {
+                        "value": "message",
+                        "label": "Messaggio di errore completamente custom"
+                    }],
+                    "type": "zaa-select"
+                },
+                {
+                    "var": "text_error_message",
+                    "label": "Error message",
+                    "description": "in base alla selezione del campo 'Custom Error Message' inserire o la parte relativa a Label oppure l'intero messaggio",
+                    "initvalue": "",
+                    "type": "zaa-text"
+                },
                 {
                     "var": "subvalue",
                     "label": "Values",

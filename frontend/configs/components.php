@@ -7,11 +7,11 @@
  * @package    open20\amos\basic\template
  * @category   CategoryName
  */
+require(__DIR__.'/../modules/cms/logger/formatter/LineFormatter.php');
 
-require(__DIR__ . '/../modules/cms/logger/formatter/LineFormatter.php');
-
-$psrLogger = new \Monolog\Logger('logger');
-$psrHandler = new \Monolog\Handler\RotatingFileHandler(__DIR__. '/../runtime/logs'.'/app_' . date('Y-m-d') . '.log', 5, \Monolog\Logger::DEBUG);
+$psrLogger    = new \Monolog\Logger('logger');
+$psrHandler   = new \Monolog\Handler\RotatingFileHandler(__DIR__.'/../runtime/logs'.'/app_'.date('Y-m-d').'.log', 5,
+    \Monolog\Logger::DEBUG);
 $psrFormatter = new \app\modules\cms\logger\formatter\LineFormatter(null, 'Y-m-d H::i::s', true);
 $psrFormatter->includeStacktraces();
 $psrHandler->setFormatter($psrFormatter);
@@ -87,12 +87,13 @@ return [
         'pattern' => '<langShortCode:[a-z]{2}>',
         'default' => ['langShortCode' => 'it'], // the default language for the composition should match your default language shortCode in the language table.
     ],
-     'errorHandler' => [
-         'class' => 'app\modules\cms\error\ErrorHandler',
-     ],
-    
+    'errorHandler' => [
+        'class' => 'app\modules\cms\error\ErrorHandler',
+    ],
     'storage' => [
-        'class' => 'app\modules\cms\storage\AmosFileSystem'
+        'class' => 'app\modules\cms\storage\AmosFileSystem',
+        'whitelistExtensions' => ['csv', 'svg', 'doc', 'docx'],
+        'whitelistMimeTypes' => ['text/plain', 'image/svg+xml'], // as this is the mime type for csv files
     ],
     'translatemanager' => [
         'class' => 'lajax\translatemanager\Component'
@@ -112,11 +113,13 @@ return [
     ],
     'view' => [
         'class' => 'app\modules\cms\base\CmsView',
-        /*'theme' => [
+        'theme' => [
             'pathMap' => [
-                
+                '@vendor/luyadev/luya-module-admin/src/views/layouts' => '@frontend/modules/cms/views/layouts',
+                '@vendor/luyadev/luya-module-cms/src/admin/views/page' => '@frontend/modules/cms/views/page',
+                '@vendor/luyadev/luya-module-admin/src/views/template' => '@frontend/modules/cms/views/template',
             ],
-        ],*/
+        ],
     ],
     'adminuser' => [
         'class' => 'app\modules\cms\components\AdminUser',
@@ -128,6 +131,22 @@ return [
             'secure' => true,
             'domain' => ".demotestwip.it",
         ],
+    ],
+    'request' => [
+        'csrfParam' => '_csrf_admin',
+    ],
+    'response' => [
+        'class' => 'open20\amos\core\response\Response',
+        'cspDirectives' => [
+            'default-src' => "'self' 'unsafe-inline' google-analytics.com *.google-analytics.com use.fontawesome.com *.use.fontawesome.com *.googleapis.com cdn.jsdelivr.net *.jsdelivr.net *.juicer.io fonts.gstatic.com *.googletagmanager.com  consent.cookiebot.com *.jquery.com",
+            'connect-src' => "'self' 'unsafe-inline' google-analytics.com *.google-analytics.com consent.cookiebot.com consentcdn.cookiebot.com blob: cdn.jsdelivr.net *.jsdelivr.net *.juicer.io maps.googleapis.com",
+            'img-src' => "'self' 'unsafe-inline' data: blob: a4f6d9.emailsp.com *.emailsp.com *.ariaspa.it img.youtube.com *.youtube.com *.juicer.io maps.googleapis.com maps.gstatic.com streetviewpixels-pa.googleapis.com *.googleapis.com lh3.ggpht.com",
+            'script-src' => "'self' 'unsafe-inline' 'unsafe-eval' meet.test.demotestwip.it *.googletagmanager.com google-analytics.com *.google-analytics.com use.fontawesome.com *.use.fontawesome.com cdnjs.cloudflare.com *.googletagmanager.com *.google.com *.gstatic.com *.juicer.io consent.cookiebot.com consentcdn.cookiebot.com *.jquery.com maps.googleapis.com",
+            'style-src' => "'self' 'unsafe-inline' use.fontawesome.com *.usse.fontawesome.com cdn.jsdelivr.net *.googleapis.com *.juicer.io consent.cookiebot.com www.gstatic.com",
+            'frame-src' => "'self' 'unsafe-inline' meet.test.demotestwip.it *.youtube.com player.vimeo.com *.google.com *.cookiebot.com",
+        ],
+        'frameLevel' => 1,
+        'frameAllowFrom' => 'https://www.youtube.com/',
     ],
 ];
 

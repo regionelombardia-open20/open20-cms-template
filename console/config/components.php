@@ -40,4 +40,13 @@ return [
         'baseUrl' => '/',
         'hostInfo' => 'SITE_URL_HERE',
     ],
+    'user' => [
+        'class' => 'open20\amos\core\user\AmosUser',
+        'identityClass' => 'open20\amos\core\user\User',
+        'enableSession' => false,
+        'enableAutoLogin' => false,
+    ],
+    'session' => [
+        'class' => 'yii\web\Session'
+    ],
 ];

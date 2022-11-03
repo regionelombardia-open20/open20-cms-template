@@ -2,8 +2,9 @@
 
 namespace app\modules\uikit\blocks;
 
+use Yii;
 use app\modules\uikit\Module;
-use luya\cms\frontend\blockgroups\TextGroup;
+use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
 
 
 final class AccordionPlusBlock extends \app\modules\uikit\BaseUikitBlock
@@ -18,7 +19,7 @@ final class AccordionPlusBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function blockGroup()
     {
-        return TextGroup::class;
+        return ElementiBaseGroup::class;
     }
 
     /**
@@ -26,7 +27,7 @@ final class AccordionPlusBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function name()
     {
-        return Module::t('accordionplus');
+        return Yii::t('backendobjects', 'block_module_backend_accordionplus');
     }
 
     /**

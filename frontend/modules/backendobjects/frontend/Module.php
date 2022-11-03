@@ -45,19 +45,14 @@ class Module extends \luya\base\Module implements \yii\base\BootstrapInterface
         ['pattern' => '<amp>/b/<blockItemId:\d+>/<slug:[a-z0-9\-]+>', 'route' => 'backendobjects/default/detail'],
         ['pattern' => 's/<blockItemId:\d+>/<id:[a-z0-9\-]+>', 'route' => 'backendobjects/default/global-detail'],
         ['pattern' => 'z/<id:[a-z0-9\-]+>/<title:.*?>', 'route' => 'backendobjects/default/detach-detail'],
+        ['pattern' => 'z/<id:[a-z0-9\-]+>', 'route' => 'backendobjects/default/detach-detail'],
     ];
 
     
     public function init() {
-        parent::init();
-        \Yii::$app->setComponents(array(
-                    'user'=>array(
-                      'class' => 'open20\amos\core\user\AmosUser',
-                      'identityClass' => 'open20\amos\core\user\User',
-                      'enableAutoLogin' => true,
-                    ),
-                  ), true);
+        parent::init();     
     }
+    
     /**
      * @inheritdoc
      */

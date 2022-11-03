@@ -1,0 +1,59 @@
+{
+    "vars": [
+        {
+            "var": "content",
+            "label": "Content",
+            "description": "",
+            "initValue": "",
+            "type": "zaa-wysiwyg"
+        }, {
+            "var": "additional_content",
+            "label": "Additional content",
+            "description": "",
+            "initValue": "",
+            "type": "zaa-wysiwyg"
+        },
+        {
+            "var": "can_close",
+            "label": "Can close",
+            "description": "",
+            "initValue": "",
+            "type": "zaa-checkbox"
+        }
+    ],
+    "cfgs": [
+        {
+            "var": "alert_style",
+            "label": "Alert Type",
+            "description": "",
+            "initValue": "info",
+            "options": [
+                {
+                    "value": "info",
+                    "label": "Info"
+                },
+                {
+                    "value": "success",
+                    "label": "Success"
+                },
+                {
+                    "value": "warning",
+                    "label": "Warning"
+                },
+                {
+                    "value": "danger",
+                    "label": "Danger"
+                }
+            ],
+            "type": "zaa-select"
+        },
+        {
+            "var": "class",
+            "label": "Class",
+            "description": "Define one or more class names for the element. Separate multiple classes with spaces.",
+            "initValue": "",
+            "type": "zaa-text"
+        }
+    ],
+    "defaults": []
+}

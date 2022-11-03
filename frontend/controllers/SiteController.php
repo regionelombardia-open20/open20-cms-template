@@ -85,12 +85,18 @@ class SiteController extends Controller
             return Yii::$app->response->redirect(Url::home(true));
         }
 
-        $navItem = Yii::$app->menu->find()->where([QueryOperatorFieldInterface::FIELD_NAVID => Config::get(self::USERAUTH_CONFIG_REDIRECT_NAV_ID)])->with([
-                'hidden'])->one();
+        if (!empty($navItem)) {
+            return Yii::$app->response->redirect($navItem->getLink());
+        }
 
+        $firstPartUrl  = \Yii::$app->params['platform']['frontendUrl'];
+        $isSlah1       = ((substr($firstPartUrl, -1) == '/') ? true : false);
+        if ($isSlah1) $firstPartUrl  = substr($firstPartUrl, 0, strlen($firstPartUrl) - 1);
+        $secondPartUrl = \Yii::$app->params['linkConfigurations']['loginLinkCommon'];
+        $isSlah2       = ((strpos($secondPartUrl, '/') === 0) ? true : false);
+        if ($isSlah2) $secondPartUrl = substr($secondPartUrl, 1);
 
-        // redirect to the given nav item
-        return Yii::$app->response->redirect($navItem->getLink());
+        return $this->redirect($firstPartUrl.'/'.$secondPartUrl);
     }
 
     /**

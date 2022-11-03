@@ -2,9 +2,10 @@
 
 namespace app\modules\uikit\blocks;
 
+use Yii;
 use trk\uikit\BaseUikitBlock;
 use trk\uikit\Module;
-use luya\cms\frontend\blockgroups\TextGroup;
+use app\modules\backendobjects\frontend\blockgroups\ElementiAvanzatiGroup;
 
 
 final class HeadlineAnchorBlock  extends \app\modules\uikit\BaseUikitBlock
@@ -20,7 +21,7 @@ final class HeadlineAnchorBlock  extends \app\modules\uikit\BaseUikitBlock
      */
     public function blockGroup()
     {
-        return TextGroup::class;
+        return ElementiAvanzatiGroup::class;
     }
 
     /**
@@ -28,7 +29,7 @@ final class HeadlineAnchorBlock  extends \app\modules\uikit\BaseUikitBlock
      */
     public function name()
     {
-        return Module::t('headline-anchor');
+        return Yii::t('backendobjects', 'block_module_backend_headline-anchor');
     }
 
     /**

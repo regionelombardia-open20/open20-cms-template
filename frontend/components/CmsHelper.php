@@ -7,6 +7,7 @@ use luya\cms\models\NavItem;
 use open20\design\utility\DesignUtility;
 use Yii;
 use yii\helpers\Html;
+use open20\amos\core\record\CachedActiveQuery;
 
 /**
  * Class CmsHelper
@@ -305,7 +306,12 @@ class CmsHelper
     {
         $isPublic = true;
         if (\Yii::$app->user->isGuest) {
-            $nav        = \luya\cms\models\Nav::find()->andWhere(['id' => $item->getNavId()])->one();
+
+            $navQuery = \luya\cms\models\Nav::find()->andWhere(['id' => $item->getNavId()]);
+            $navCache = CachedActiveQuery::instance($navQuery);
+            $navCache->cache(60);
+            $nav      = $navCache->one();
+
             $properties = $nav->properties; //pr($properties, 'prima');
             foreach ($properties as $v) {
                 if (!empty($v->admin_prop_id) && $v->admin_prop_id == 7) {
@@ -324,9 +330,16 @@ class CmsHelper
      */
     public static function canPermission($item)
     {
-        $canPermission       = true;
-        $nav                 = \luya\cms\models\Nav::find()->andWhere(['id' => $item->getNavId()])->one();
-        $propertyPermissions = $nav->getProperty('rolePermissions');
+        $canPermission = true;
+
+        $navQuery = \luya\cms\models\Nav::find()->andWhere(['id' => $item->getNavId()]);
+        $navCache = CachedActiveQuery::instance($navQuery);
+        $navCache->cache(60);
+        $nav      = $navCache->one();
+
+
+        $propertyPermissions = self::getProperty($nav, 'rolePermissions');
+
         if (!empty($propertyPermissions)) {
             $canPermission = $propertyPermissions->checkPermissions();
         }
@@ -339,13 +352,51 @@ class CmsHelper
      */
     public static function isAlwaysVisible($item)
     {
-        $isAlwaysVisible      = false;
-        $nav                  = \luya\cms\models\Nav::find()->andWhere(['id' => $item->getNavId()])->one();
-        $propertyMenuReadonly = $nav->getProperty('menuReadonly');
+        $isAlwaysVisible = false;
+        $idNav           = $item->getNavId();
+        $navQuery        = \luya\cms\models\Nav::find()->andWhere(['id' => $idNav]);
+        $navCache        = CachedActiveQuery::instance($navQuery);
+        $navCache->cache(60);
+        $nav             = $navCache->one();
+
+        $propertyMenuReadonly = self::getProperty($nav, 'menuReadonly');
+
         if (!empty($propertyMenuReadonly)) {
             $isAlwaysVisible = $propertyMenuReadonly->value;
         }
         return $isAlwaysVisible;
+    }
+
+    public static function getProperty($nav, $varName)
+    {
+        $hasMany      = $nav->getProperties();
+        $hasManyCache = CachedActiveQuery::instance($hasMany);
+        $hasManyCache->cache(60);
+        $properties   = $hasManyCache->all();
+        foreach ($properties as $prop) {
+            $hasOne      = $prop->getAdminProperty();
+            $hasOneCache = CachedActiveQuery::instance($hasOne);
+            $hasOneCache->cache(60);
+            $relation    = $hasOneCache->one();
+
+            if ($relation->var_name == $varName) {
+                return self::getObject($prop);
+            }
+        }
+
+        return false;
+    }
+
+    public static function getObject($prop)
+    {
+
+        $hasOne      = $prop->getAdminProperty();
+        $hasOneCache = CachedActiveQuery::instance($hasOne);
+        $hasOneCache->cache(60);
+        $relation    = $hasOneCache->one();
+        $object      = $relation->createObject($prop->value);
+
+        return $object;
     }
 
     /**
@@ -367,9 +418,19 @@ class CmsHelper
      */
     public static function getBulletCount($item)
     {
-        $count                = 0;
-        $nav                  = \luya\cms\models\Nav::find()->andWhere(['id' => $item->getNavId()])->one();
-        $propertyBulletCounts = $nav->getProperty('bulletCounts');
+        $count = 0;
+
+        if (\Yii::$app->user->isGuest) {
+            return 0;
+        }
+
+        $navQuery = \luya\cms\models\Nav::find()->andWhere(['id' => $item->getNavId()]);
+        $navCache = CachedActiveQuery::instance($navQuery);
+        $navCache->cache(60);
+        $nav      = $navCache->one();
+
+        $propertyBulletCounts = self::getProperty($nav, 'bulletCounts');
+
         if (!empty($propertyBulletCounts)) {
             $count = $propertyBulletCounts->getCount();
         }

@@ -2,9 +2,12 @@
 
 namespace app\modules\uikit\blocks;
 
+use Yii;
 use app\modules\uikit\BaseUikitBlock;
 use app\modules\uikit\Module;
-use luya\cms\frontend\blockgroups\MediaGroup;
+use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
+
+
 
 final class GalleryPanelBlock extends BaseUikitBlock
 {
@@ -22,7 +25,7 @@ final class GalleryPanelBlock extends BaseUikitBlock
 
     public function name()
     {
-        return Module::t('gallerypanel');
+        return Yii::t('backendobjects', 'block_module_backend_gallerypanel');
     }
 
     /**
@@ -30,7 +33,7 @@ final class GalleryPanelBlock extends BaseUikitBlock
      */
     public function blockGroup()
     {
-        return MediaGroup::class;
+        return ElementiBaseGroup::class;
     }
 
     public function icon()

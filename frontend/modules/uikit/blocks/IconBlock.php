@@ -2,10 +2,13 @@
 
 namespace app\modules\uikit\blocks;
 
+use Yii;
 use app\modules\uikit\BaseUikitBlock;
 use app\modules\uikit\Module;
 use luya\cms\frontend\blockgroups\DevelopmentGroup;
 use trk\uikit\Uikit;
+use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
+
 
 class IconBlock extends BaseUikitBlock
 {
@@ -21,7 +24,7 @@ class IconBlock extends BaseUikitBlock
      */
     public function blockGroup()
     {
-        return DevelopmentGroup::className();
+        return ElementiBaseGroup::className();
     }
 
     /**
@@ -29,7 +32,7 @@ class IconBlock extends BaseUikitBlock
      */
     public function name()
     {
-        return Module::t('icon');
+        return Yii::t('backendobjects', 'block_module_backend_icon');
     }
 
     /**

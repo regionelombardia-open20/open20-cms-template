@@ -1,4 +1,5 @@
 <?php
+
 namespace app\modules\cms\models;
 
 use app\modules\cms\admin\Module;
@@ -8,8 +9,8 @@ use luya\helpers\Url;
 use Yii;
 use yii\helpers\ArrayHelper;
 
-class Nav extends \luya\cms\models\Nav
-{
+class Nav extends \luya\cms\models\Nav {
+
     /**
      * Create a page from a from a draft.
      *
@@ -23,8 +24,7 @@ class Nav extends \luya\cms\models\Nav
      * @param string $isDraft
      * @return boolean|array If an array is returned, the creation had an error, the array contains the messages.
      */
-    public function createPageFromDraft($parentNavId, $navContainerId, $langId, $title, $alias, $description, $fromDraftNavId, $isDraft = false)
-    {
+    public function createPageFromDraft($parentNavId, $navContainerId, $langId, $title, $alias, $description, $fromDraftNavId, $isDraft = false) {
         if (!$isDraft && empty($isDraft) && !is_numeric($isDraft)) {
             $isDraft = 0;
         }
@@ -125,10 +125,10 @@ class Nav extends \luya\cms\models\Nav
      * @param integer $layoutId
      * @param string $description
      * @param string $isDraft
+     * @param array $other Other attributes
      * @return array|integer If an array is returned the validationed failed, the array contains the error messages. If sucess the nav ID is returned.
      */
-    public function createPage($parentNavId, $navContainerId, $langId, $title, $alias, $layoutId, $description, $isDraft = false)
-    {
+    public function createPage($parentNavId, $navContainerId, $langId, $title, $alias, $layoutId, $description, $isDraft = false, $other = []) {
         $_errors = [];
 
         $nav = $this;
@@ -155,6 +155,15 @@ class Nav extends \luya\cms\models\Nav
             'description' => $description,
             'nav_item_type' => 1
         ];
+
+        if (!empty($other)) {
+            if (!empty($other['Nav'])) {
+                $nav->attributes = array_merge($nav->attributes, $other['Nav']);
+            }
+            if (!empty($other['NavItem'])) {
+                $navItem->attributes = array_merge($navItem->attributes, $other['NavItem']);
+            }
+        }
 
         $navItemPage->attributes = ['nav_item_id' => 0, 'layout_id' => $layoutId, 'create_user_id' => Module::getAuthorUserId(), 'timestamp_create' => time(), 'version_alias' => Module::VERSION_INIT_LABEL];
 
@@ -188,12 +197,13 @@ class Nav extends \luya\cms\models\Nav
      *
      * @return string
      */
-    public function getPreviewUrl(){
-        $url = Yii::$app->params['platform']['frontendUrl'] ."/cms-page-preview";
+    public function getPreviewUrl() {
+        $url = Yii::$app->params['platform']['frontendUrl'] . "/cms-page-preview";
         $navItem = NavItem::findOne(['nav_id' => $this->id]);
-        if(!is_null($navItem)){
+        if (!is_null($navItem)) {
             $url = Url::appendQueryToUrl($url, ['itemId' => $navItem->id, 'version' => $navItem->nav_item_type_id]);
         }
         return $url;
     }
+
 }

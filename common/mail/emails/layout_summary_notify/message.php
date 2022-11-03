@@ -1,5 +1,7 @@
 <?php
 
+use open20\amos\admin\AmosAdmin;
+
 /**
  * Aria S.p.A.
  * OPEN 2.0
@@ -9,8 +11,6 @@
  * @category   CategoryName
  */
 
-
-$appLink = Yii::$app->urlManager->createAbsoluteUrl(['/']);
 $appName = Yii::$app->name;
 
 
@@ -30,7 +30,7 @@ if (isset(Yii::$app->params['layoutMailConfigurations']['textContrastBgPrimary']
 
 
 if (isset(Yii::$app->params['layoutMailConfigurations']['logoMail']['logoImg'])) {
-    $logoMail = Yii::$app->urlManager->createAbsoluteUrl() . Yii::$app->params['layoutMailConfigurations']['logoMail']['logoImg'];
+    $logoMail = Yii::$app->urlManager->createAbsoluteUrl(Yii::$app->params['layoutMailConfigurations']['logoMail']['logoImg']) ;
 } else {
     $logoMail = '';
 }
@@ -42,12 +42,18 @@ if (isset(Yii::$app->params['layoutMailConfigurations']['logoMail']['logoImgAlt'
 }
 if (isset(Yii::$app->params['layoutMailConfigurations']['logoMail']['logoImgWidth'])) {
     $logoWidth = Yii::$app->params['layoutMailConfigurations']['logoMail']['logoImgWidth'];
+}else{
+    $logoWidth = "auto";
 }
 if (isset(Yii::$app->params['layoutMailConfigurations']['logoMail']['logoImgHeight'])) {
     $logoHeight = Yii::$app->params['layoutMailConfigurations']['logoMail']['logoImgHeight'];
+}else{
+    $logoHeight = "auto";
 }
 if (isset(Yii::$app->params['layoutMailConfigurations']['logoMail']['logoText'])) {
     $logoText = Yii::$app->params['layoutMailConfigurations']['logoMail']['logoText'];
+}else{
+    $logoText = "";
 }
 
 
@@ -106,7 +112,7 @@ if (isset(Yii::$app->params['layoutMailConfigurations']['logoMail']['logoText'])
                                 'appName' => $appName,
                             ]) ?>
                             <p style="margin: 0px;">
-                                <a href="<?= $appLink ?><?= \Yii::$app->params['linkConfigurations']['privacyPolicyLinkCommon'] ?>" title="<?= Yii::t('amosapp', '#footer_template_mail_privacy_title') ?>" target="_blank"><?= Yii::t('amosapp', '#footer_template_mail_privacy') ?>
+                                <a href="<?= Yii::$app->urlManager->createAbsoluteUrl(Yii::$app->params['linkConfigurations']['privacyPolicyLinkCommon']) ?>" title="<?= Yii::t('amosapp', '#footer_template_mail_privacy_title') ?>" target="_blank"><?= Yii::t('amosapp', '#footer_template_mail_privacy') ?>
                                 </a>
                                 <br>
 
@@ -119,14 +125,14 @@ if (isset(Yii::$app->params['layoutMailConfigurations']['logoMail']['logoText'])
 
                             <?php if (!empty($token)) { ?>
                                 <p style="margin: 0px; text-align: center">
-                                    <a href="<?= $appLink ?>admin/security/disable-notifications?token=<?= $token ?>" title="<?= Yii::t('amosapp', '#footer_disable_notification') ?>" target="_blank"><?= Yii::t('amosapp', '#footer_disable_notification') ?>
+                                    <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/' . AmosAdmin::getModuleName() .'/security/disable-notifications?token='.$token) ?>" title="<?= Yii::t('amosapp', '#footer_disable_notification') ?>" target="_blank"><?= Yii::t('amosapp', '#footer_disable_notification') ?>
                                     </a>
                                 </p>
                             <?php } ?>
                             <?php if (!empty($profile)) { ?>
                                 <p>
                                     <?= Yii::t('amosapp', 'Gestisci la frequenza delle email ricevute e la tua presenza nella piattaforma, ') ?>
-                                    <a href="<?= $appLink ?>admin/user-profile/update?id=<?= $profile->id ?>&tabActive=tab-settings" title="<?= Yii::t('amosapp', '#login_profile') ?>" target="_blank"><?= Yii::t('amosapp', '#login_profile') ?>
+                                    <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/' . AmosAdmin::getModuleName() .'/user-profile/update?id='.$profile->id) ?>&tabActive=tab-settings" title="<?= Yii::t('amosapp', '#login_profile') ?>" target="_blank"><?= Yii::t('amosapp', '#login_profile') ?>
                                     </a>
                                 </p>
                             <?php } ?>

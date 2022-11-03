@@ -5,7 +5,7 @@ namespace app\modules\cms\admin;
 use luya\admin\base\Module as BaseModule;
 use luya\admin\components\AdminMenuBuilder;
 use luya\base\CoreModuleInterface;
-use luya\cms\admin\importers\BlockImporter;
+use app\modules\cms\admin\importers\BlockImporter;
 use luya\cms\admin\importers\CmslayoutImporter;
 use luya\cms\admin\importers\PropertyConsistencyImporter;
 use luya\console\interfaces\ImportControllerInterface;
@@ -31,10 +31,10 @@ class Module extends BaseModule implements CoreModuleInterface
      * @inheritdoc
      */
     public $apis     = [
-        'api-cms-admin' => 'luya\cms\admin\\apis\\AdminController',
+        'api-cms-admin' => 'app\modules\cms\admin\apis\AdminController',
         'api-cms-navitempageblockitem' => 'luya\cms\admin\\apis\\NavItemPageBlockItemController',
         'api-cms-nav' => 'luya\cms\admin\apis\NavController',
-        'api-cms-navitem' => 'luya\cms\admin\\apis\\NavItemController',
+        'api-cms-navitem' => 'app\modules\cms\admin\apis\NavItemController',
         'api-cms-navitempage' => 'luya\cms\admin\\apis\\NavItemPageController',
         'api-cms-menu' => 'luya\cms\admin\apis\MenuController',
         'api-cms-layout' => 'luya\cms\admin\\apis\\LayoutController',
@@ -311,6 +311,7 @@ class Module extends BaseModule implements CoreModuleInterface
     {
         return [
             'luya\cms\admin\assets\Main',
+            'app\modules\cms\admin\assets\CustomContentPage',
         ];
     }
 

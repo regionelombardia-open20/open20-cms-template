@@ -1,23 +1,43 @@
 <?php
 use yii\helpers\Url;
+use open20\design\assets\BootstrapItaliaDesignAsset;
+
+$currentAsset = BootstrapItaliaDesignAsset::register($this);
+
 
 ?>
-<div id='subnav-c75' class='breadcrumb text-600'>
-    <ul class='uk-subnav uk-margin-remove-bottom'>
-        <li><a href="<?= Yii::$app->menu->home->link ?>"><?= Yii::$app->menu->home->title ?></a></li>
+<nav class="breadcrumb-container" aria-label="<?= Yii::t('amosplatform', 'Percorso di navigazione') ?>" >
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" href="<?= Yii::$app->menu->home->link ?>">
+                <svg class="icon icon-sm icon-primary align-top">
+                    <use xlink:href=" <?= $currentAsset->baseUrl ?>/sprite/material-sprite.svg#home"></use>
+                </svg>
+            </a>
+            <span class="separator" aria-hidden="true">/</span>
+        </li>
         <?php
-        foreach ($items as $item) 
-        {
+        foreach ($items as $item) {
+            $current = Yii::$app->menu->current;
+
         ?>
-            <li class="el-item"><a href="<?= $item->link ?>"><?= $item->title ?></a></li>
+            <?php if(!($item->title=='Home' || $item->title=='home' || $item->title=='Homepage' || $item->title=='homepage')): ?>
+                <?php if($current!=$item->link): ?>
+                    <li class="breadcrumb-item">
+                        <a href="<?= $item->link ?>"><?= $item->title ?></a>
+                        <span class="separator" aria-hidden="true">/</span>
+                    </li>
+
+                <?php else: ?>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <?= $item->title ?>
+                    </li>
+                <?php endif; ?>
+            <?php endif; ?>
+
             <?php
         }
 
-        $current = Yii::$app->menu->current;
-        if (false /*!is_null($current) && !$current->isHome*/) {
-            ?>
-            <li class="el-content uk-disabled"><?= $current->title ?></li>
-                <?php }
-            ?>
-    </ul>
-</div>
+         ?>
+    </ol>
+</nav>

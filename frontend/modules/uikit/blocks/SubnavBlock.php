@@ -2,9 +2,11 @@
 
 namespace app\modules\uikit\blocks;
 
+use Yii;
 use app\modules\uikit\BaseUikitBlock;
 use app\modules\uikit\Module;
-use trk\uikit\blockgroups\NavigationGroup;
+use app\modules\backendobjects\frontend\blockgroups\ElementiAvanzatiGroup;
+
 
 
 final class SubnavBlock extends BaseUikitBlock
@@ -14,12 +16,16 @@ final class SubnavBlock extends BaseUikitBlock
      */
     public $component = "subnav";
 
+    public function disable()
+    {
+        return true;
+    }
     /**
      * @inheritdoc
      */
     public function blockGroup()
     {
-        return NavigationGroup::class;
+        return ElementiAvanzatiGroup::class;
     }
 
     /**
@@ -27,7 +33,7 @@ final class SubnavBlock extends BaseUikitBlock
      */
     public function name()
     {
-        return Module::t('subnav-advanced');
+        return Yii::t('backendobjects', 'block_module_backend_subnav-advanced');
     }
 
     /**

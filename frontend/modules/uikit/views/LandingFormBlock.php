@@ -32,6 +32,10 @@ if ($style) {
 
 $attrs['role'] = 'form';
 $attrs['method'] = 'post';
+
+$userProfile = null;
+if(!\Yii::$app->user->isGuest)
+    $userProfile = \Yii::$app->user->identity->userProfile;
 ?>
 <div>
     <?php
@@ -104,6 +108,21 @@ $attrs['method'] = 'post';
         $attributes = $model->attributes();
         unset($attributes[array_search($model->getPrimaryKey(), $attributes)]);
         foreach ($attributes as $attribute) {
+            
+            $autocomplete = false;
+            if(isset($data['items'])){
+                $key = array_search($attribute, array_column($data['items'], 'field'));
+                if(isset($data['items'][$key]) && $data['items'][$key]['autocomplete']){                    
+                    if($data['items'][$key]['autocomplete'] == 1)
+                        $autocomplete = true;                   
+                }
+            } 
+            
+            if($autocomplete && !is_null($userProfile)){
+                if(isset($userProfile->$attribute))
+                    $model->$attribute = $userProfile->$attribute;
+            }
+            
             ?>
             <div<?= Uikit::attrs($item_attrs) ?> class="<?= $attribute ?>_item">
                 <?php
@@ -166,6 +185,19 @@ $attrs['method'] = 'post';
                             'data-placement' => 'bottom',
                             'onclick' => "$(this).tooltip('show');"
                         ])->label($model->getAttributeLabel($attribute))->hint(false);
+                        break;
+                    case 'email':
+                        /**
+                         * Eccezione per la mail che viene presa da user e non da userprofile
+                         * in caso di autocomplete
+                         */
+                        if($autocomplete && !is_null($userProfile)){                            
+                            $user = $userProfile->getUser()->one();                            
+                            if(isset($user) && isset($user->$attribute))
+                                $model->$attribute = $user->$attribute;
+                        }
+                        $filedItem = $form->field($model, $attribute,
+                        $model->getAttributeOptions($attribute))->label($model->getAttributeLabel($attribute));
                         break;
                     case 'textarea':
                         $filedItem = $form->field($model, $attribute,

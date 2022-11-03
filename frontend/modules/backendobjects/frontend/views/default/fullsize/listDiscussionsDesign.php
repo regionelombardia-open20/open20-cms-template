@@ -1,7 +1,6 @@
 <?php
 
 use yii\widgets\ListView;
-use open20\amos\core\module\BaseAmosModule;
 use open20\amos\discussioni\AmosDiscussioni;
 use open20\design\assets\BootstrapItaliaDesignAsset;
 use open20\amos\admin\AmosAdmin;
@@ -16,15 +15,23 @@ $isGuest = \Yii::$app->user->isGuest;
 
 <?php
 $modelLabel = strtolower($model->getGrammar()->getModelLabel());
+$hideBiPluginHeader = (strpos($cssClass, 'hide-bi-plugin-header') !== false) ? true : false;
+$hideModuleBackendIfEmptyList = (strpos($cssClass, 'hide-module-if-empty-list') !== false && $dataProvider->getTotalCount() <= 0) ? true : false;
+
+$classModuloBackend = 'modulo-backend-' . $modelLabel . ' ' . $cssClass;
+if ($hideModuleBackendIfEmptyList) {
+    $classModuloBackend .= ' ' . 'd-none';
+}
+
 ?>
-<div class="modulo-backend-<?= $modelLabel ?> <?= $cssClass ?>">
-    <?php if (!($cssClass == 'hide-bi-plugin-header')) : ?>
+<div class="<?= $classModuloBackend ?>">
+    <?php if (!$hideBiPluginHeader) : ?>
         <?php
         if ($isGuest) {
             $titleSection = AmosDiscussioni::t('amosdiscussioni', 'Discussioni');
             $urlLinkAll = '/discussioni/discussioni-topic/all-discussions';
             $labelLinkAll = AmosDiscussioni::t('amosdiscussioni', 'Tutte le discussioni');
-            $titleLinkAll = BaseAmAmosDiscussioniosModule::t('amosdiscussioni', 'Visualizza la lista delle discussioni');
+            $titleLinkAll = AmosDiscussioni::t('amosdiscussioni', 'Visualizza la lista delle discussioni');
 
             $ctaLoginRegister = Html::a(
                 AmosDiscussioni::t('amosdiscussioni', 'accedi o registrati alla piattaforma'),
@@ -59,7 +66,7 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
         $titleCreate = AmosDiscussioni::t('amosdiscussioni', 'Crea una nuova discussione');
         $labelManage = AmosDiscussioni::t('amosdiscussioni', 'Gestisci');
         $titleManage = AmosDiscussioni::t('amosdiscussioni', 'Gestisci le discussioni');
-        $urlCreate = AmosDiscussioni::t('amosdiscussioni', '/discussioni/discussioni-topic/create');
+        $urlCreate = '/discussioni/discussioni-topic/create';
 
         $manageLinks = [];
         $controller = \open20\amos\discussioni\controllers\DiscussioniTopicController::class;
@@ -120,7 +127,27 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
         } else { ?>
             <?php if (!$isGuest) : ?>
                 <div class="no-<?= str_replace(' ', '-', $modelLabel) ?>-alert">
-                    <p><?= BaseAmosModule::t('amosapp', 'Non ci sono contenuti che corrispondono ai tuoi interessi') ?></p>
+                    <div class="alert alert-warning" role="alert">
+                        <p class="mb-0"><strong><?= AmosDiscussioni::t('amosdiscussioni', 'Non ci sono discussioni di tuo interesse!') ?></strong></p>
+                        <?=
+                        Html::a(
+                            AmosDiscussioni::t('amosdiscussioni', 'Clicca qui'),
+                            '/discussioni/discussioni-topic/all-discussions',
+                            [
+                                'title' => AmosDiscussioni::t('amosdiscussioni', 'Clicca e scopri tutte le discussioni della piattaforma {platformName}', ['platformName' => \Yii::$app->name]),
+                                'class' => 'btn btn-xs btn-primary'
+                            ]
+                        )
+                            . ' ' .
+                            AmosDiscussioni::t('amosdiscussioni', 'e scopri ora tutte le discussioni di {platformName}', ['platformName' => \Yii::$app->name])
+                        ?>
+                    </div>
+                </div>
+            <?php else : ?>
+                <div class="no-<?= str_replace(' ', '-', $modelLabel) ?>-alert">
+                    <div class="alert alert-warning" role="alert">
+                        <p class="mb-0"><strong><?= AmosDiscussioni::t('amosdiscussioni', 'Non sono presenti discussioni') ?></strong></p>
+                    </div>
                 </div>
             <?php endif; ?>
         <?php } ?>

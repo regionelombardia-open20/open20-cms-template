@@ -1,0 +1,98 @@
+{
+    "vars": [
+       {
+            "var": "items",
+            "label": "Items",
+            "description": "",
+            "type": "zaa-multiple-inputs",
+            "options": [{
+                    "var": "image",
+                    "label": "Image",
+                    "description": "",
+                    "initValue": "",
+                    "options": {
+                        "no_filter": false
+                    },
+                    "type": "zaa-image-upload"
+                }, {
+                    "var": "image_alt",
+                    "label": "Image Alt",
+                    "description": "Image description",
+                    "initValue": "",
+                    "type": "zaa-text"
+                },{
+                    "var": "category",
+                    "label": "Category",
+                    "description": "",
+                    "initValue": "",
+                    "type": "zaa-text"
+                }, {
+                    "var": "category_color",
+                    "label": "Category Color",
+                    "description": "",
+                    "initValue": "",
+                    "type": "zaa-color"
+                }, {
+                    "var": "content",
+                    "label": "Banner title",
+                    "description": "",
+                    "initValue": "",
+                    "type": "zaa-wysiwyg"
+                }, {
+                    "var": "thumbcontent",
+                    "label": "Nav card title",
+                    "description": "",
+                    "initValue": "",
+                    "type": "zaa-wysiwyg"
+                }, {
+                    "var": "link",
+                    "label": "Link",
+                    "description": "Enter or pick a link, an image or a video file.",
+                    "initvalue": "",
+                    "placeholder": "http:\/\/",
+                    "type": "zaa-link"
+                },{
+                    "var": "button",
+                    "label": "Enable Button",
+                    "description": "Enable button link",
+                    "initvalue": "",
+                    "type": "zaa-checkbox" 
+                    
+                },{
+                    "var": "buttonLabel",
+                    "label": "Button Label",
+                    "description": "Insert label button",
+                    "initValue": "",
+                    "type": "zaa-text"
+                }
+
+            ]
+        }],
+        "cfgs": [
+            {
+                "var": "class",
+                "label": "Class",
+                "description": "Define one or more class names for the element. Separate multiple classes with spaces.",
+                "initValue": "",
+                "type": "zaa-text"
+            },{
+                "var": "hidethumb",
+                "label": "Hide thumbnav card",
+                "description": "Define if show thumb.",
+                "initvalue": "",
+                "type": "zaa-checkbox"
+            }, {
+                "var": "gallery",
+                "label": "Rounded nav card",
+                "description": "Enable thumbnails gallery.",
+                "initvalue": "",
+                "type": "zaa-checkbox"
+            },{
+                "var": "showactions",
+                "label": "Show Actions",
+                "description": "Define if show action buttons.",
+                "initvalue": "",
+                "type": "zaa-checkbox"
+            }
+        ]
+}

@@ -11,6 +11,9 @@ use luya\admin\models\UserLogin;
 use luya\admin\models\UserOnline;
 use Yii;
 use yii\helpers\ArrayHelper;
+use luya\admin\assets\Login;
+use luya\helpers\Url;
+use app\modules\cms\components\AdminUser;
 
 class LoginController extends BaseLoginController
 {
@@ -32,6 +35,33 @@ class LoginController extends BaseLoginController
         ]);
     }
 
+    public function actionIndex($autologout = null)
+    {     
+        // redirect logged in users
+        if (!Yii::$app->adminuser->isGuest) {
+            
+            //if(!AdminUser::isAdmin()){
+                $home = (new \yii\db\Query())->select('id')->from('cms_nav')->where(['is_home' => 1])->one();
+                if($home)
+                    return $this->redirect(['/admin#!/template/cmsadmin~2Fdefault~2Findex/update/'.$home['id']]);
+                else
+                    return $this->redirect(['/admin#!/template/cmsadmin~2Fdefault~2Findex']);
+            //}
+            return $this->redirect(['/admin/default/index']);
+        }
+       
+        $this->registerAsset(Login::class);
+        
+        $this->view->registerJs("observeLogin('#loginForm', '".Url::toAjax('admin/login/async')."', '".Url::toAjax('admin/login/async-token')."', '".Url::toAjax('admin/login/twofa-token')."');");
+    
+        UserOnline::clearList($this->module->userIdleTimeout);
+        
+        return $this->render('index', [
+            'autologout' => $autologout,
+            'resetPassword' => $this->module->resetPassword,
+        ]);
+    }
+    
     /**
      *
      * @param type $secure_token
@@ -132,15 +162,19 @@ class LoginController extends BaseLoginController
      * @param type $secure_token
      * @return type
      */
-    public function actionLoginCmsAdmin()
+    public function actionLoginCmsAdmin($redirect = null)
     {
 
         $amosuser = Yii::$app->user->identity;
+        $authTimeout = 3600 * 24 * 30;
+        if(!empty(\Yii::$app->user->authTimeout)){
+            $authTimeout = \Yii::$app->user->authTimeout;
+        }
         if (!is_null($amosuser)) {
             $user = $this->getCmsUser($amosuser);
             if (!is_null($user)) {
                 Yii::$app->adminuser->idParam = '__luyaAdmin_id';
-                if ($user && Yii::$app->adminuser->login($user)) {
+                if ($user && Yii::$app->adminuser->login($user, $authTimeout)) {
 
                     $user->updateAttributes([
                         'force_reload' => false,
@@ -166,7 +200,9 @@ class LoginController extends BaseLoginController
                 }
             }
         }
-        
-        return $this->redirect('/admin');
+        if(is_null($redirect)){
+            $redirect = '/admin/login/index';
+        }
+        return $this->redirect($redirect);
     }
 }

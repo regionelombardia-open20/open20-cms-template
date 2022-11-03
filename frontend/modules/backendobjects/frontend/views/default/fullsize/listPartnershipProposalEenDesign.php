@@ -60,7 +60,7 @@ $isGuest = \Yii::$app->user->isGuest;
             $titleCreate = AmosEen::t('amoseen', 'Crea una nuova proposta');
             $labelManage = AmosEen::t('amoseen', 'Gestisci');
             $titleManage = AmosEen::t('amoseen', 'Gestisci le proposte');
-            $urlCreate = AmosEen::t('amoseen', '/een/een-partnership-proposal/create-proposal');
+            $urlCreate = '/een/een-partnership-proposal/create-proposal';
 
             $manageLinks = [];
 

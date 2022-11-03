@@ -3,7 +3,12 @@
 use open20\amos\news\utility\NewsUtility;
 use open20\amos\core\utilities\CurrentUser;
 use open20\amos\admin\AmosAdmin;
+use open20\amos\core\record\CachedActiveQuery;
 
+$relationQuery = $model->getCreatedUserProfile();
+$relationCreated = CachedActiveQuery::instance($relationQuery);
+$relationCreated->cache(60);
+$createdUserProfile = $relationCreated->one();
 //$model->usePrettyUrl = true;
 
 $image = null;
@@ -25,6 +30,13 @@ if ($newsCategories->count() == 1) {
     $colorBgCategory = $model->newsCategorie->color_background;
     $colorTextCategory = $model->newsCategorie->color_text;
 }
+
+$url = '';
+if ($detailPage) {
+    $url = Yii::$app->getModule('backendobjects')::getSeoUrl($model->getPrettyUrl(), $blockItemId);
+} else {
+    $url = $model->getFullViewUrl();
+}
 ?>
 
 <div class="it-single-slide-wrapper">
@@ -42,11 +54,11 @@ if ($newsCategories->count() == 1) {
                 'title' => $model->getTitle(),
                 'abstract' => $model->descrizione_breve,
                 'description' => $model->sottotitolo,
-                'url' => $model->getFullViewUrl(),
-                'nameSurname' => $model->createdUserProfile->nomeCognome,
-                'imageAvatar' => $model->createdUserProfile->getAvatarUrl('table_small'),
-                'urlAvatar' => '/' . AmosAdmin::getModuleName() . '/user-profile/view?id=' . $model->createdUserProfile->id,
-                'additionalInfoAvatar' => (!empty($model->createdUserProfile->prevalentPartnership) ? $model->createdUserProfile->prevalentPartnership->name : ''),
+                'url' => $url,
+                'nameSurname' => $createdUserProfile->nomeCognome,
+                'imageAvatar' => $createdUserProfile->getAvatarUrl('table_small'),
+                'urlAvatar' => '/' . AmosAdmin::getModuleName() . '/user-profile/view?id=' . $createdUserProfile->id,
+                'additionalInfoAvatar' => (!empty($createdUserProfile->prevalentPartnership) ? $createdUserProfile->prevalentPartnership->name : ''),
                 'contentScopesAvatar' => \open20\amos\core\utilities\CwhUtility::getTargetsString($model),
                 'model' => $model,
                 'actionModify' => '/news/news/update?id=' . $model->id,

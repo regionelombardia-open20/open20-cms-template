@@ -2,8 +2,10 @@
 
 namespace app\modules\uikit\blocks;
 
+use Yii;
 use trk\uikit\Module;
-use luya\cms\frontend\blockgroups\MediaGroup;
+use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
+
 
 final class SlideshowBlock extends \app\modules\uikit\BaseUikitBlock
 {
@@ -17,7 +19,7 @@ final class SlideshowBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function blockGroup()
     {
-        return MediaGroup::class;
+        return ElementiBaseGroup::class;
     }
 
     /**
@@ -25,7 +27,7 @@ final class SlideshowBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function name()
     {
-        return Module::t('new-slideshow');
+        return Yii::t('backendobjects', 'block_module_backend_new-slideshow');
     }
 
     /**

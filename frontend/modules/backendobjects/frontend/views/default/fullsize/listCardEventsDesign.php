@@ -5,6 +5,7 @@ use open20\amos\core\module\BaseAmosModule;
 use open20\design\assets\BootstrapItaliaDesignAsset;
 use open20\design\utility\DesignUtility;
 use open20\amos\events\AmosEvents;
+use yii\helpers\Html;
 
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
 
@@ -13,9 +14,17 @@ $isGuest = \Yii::$app->user->isGuest;
 
 <?php
 $modelLabel = strtolower($model->getGrammar()->getModelLabel());
+$hideBiPluginHeader = (strpos($cssClass, 'hide-bi-plugin-header') !== false) ? true : false;
+$hideModuleBackendIfEmptyList = (strpos($cssClass, 'hide-module-if-empty-list') !== false && $dataProvider->getTotalCount() <= 0) ? true : false;
+
+$classModuloBackend = 'modulo-backend-' . $modelLabel . ' ' . $cssClass;
+if ($hideModuleBackendIfEmptyList) {
+    $classModuloBackend .= ' ' . 'd-none';
+}
+
 ?>
-<div class="modulo-backend-<?= $modelLabel ?> <?= $cssClass ?>">
-    <?php if (!($cssClass == 'hide-bi-plugin-header')) : ?>
+<div class="<?= $classModuloBackend ?>">
+    <?php if (!$hideBiPluginHeader) : ?>
         <?php
         if ($isGuest) {
             $titleSection = AmosEvents::t('amosevents', 'Eventi');
@@ -33,7 +42,7 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
         $titleCreate = AmosEvents::t('amosevent', 'Crea una nuovo evento');
         $labelManage = AmosEvents::t('amosevents', 'Gestisci');
         $titleManage = AmosEvents::t('amosevents', 'Gestisci gli eventi');
-        $urlCreate = AmosEvents::t('amosevents', '/events/event/create');
+        $urlCreate = '/events/event/create';
 
         $manageLinks = [];
         $controller = \open20\amos\events\controllers\EventController::class;
@@ -41,7 +50,7 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
             $manageLinks = $controller::getManageLinks();
         }
 
-        $canCreate = \Yii::$app->user->can('EVENTS_CREATE', ['model' => $model]);
+        $canCreate = \Yii::$app->user->can('EVENT_CREATE', ['model' => $model]);
 
         ?>
         <?=
@@ -67,7 +76,7 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
         ?>
     <?php endif ?>
 
-    <div class="card-<?= $modelLabel ?>-container d-flex flex-wrap">
+    <div class="card-<?= $modelLabel ?>-container">
         <?php
         if ($dataProvider->getTotalCount() > 0) {
 
@@ -94,11 +103,29 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
         } else { ?>
             <?php if (!$isGuest) : ?>
                 <div class="no-<?= str_replace(' ', '-', $modelLabel) ?>-alert">
-                    <p><?= BaseAmosModule::t('amosapp', 'Non ci sono contenuti che corrispondono ai tuoi interessi') ?></p>
+                    <div class="alert alert-warning" role="alert">
+                        <p class="mb-0"><strong><?= AmosEvents::t('amosevents', 'Non ci sono eventi di tuo interesse!') ?></strong></p>
+                        <?=
+                        Html::a(
+                            AmosEvents::t('amosevents', 'Clicca qui'),
+                            '/events/event/all-events',
+                            [
+                                'title' => AmosEvents::t('amosevents', 'Clicca e scopri tutti gli eventi della piattaforma {platformName}', ['platformName' => \Yii::$app->name]),
+                                'class' => 'btn btn-xs btn-primary'
+                            ]
+                        )
+                            . ' ' .
+                            AmosEvents::t('amosevents', 'e scopri ora tutti gli eventi di {platformName}', ['platformName' => \Yii::$app->name])
+                        ?>
+                    </div>
+                </div>
+            <?php else : ?>
+                <div class="no-<?= str_replace(' ', '-', $modelLabel) ?>-alert">
+                    <div class="alert alert-warning" role="alert">
+                        <p class="mb-0"><strong><?= AmosEvents::t('amosevents', 'Non sono presenti eventi') ?></strong></p>
+                    </div>
                 </div>
             <?php endif; ?>
         <?php } ?>
-
-
     </div>
 </div>

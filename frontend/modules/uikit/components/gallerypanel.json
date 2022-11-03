@@ -1,28 +1,33 @@
 {
-    "vars": [{
+    "vars": [
+        
+        {
             "var": "class",
             "label": "Class",
             "description": "Define one or more class names for the element. Separate multiple classes with spaces.",
             "initvalue": "",
             "type": "zaa-text"
-        },{
-            "var": "showthumb",
-            "label": "Show Thumb",
-            "description": "Define if show thumb.",
-            "initvalue": true,
+        },
+        {
+            "var": "lightbox",
+            "label": "Lightbox",
+            "description": "Inserts the lightbox to the images",
+            "initvalue": "",
             "type": "zaa-checkbox"
-        },{
-            "var": "showactions",
-            "label": "Show Actions",
-            "description": "Define if show action buttons.",
-            "initvalue": true,
-            "type": "zaa-checkbox"
-        },{
-            "var": "gallery",
-            "label": "Is gallery",
-            "description": "Enable thumbnails gallery.",
-            "initvalue": true,
-            "type": "zaa-checkbox"
+        },
+        {
+            "var": "gallery_type",
+            "label": "Gallery Type",
+            "description": "Select type of grid to render img",
+            "initvalue": "Standard",
+            "options": [{
+                    "value": "1",
+                    "label": "Standard"
+                }, {
+                    "value": "2",
+                    "label": "Mansory"
+                }],
+            "type": "zaa-select"
         }, {
             "var": "items",
             "label": "Items",
@@ -38,24 +43,19 @@
                     },
                     "type": "zaa-image-upload"
                 }, {
-                    "var": "category",
-                    "label": "Category",
-                    "description": "",
-                    "initValue": "",
-                    "type": "zaa-text"
-                }, {
                     "var": "content",
                     "label": "Content",
                     "description": "",
                     "initValue": "",
                     "type": "zaa-wysiwyg"
-                }, {
-                    "var": "thumbcontent",
-                    "label": "ThumbContent",
-                    "description": "",
-                    "initValue": "",
-                    "type": "zaa-wysiwyg"
-                }, {
+                },{
+                    "var": "superimposed_caption",
+                    "label": "Superimposed Caption",
+                    "description": "Define if caption is superimposed ",
+                    "initvalue": false,
+                    "type": "zaa-checkbox"
+                },
+                {
                     "var": "link",
                     "label": "Link",
                     "description": "Enter or pick a link, an image or a video file.",

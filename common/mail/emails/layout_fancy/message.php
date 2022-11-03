@@ -85,9 +85,12 @@ $privacyLink = Yii::$app->urlManager->createAbsoluteUrl($privacyLinkRelative);
             ?>
             <img width="<?= $logoWidth ?>" height="<?= $logoHeight?>" src="<?= $logoMail ?>" alt="<?= $logoAlt ?>">
             <?php if (isset(Yii::$app->params['layoutMailConfigurations']['logoMail']['logoText'])): ?>
-                <p style="margin-left:24px"><?= Yii::$app->params['layoutMailConfigurations']['logoMail']['logoText'] ?></p>
+                <span style="margin-left:24px;position: relative;top: -2px;font-size: 18px;font-weight: 700;color: #5e7887;"><?= Yii::$app->params['layoutMailConfigurations']['logoMail']['logoText'] ?></span>
             <?php endif; ?>
         </td>
+    </tr>
+    <tr>
+        <td style="height:30px"></td>
     </tr>
 </table>
 

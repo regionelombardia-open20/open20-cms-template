@@ -1,6 +1,12 @@
 <?php
 use open20\amos\core\utilities\CurrentUser;
 use open20\amos\admin\AmosAdmin;
+use open20\amos\core\record\CachedActiveQuery;
+
+$relationQuery = $model->getCreatedUserProfile();
+$relationCreated = CachedActiveQuery::instance($relationQuery);
+$relationCreated->cache(60);
+$createdUserProfile = $relationCreated->one();
 //$model->usePrettyUrl = true;
 
 $documentMainFile = $model->getDocumentMainFile();
@@ -19,9 +25,9 @@ if (!empty($model->link_document)) {
     '@vendor/open20/design/src/components/bootstrapitalia/views/bi-document-item',
     [
       'title' => $model->titolo,
-      'nameSurname' => $model->createdUserProfile->nomeCognome,
-      'urlAvatar' => '/'.AmosAdmin::getModuleName().'/user-profile/view?id='.$model->createdUserProfile->id,
-      'imageAvatar' => $model->createdUserProfile->getAvatarUrl('table_small'),
+      'nameSurname' => $createdUserProfile->nomeCognome,
+      'urlAvatar' => '/'.AmosAdmin::getModuleName().'/user-profile/view?id='.$createdUserProfile->id,
+      'imageAvatar' => $createdUserProfile->getAvatarUrl('table_small'),
       'url' => '/documenti/documenti/view?id=' . $model->id,
       'fileName' => $documentMainFile->name,
       'nameFile' =>  $documentMainFile->name,
@@ -33,7 +39,7 @@ if (!empty($model->link_document)) {
       'date' => $model->created_at,
       'model' => $model,
       'actionModify' => '/documenti/documenti/update?id='.$model->id,
-      'actionDelete' => 'documenti/documenti/delete?id=1'.$model->id
+      'actionDelete' => 'documenti/documenti/delete?id='.$model->id
     ]
   );
 ?>

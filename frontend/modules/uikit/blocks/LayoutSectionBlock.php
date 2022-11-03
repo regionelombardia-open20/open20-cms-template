@@ -2,25 +2,31 @@
 
 namespace app\modules\uikit\blocks;
 
-use trk\uikit\Module;
-use luya\cms\frontend\blockgroups\LayoutGroup;
+use Yii;
+use app\modules\backendobjects\frontend\blockgroups\ContenitoreGroup;
 
 
 final class LayoutSectionBlock extends \app\modules\uikit\BaseUikitBlock
 {
-    
+    public $isContainer = true;
     public $cacheEnabled = false;
     /**
      * @inheritdoc
      */
     protected $component = "layoutsection";
 
+    public function config(){
+        $configs = parent::config();
+        $this->cacheEnabled = $this->getVarValue('cache');
+        
+        return $configs;
+    }
     /**
      * @inheritdoc
      */
     public function name()
     {
-        return Module::t('layoutsection');
+        return Yii::t('backendobjects', 'block_module_backend_layoutsection');
     }
 
     /**
@@ -60,6 +66,6 @@ final class LayoutSectionBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function blockGroup()
     {
-        return LayoutGroup::class;
+        return ContenitoreGroup::class;
     }
 }

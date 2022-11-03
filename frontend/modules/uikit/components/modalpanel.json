@@ -1,96 +1,152 @@
 {
     "vars": [
         {
-            "var": "image",
-            "label": "Image",
-            "description": "",
-            "initvalue": "",
-            "options": {
-                "no_filter": false
-            },
-            "type": "zaa-image-upload"
-        },{
-            "var": "text",
-            "label": "Text",
+            "var": "modal_title",
+            "label": "Modal Title",
             "description": "",
             "initvalue": "",
             "type": "zaa-wysiwyg"
         },{
-            "var": "text_hover",
-            "label": "Text hover",
+            "var": "modal_text",
+            "label": "Modal Text",
+            "description": "",
+            "initvalue": "",
+            "type": "zaa-wysiwyg"
+        },{   
+            "var" : "url",
+            "label" : "Collegamento Video",
             "description": "",
             "initvalue": "",
             "type": "zaa-text"
-        },{
-            "var": "link_block",
-            "label": "Link block",
-            "description": "Link on the whole image block",
+        },   
+        
+        {
+            "var": "can_close",
+            "label": "Can Close",
+            "description": "Check if modal is closable",
             "initvalue": "",
             "type": "zaa-checkbox"
         },{
-            "var": "link_text",
-            "label": "Link Text",
-            "description": "Enter the text for the link.",
-            "initvalue": "Read more",
-            "type": "zaa-text"
-        },{
-            "var": "backgroundImg",
-            "label": "Background image",
-            "description": "",
+            "var": "can_close_button",
+            "label": "Close Footer Button",
+            "description": "Check if modal is closable",
             "initvalue": "",
-            "options": {
-                "no_filter": false
-            },
-            "type": "zaa-image-upload"
+            "type": "zaa-checkbox"
         },{
-            "var": "imageModal",
-            "label": "Image",
-            "description": "",
-            "initvalue": "",
-            "options": {
-                "no_filter": false
-            },
-            "type": "zaa-image-upload"
-        },{
-            "var": "titleModal",
-            "label": "TitleModal",
-            "description": "",
-            "initvalue": "",
-            "type": "zaa-text"
-        },{
-            "var": "textModal",
-            "label": "TextModal",
-            "description": "",
-            "initvalue": "",
-            "type": "zaa-wysiwyg"
-        },{
-            "var": "linkModal",
-            "label": "Link Modal",
+            "var": "second_button",
+            "label": "Action Footer Button",
             "description": "Enter or pick a link, an image or a video file.",
             "initvalue": "",
             "placeholder": "http:\/\/",
             "type": "zaa-link"
+        }, {
+            "var": "modal_size",
+            "label": "Modal Size",
+            "description": "Set the modal size.",
+            "initvalue": "default",
+            "options": [
+                {
+                    "value": "sm",
+                    "label": "Small"
+                }, {
+                    "value": "default",
+                    "label": "Default"
+                }, {
+                    "value": "lg",
+                    "label": "Large"
+                }, {
+                    "value": "xl",
+                    "label": "X-Large"
+                }],
+            "type": "zaa-select"
         },{
-            "var": "link_text_modal",
-            "label": "Link Text Modal",
-            "description": "Enter the text for the link.",
-            "initvalue": "Read more",
+            "var": "internal_scroll",
+            "label": "Internal Scroll",
+            "description": "Check if modal is scrollable",
+            "initvalue": "",
+            "type": "zaa-checkbox"
+        },{
+            "var": "activate_by_button",
+            "label": "Activate By Button",
+            "description": "Check if modal is the modal is displayed at the click of a button",
+            "initvalue": "",
+            "type": "zaa-checkbox"
+        }, {
+            "var": "modal_button_text",
+            "label": "Modal Button Text",
+            "description": "Modal Button Text",
+            "initValue": "",
             "type": "zaa-text"
+        },{
+            "var": "icon_type",
+            "label": "Icon Type",
+            "description": "Select iconset.",
+            "initvalue": "",
+            "options": [{
+                    "value": "1",
+                    "label": "Bootstrap Italia"
+                }, {
+                    "value": "2",
+                    "label": "Material"
+                }],
+            "type": "zaa-select"
+        },{
+            "var": "icon_name",
+            "label": "Icon Name",
+            "description": "If you have selected the 'Material Icon' icon set look here: https://materialdesignicons.com/. If you have selected the 'Bootstrap Italia' set look here: https://italia.github.io/bootstrap-italia/docs/utilities/icone/",
+            "initValue": "",
+            "type": "zaa-text"
+        }, {
+            "var": "modal_button_style",
+            "label": "Modal Button Style",
+            "description": "Modal Button Style",
+            "initvalue": "default",
+            "options": [ 
+                {
+                    "value": "",
+                    "label": "No Style"
+                },
+                {
+                    "value": "primary",
+                    "label": "Button Primary"
+                }, {
+                    "value": "secondary",
+                    "label": "Button Secondary"
+                }, {
+                    "value": "tertiary",
+                    "label": "Button Tertiary"
+                }, {
+                    "value": "outline-primary",
+                    "label": "Button Outline Primary"
+                }, {
+                    "value": "outline-secondary",
+                    "label": "Button Outline Secondary"
+                }, {
+                    "value": "outline-tertiary",
+                    "label": "Button Outline Tertiary"
+                }],
+            "type": "zaa-select"
         }
+        
+        
+        
+        
+        
+        
+        
            
     ],
     "cfgs": [
         {
-            "var": "name",
-            "label": "Name",
-            "description": "Define a name to easily indentify this element inside the builder.",
-            "initValue": "",
-            "placeholder": "",
-            "type": "zaa-text"
-        }, {
             "var": "id",
             "label": "ID",
             "description": "Define a unique identifier for the element.",
+            "initValue": "",
+            "type": "zaa-text"
+        }, {
+            "var": "button_class",
+            "label": "Button class",
+            "description": "Define one or more class names for the button. Separate multiple classes with spaces.",
             "initValue": "",
             "type": "zaa-text"
         }, {
@@ -99,59 +155,6 @@
             "description": "Define one or more class names for the element. Separate multiple classes with spaces.",
             "initValue": "",
             "type": "zaa-text"
-        },{
-            "var": "link_target",
-            "label": "Open in a new window",
-            "description": "",
-            "initvalue": "",
-            "type": "zaa-checkbox"
-        }, {
-            "var": "link_style",
-            "label": "Link Style",
-            "description": "Set the link style.",
-            "initvalue": "default",
-            "options": [{
-                    "value": "",
-                    "label": "Link"
-                }, {
-                    "value": "link-muted",
-                    "label": "Link Muted"
-                }, {
-                    "value": "link-text",
-                    "label": "Link Text"
-                }, {
-                    "value": "default",
-                    "label": "Button Default"
-                }, {
-                    "value": "primary",
-                    "label": "Button Primary"
-                }, {
-                    "value": "secondary",
-                    "label": "Button Secondary"
-                }, {
-                    "value": "danger",
-                    "label": "Button Danger"
-                }, {
-                    "value": "text",
-                    "label": "Button Text"
-                }],
-            "type": "zaa-select"
-        }, {
-            "var": "link_size",
-            "label": "Button Size",
-            "description": "Set the button size.",
-            "initvalue": "",
-            "options": [{
-                    "value": "small",
-                    "label": "Small"
-                }, {
-                    "value": "",
-                    "label": "Default"
-                }, {
-                    "value": "large",
-                    "label": "Large"
-                }],
-            "type": "zaa-select"
         }
     ]
     

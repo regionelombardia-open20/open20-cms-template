@@ -16,9 +16,17 @@ $isGuest = \Yii::$app->user->isGuest;
 
 <?php
 $modelLabel = strtolower($model->getGrammar()->getModelLabel());
+$hideBiPluginHeader = (strpos($cssClass, 'hide-bi-plugin-header') !== false) ? true : false;
+$hideModuleBackendIfEmptyList = (strpos($cssClass, 'hide-module-if-empty-list') !== false && $dataProvider->getTotalCount() <= 0) ? true : false;
+
+$classModuloBackend = 'modulo-backend-' . $modelLabel . ' ' . $cssClass;
+if ($hideModuleBackendIfEmptyList) {
+    $classModuloBackend .= ' ' . 'd-none';
+}
+
 ?>
-<div class="modulo-backend-<?= $modelLabel ?> <?= $cssClass ?>">
-    <?php if (!($cssClass == 'hide-bi-plugin-header')) : ?>
+<div class="<?= $classModuloBackend ?>">
+    <?php if (!$hideBiPluginHeader) : ?>
         <?php
         if ($isGuest) {
             $titleSection = AmosNews::t('amosnews', 'Notizie');
@@ -59,7 +67,7 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
         $titleCreate = AmosNews::t('amosnews', 'Crea una nuova notizia');
         $labelManage = AmosNews::t('amosnews', 'Gestisci');
         $titleManage = AmosNews::t('amosnews', 'Gestisci le notizie');
-        $urlCreate = AmosNews::t('amosnews', '/news/news/create');
+        $urlCreate = '/news/news/create';
 
         $manageLinks = [];
         $controller = \open20\amos\news\controllers\NewsController::class;
@@ -124,7 +132,27 @@ $modelLabel = strtolower($model->getGrammar()->getModelLabel());
         } else { ?>
             <?php if (!$isGuest) : ?>
                 <div class="no-<?= str_replace(' ', '-', $modelLabel) ?>-alert">
-                    <p><?= BaseAmosModule::t('amosapp', 'Non ci sono contenuti che corrispondono ai tuoi interessi') ?></p>
+                    <div class="alert alert-warning" role="alert">
+                        <p class="mb-0"><strong><?= AmosNews::t('amosnews', 'Non ci sono news che corrispondono ai tuoi interessi!') ?></strong></p>
+                        <?=
+                        Html::a(
+                            AmosNews::t('amosnews', 'Clicca qui'),
+                            '/news/news/own-interest-news',
+                            [
+                                'title' => AmosNews::t('amosnews', 'Clicca e scopri tutte le news della piattaforma {platformName}', ['platformName' => \Yii::$app->name]),
+                                'class' => 'btn btn-xs btn-primary'
+                            ]
+                        )
+                            . ' ' .
+                            AmosNews::t('amosnews', 'e scopri ora tutte le news di {platformName}', ['platformName' => \Yii::$app->name])
+                        ?>
+                    </div>
+                </div>
+            <?php else : ?>
+                <div class="no-<?= str_replace(' ', '-', $modelLabel) ?>-alert">
+                    <div class="alert alert-warning" role="alert">
+                        <p class="mb-0"><strong><?= AmosNews::t('amosnews', 'Non sono presenti news') ?></strong></p>
+                    </div>
                 </div>
             <?php endif; ?>
         <?php } ?>

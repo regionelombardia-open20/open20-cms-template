@@ -11,70 +11,44 @@ use app\modules\uikit\Uikit;
  */
 
 $attrs = $data['attrs'];
+$class = $data['class'];
 
-//gallery with thumb
-if (!empty($data['showthumb'])) {
-    $classGallery = ' galleryThumb';
-}else {
-    $classGallery = ' gallerySlider';
-}
+$externalGridClass='it-grid-list-wrapper';
+$internalGridClass='';
+$columnClass='';
 
-//gallery NO thumb
-if (!empty($data['class'])) {
-    $class = 'wrap-lightslider '. $data['class'] . $classGallery;
-}else {
-    $class = 'wrap-lightslider '. $classGallery;
-}
 
-$controls = $data['showactions'] ? 'true' : 'false';
-$gallery = $data['gallery'] ? 'true' : 'false';
+switch($data['gallery_type']){
+    case 2: 
+        $externalGridClass= $externalGridClass.' '.'it-image-label-grid it-masonry';
+        $internalGridClass= $internalGridClass.'card-columns';
+        $columnClass= $columnClass.'col-12';
+    break;
+    default:
+        $internalGridClass= $internalGridClass.'grid-row';
+        $columnClass= $columnClass.'col-xs-12 col-sm-6 col-lg-4';
 
-if($gallery == 'true') {
-    $class = $class. ' isGalleryClass';
+    break;
 }
 
 FrontAsset::register($this);
 
-$js = <<<JS
-    windowHeight = $(window).height() - $('.nav-container').outerHeight();
-    slider = $('#lightSlider');
-
-    slider.lightSlider({
-        gallery: true,
-        item: 1,
-        loop:true,
-        slideMargin: 0,
-        thumbItem: 4,
-        sliderHeight: windowHeight,
-        speed: 120,
-        pause: 4000,
-        mode: 'fade'
-    });
-    
-    $('.play-btn').click(function(){
-        slider.play();
-    });
-    $('.pause-btn').click(function(){
-        slider.pause();
-    });
-
-    $('#lightSlider').find('.lSliderItem').css('height', windowHeight + 'px');
-JS;
-
-$this->registerJs($js, View::POS_READY);
+$c = 0;
 ?>
 
-<div <?= Uikit::attrs(compact('class'), $attrs) ?>>
-    <ul id="lightSlider">
-        <?php foreach ($data['items'] as $item) : ?>
-            <?= $this->render('gallerypanel/item', compact('item', 'data')) ?>
+<div class="<?= $externalGridClass ?>">
+    <div class="<?= $internalGridClass ?>">
+        <?php foreach ($data['items'] as $item) : 
+            $c++; 
+            $item['contatore'] = $c; 
+            $item['lightbox'] = $data['lightbox'];
+        ?>
+            <div class="<?= $columnClass ?>">
+                <?= $this->render('gallerypanel/item', compact('item', 'data')) ?>
+            </div>
         <?php endforeach ?>
-    </ul>
-
-    <?php if($controls  == 'true'): ?>
-        <div class="lightSliderAction">
-            <span class="am am-play play-btn"></span>
-            <span class="am am-pause pause-btn"></span>
-        </div>
-    <?php endif; ?>
+    </div>
 </div>
+
+
+

@@ -1,18 +1,22 @@
 <?php
 
 use app\modules\uikit\Uikit;
+use open20\design\assets\BootstrapItaliaDesignAsset;
+use open20\design\utility\DesignIcon;
+
+$currentAsset = BootstrapItaliaDesignAsset::register($this);
 
 /**
  * @var $this
  * @var $data
  */
 $id = $data['id'];
-$class = $data['class'];
-$modalID = 'mb-' . substr(uniqid(), -3);
+$class = $data['class'][0];
 
 $attrs_image = [];
 $attrs_link = [];
 $attrs_link_modal = [];
+
 
 // Link
 if ($data['linkModal']) {
@@ -33,6 +37,7 @@ if ($data['linkModal']) {
     }
 }
 
+/*
 if ($data['link_block']) : ?>
 <a class="" data-toggle="modal" data-target="<?= '#' . $modalID ?>" title="<?= $data['text_hover'] ?>">
     <?php endif ?>
@@ -65,31 +70,72 @@ if ($data['link_block']) : ?>
     <?php if ($data['link_block']) : ?>
 </a>
 <?php endif ?>
+
+
+*/
+?>
 <!--MODALE-->
-<div class="modal fade" id="<?= $modalID ?>" tabindex="-1" role="dialog"
-     aria-labelledby="<?= strip_tags($data['text']) ?>" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content" style="background-size: cover;background-image: url(<?= $data['backgroundImg'] ?>)">
+<div id="<?=$id?>" class="<?= $class ?> modal fade" tabindex="-1" role="dialog" id="<?= $modalID ?>">
+    <div class="modal-dialog modal-<?= $data['modal_size'] ?>" role="document">
+        <div class="modal-content modal-<?= $data['modal_size'] ?>" style="background-size: cover;background-image: url(<?= $data['backgroundImg'] ?>)">
             <div class="modal-header">
-                <h1 class="title"><?= $data['titleModal'] ?></h1>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true"> ×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <?php
-                if ($data['imageModal']):
-                    $attrs_image['class'][] = 'el-image';
-                    $image = Uikit::image($data['imageModal'], $attrs_image);
-                    ?>
-                    <div class="wrap-img-modal"><?= $image ?></div>
-                <?php endif ?>
-                <div class="wrap-text-modal"><p><?= $data['textModal'] ?></p></div>
-                <?php if($data['link_text_modal']) : ?>
-                <div><a class="uk-button uk-button-default btn-landing btn-landing-grey" <?= Uikit::attrs($attrs_link_modal) ?>><?= $data['link_text_modal'] ?></a></div>
+                <p class="modal-title h5"><?= $data['modal_title'] ?></p>
+              
+                <?php if($data['can_close']): ?>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <?= DesignIcon::show('it-close', DesignIcon::ICON_BI, 'icon ', $currentAsset)?>
+                    </button>
                 <?php endif; ?>
             </div>
-            <!--            <div class="modal-footer"></div>-->
+            <div class="modal-body">
+            <?php if ($this->extraValue('url')): ?>
+	
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="<?= $this->extraValue('url'); ?>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                </div>
+  
+            <?php endif; ?>
+                <p><?= $data['modal_text'] ?></p>
+                
+            </div>
+            <?php if(
+                (!empty($data['can_close_button'])) &&
+                (!empty($data['second_button']))
+            ): ?>
+
+                <div class="modal-footer">
+                    <?php if(!empty($data['can_close_button'])): ?>
+                        <button class="btn btn-outline-primary btn-sm" type="button" data-dismiss="modal">Annulla</button>
+                    <?php endif; ?>
+                    <?php if(!empty($data['second_button'])): ?>
+                        <a href="<?= $data['second_button']?>" class="btn btn-primary btn-sm" title="Accetta">Accetta</a>
+                    <?php endif; ?>
+
+                </div>
+            <?php endif; ?>
+
         </div>
     </div>
 </div>
+
+
+
+
+<button 
+    class="btn btn-<?= $data['modal_button_style'] ?> <?= $data['button_class']?> open20-cms-button" 
+    data-toggle="modal" 
+    data-target="#<?=$id?>"
+>
+    <?php switch($data['icon_type'])
+            {
+                case 1:
+                    echo DesignIcon::show($data['icon_name'], DesignIcon::ICON_BI, 'icon', $currentAsset);
+                break;
+                case 2:
+                    echo DesignIcon::show($data['icon_name'], DesignIcon::ICON_MD, 'icon', $currentAsset);
+                break;
+            }
+    ?>
+
+    <?= $data['modal_button_text']?>
+</button>

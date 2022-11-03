@@ -18,8 +18,9 @@ return [
         'key' => $googleMapsApiKey
     ],
     'googleMapsApiKey' => $googleMapsApiKey,
-    'google_recaptcha_site_key' => '6LdI3dMZAAAAAJl9K51R5hU034jksuFOblYgFnUX',
-    'google_recaptcha_secret' => '6LdI3dMZAAAAAB-OeoJA1dGAUkxrWVo_WIBKOdkB',
+    'google_recaptcha_site_key' => '',
+    'google_recaptcha_secret' => '',
+    'google_tag_manager_code' => '',
     'noWizardNewLayout' => true,
     'menuModules' => [
         'amosadmin',

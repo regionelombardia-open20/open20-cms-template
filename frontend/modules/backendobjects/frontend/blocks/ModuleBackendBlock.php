@@ -4,7 +4,7 @@ namespace app\modules\backendobjects\frontend\blocks;
 
 use Yii;
 use yii\web\Response;
-use luya\cms\frontend\blockgroups\DevelopmentGroup;
+use app\modules\backendobjects\frontend\blockgroups\SviluppoGroup;
 use luya\base\ModuleReflection;
 use luya\cms\base\PhpBlock;
 
@@ -13,7 +13,8 @@ use luya\cms\base\PhpBlock;
  *
  * File has been created with `block/create` command. 
  */
-class ModuleBackendBlock extends PhpBlock {
+class ModuleBackendBlock extends PhpBlock
+{
 
     /**
      * @inheritdoc
@@ -25,28 +26,32 @@ class ModuleBackendBlock extends PhpBlock {
     /**
      * @inheritDoc
      */
-    public function blockGroup() {
-        return DevelopmentGroup::className();
+    public function blockGroup()
+    {
+        return SviluppoGroup::className();
     }
 
     /**
      * @inheritDoc
      */
-    public function name() {
+    public function name()
+    {
         return Yii::t('backendobjects', 'block_module_backend_name');
     }
 
     /**
      * @inheritDoc
      */
-    public function icon() {
+    public function icon()
+    {
         return 'apps';
     }
 
     /**
      * @inheritDoc
      */
-    public function config() {
+    public function config()
+    {
         return [
             'vars' => [
                 ['var' => 'backendModule', 'label' => Yii::t('backendobjects', 'block_module_backend_backendModule_label'), 'type' => self::TYPE_SELECT, 'options' => $this->getBackendModules()],
@@ -67,7 +72,8 @@ class ModuleBackendBlock extends PhpBlock {
     /**
      * @inheritdoc
      */
-    public function getFieldHelp() {
+    public function getFieldHelp()
+    {
         return [
             'backendModule' => Yii::t('backendobjects', 'block_module_backend_backendModule_help'),
             'viewFields' => Yii::t('backendobjects', 'block_module_backend_viewFields_help'),
@@ -83,15 +89,45 @@ class ModuleBackendBlock extends PhpBlock {
      * {@inheritDoc} 
      *
      */
-    public function admin() {
+    public function admin()
+    {
+        $str_view_module = '{% if vars.backendModule is empty %}<span class="block__empty-text">' . Yii::t('backendobjects', 'block_module_backend_no_module') . '</span>{% else %}<p><i class="material-icons">apps</i> ' . Yii::t('backendobjects', 'block_module_backend_integration') . ': <strong>';
+        $moduleName = "";
 
-        return '{% if vars.backendModule is empty %}<span class="block__empty-text">' . Yii::t('backendobjects', 'block_module_backend_no_module') . '</span>{% else %}<p><i class="material-icons">apps</i> ' . Yii::t('backendobjects', 'block_module_backend_integration') . ': <strong>{{ vars.backendModule}}</strong></p>{% endif %}';
+        switch ($this->getVarValue('backendModule')) {
+            case "open20\\amos\\news\\AmosNews":
+                $moduleName = "News";
+                $str_view .= '<img src="/img/preview_cms/news-preview.png">';
+                break;
+            case "open20\\amos\\community\\AmosCommunity":
+                $moduleName = "Community";
+                $str_view .= '<img src="/img/preview_cms/community-preview.png">';
+                break;
+            case "open20\\amos\\partnershipprofiles\\Module":
+                $moduleName = "Partnership Profiles";
+                $str_view .= '<img src="/img/preview_cms/partnershipprofiles-preview.png">';
+                break;
+            case "open20\\amos\\discussioni\\AmosDiscussioni":
+                $moduleName = "Discussioni";
+                $str_view .= '<img src="/img/preview_cms/discussioni-preview.png">';
+                break;
+            case "open20\\amos\\events\\AmosEvents":
+                $moduleName = "Eventi";
+                $str_view .= '<img src="/img/preview_cms/events-preview.png">';
+                break;
+            case "open20\\amos\\sondaggi\\AmosSondaggi":
+                $moduleName = "Eventi";
+                $str_view .= '<img src="/img/preview_cms/sondaggi-preview.png">';
+                break;
+        }
+        return $str_view_module . $moduleName . '</strong></p>{% endif %}' . $str_view;
     }
 
     /**
      * @inheritdoc
      */
-    public function extraVars() {
+    public function extraVars()
+    {
         return [
             'moduleContent' => $this->moduleContent(),
         ];
@@ -104,7 +140,8 @@ class ModuleBackendBlock extends PhpBlock {
      *
      * @return array
      */
-    public function getBackendModules() {
+    public function getBackendModules()
+    {
         $frontendModule = Yii::$app->getModule($this->frontendModuleName);
 
         $data = [];
@@ -135,7 +172,8 @@ class ModuleBackendBlock extends PhpBlock {
      *     ]
      * ]
      */
-    public function getViewFields() {
+    public function getViewFields()
+    {
         $data = [];
         $backendModule = $this->getVarValue('backendModule', false);
 
@@ -161,19 +199,20 @@ class ModuleBackendBlock extends PhpBlock {
      *
      * @return string|null|\yii\web\Response
      */
-    public function moduleContent() {
-        
+    public function moduleContent()
+    {
+
         if ($this->isAdminContext() || empty($this->frontendModuleName) || count($this->getEnvOptions()) === 0 || !Yii::$app->hasModule($this->frontendModuleName)) {
             return;
         }
-        
+
         $frontendModule = Yii::$app->getModule($this->frontendModuleName);
         $frontendModule->context = 'cms';
 
         // start module reflection
         $reflection = Yii::createObject(['class' => ModuleReflection::class, 'module' => $frontendModule]);
         $reflection->suffix = $this->getEnvOption('restString');
-        
+
         $args = [
             'parms' => [
                 "backendModule" => $this->getVarValue('backendModule'),
@@ -200,5 +239,4 @@ class ModuleBackendBlock extends PhpBlock {
 
         return $response;
     }
-
 }

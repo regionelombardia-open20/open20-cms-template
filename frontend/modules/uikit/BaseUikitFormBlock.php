@@ -38,6 +38,9 @@ abstract class BaseUikitFormBlock extends PhpBlock
     protected $defaults       = [];
     
     protected $model = null;
+    
+    private $_vars = [];
+    private $_cfgs = [];
 
     /**
      * Initialize
@@ -393,10 +396,25 @@ abstract class BaseUikitFormBlock extends PhpBlock
                             $this->getTypeRule($item['type']),
                             $this->getTypeRuleOptions($item));
                         if ($item['required']) {
-                            $model->addRule($item['field'], 'required');
+                            $validator = yii\validators\Validator::$builtInValidators['required'];
+                            $ValidatorClass = new $validator; 
+                            
+                            $options = [];
+                            switch($item['error_message_required']){
+                                case 'attribute':
+                                    $options = ['message'=>str_replace('{attribute}',$item['text_error_message_required'],$ValidatorClass->message)];
+                                break;
+                                case 'message':
+                                    $options = ['message'=>$item['text_error_message_required']];
+                                break;
+                            }  
+                            $model->addRule($item['field'], 'required', $options);
                         }
                         if (in_array($item['type'], $this->safeFieldtypes)) {
                             $model->addRule($item['field'], 'safe');
+                        }
+                        if($item['type'] == 'conferma_email'){
+                            $model->addRule($item['field'], 'compare' ,['compareAttribute'=>'email']);
                         }
                     }
                     $model->defineAttribute('user_id');
@@ -412,7 +430,7 @@ abstract class BaseUikitFormBlock extends PhpBlock
                     {
                         $model->defineAttribute('reCaptcha');
                         $model->addRule('reCaptcha', \himiklab\yii2\recaptcha\ReCaptchaValidator::className());
-                        $model->defineLabel('reCaptcha', 'Re-Captcha');
+                        $model->defineLabel('reCaptcha', \Yii::t('amosapp', 'Controllo di sicurezza'));
                         $model->defineType('reCaptcha', 'reCaptcha');
                     }
                 }
@@ -513,6 +531,9 @@ abstract class BaseUikitFormBlock extends PhpBlock
             case 'checkList':
                $type = 'checklist';
                 break;
+            case 'conferma_email':
+                $type = 'email';
+                break;
             case 'hidden':
             case 'label':
             case 'string':
@@ -522,6 +543,7 @@ abstract class BaseUikitFormBlock extends PhpBlock
                 break;
             case 'date':
             case 'email':
+            case 'url':
                 $type = $formtype;
                 break;
             case 'attachmentsInput':
@@ -538,7 +560,7 @@ abstract class BaseUikitFormBlock extends PhpBlock
      */
     private function getTypeRuleOptions($item)
     {
-        $type = '';
+        $type = [];
         $formtype = $item['type'];
         switch ($formtype) {
             case 'string':
@@ -566,6 +588,36 @@ abstract class BaseUikitFormBlock extends PhpBlock
                 ];
                 break;
         }
+        
+        /*
+         * validator textarea non esiste
+         * quindi lo riporto a string per creare la classe
+         */
+        $formtype = ($formtype == 'textarea') ? 'string' : $formtype;
+        
+        if(isset(yii\validators\Validator::$builtInValidators[$formtype])){
+            
+            $validator = yii\validators\Validator::$builtInValidators[$formtype];      
+            $ValidatorClass = new $validator;
+                         
+            $options = [];
+            switch($item['error_message']){
+                case 'attribute':                   
+                    $options = ['message' => str_replace('{attribute}',$item['text_error_message'],$ValidatorClass->message)];
+                    if(property_exists($ValidatorClass,'tooLong'))
+                        $options['tooLong'] = str_replace('{attribute}',$item['text_error_message'],Yii::t('yii', '{attribute} should contain at most {max, number} {max, plural, one{character} other{characters}}.'));
+                
+                break;
+                case 'message':
+                    $options = ['message'=>$item['text_error_message']];
+                    if(property_exists($ValidatorClass,'tooLong'))
+                        $options['tooLong'] = $item['text_error_message'];
+                break;
+            } 
+            
+            $type = array_merge($type, $options);
+        }
+        
         return $type;
     }
 
@@ -613,5 +665,34 @@ abstract class BaseUikitFormBlock extends PhpBlock
     public function getFieldHelp()
     {
         return $this->descriptions;
+    }
+    
+    public function getConfigVarsExport()
+    {
+        $config = $this->config();
+        
+        if (isset($config['vars'])) {
+            foreach ($config['vars'] as $item) {                
+                $iteration = count($this->_vars) + 500;
+                $this->_vars[$iteration] = (new BlockVar($item))->toArray();
+            }
+        }
+       
+        ksort($this->_vars);
+        return array_values($this->_vars);
+    }
+    
+    public function getConfigCfgsExport()
+    {
+        $config = $this->config();
+        
+        if (isset($config['cfgs'])) {
+            foreach ($config['cfgs'] as $item) {
+                $iteration = count($this->_cfgs) + 500;
+                $this->_cfgs[$iteration] = (new BlockCfg($item))->toArray();
+            }
+        }
+        ksort($this->_cfgs);
+        return array_values($this->_cfgs);
     }
 }

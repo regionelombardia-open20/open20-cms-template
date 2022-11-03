@@ -245,4 +245,7 @@ return [
         'defaultUserLanguage' => 'it-IT',
         'pathsForceTranslation' => ['*'],
     ],
+    'myactivities' => [
+        'class' => 'open20\amos\myactivities\AmosMyActivities',
+    ],
 ];

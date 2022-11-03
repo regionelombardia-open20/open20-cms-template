@@ -57,25 +57,26 @@ return [
         ]
     ],
     'linkConfigurations' => [
-        'privacyPolicyLinkCommon' => '/it/privacy-policy',
-        'cookiePolicyLinkCommon' => '/it/cookie-policy',
-        'loginLinkCommon' => '/site/login',
+        'privacyPolicyLinkCommon' => '/privacy-policy',
+        'cookiePolicyLinkCommon' => '/cookie-policy',
+        'loginLinkCommon' => '/login',
         'logoutLinkCommon' => '/site/logout',
-        'pageSearchLinkCommon' => '/it/ricerca'
+        'pageSearchLinkCommon' => '/ricerca'
     ],
     'layoutConfigurations' => [
         'hideCmsMenuPluginHeader' => true,
-        'showAlwaysHamburgerMenuHeader' => true
+        'showAlwaysHamburgerMenuHeader' => true,
+        'enableBtnModifyCmsPage' => true
     ],
     'menuCmsConfigurations' => [
         
     ],
     'layoutMailConfigurations' => [
         'logoMail' => [
-            'logoImg' => 'img/logoRL.png',
+            'logoImg' => 'img/RL_logo.png',
             'logoImgAlt' => 'logo Regione Lombardia',
-            'logoImgWidth' => '194px',
-            'logoImgHeight' => '54px',
+            'logoImgWidth' => '194', //not insert px string
+            'logoImgHeight' => '54', //not insert px string
             'logoText' => 'Open 2.0'
         ],
         'bgPrimary' => '#297a38',

@@ -153,10 +153,8 @@
 
 /* slider actions */
 .lSAction > a {
-    width: 32px;
     display: block;
     top: 50%;
-    height: 32px;
     background-image: url('../img/controls.png');
     cursor: pointer;
     position: absolute;

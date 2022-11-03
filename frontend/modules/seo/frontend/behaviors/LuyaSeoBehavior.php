@@ -26,6 +26,7 @@ class LuyaSeoBehavior extends Behavior {
         $ogTitle = Yii::$app->menu->current->getProperty('ogTitle');
         $ogDescription = Yii::$app->menu->current->getProperty('ogDescription');
         $ogType = Yii::$app->menu->current->getProperty('ogType');
+        $ogImageUrl = 
         $ogImageUrl = Yii::$app->menu->current->getProperty('ogImageUrl');
         $metaRobots = self::stringifyArrayProperty(Yii::$app->menu->current->getProperty('metaRobots'));
         $metaGooglebot = self::stringifyArrayProperty(Yii::$app->menu->current->getProperty('metaGooglebot'));

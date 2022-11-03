@@ -7,6 +7,11 @@
  */
 
 return [
-
-    
+    'components'=>[
+        'newReCaptcha' => [
+            'class' => 'himiklab\yii2\recaptcha\ReCaptchaConfig',
+            'siteKeyV2' => '',
+            'secretV2' => '',
+        ],
+    ]    
 ];

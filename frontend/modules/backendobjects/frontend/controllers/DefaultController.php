@@ -54,7 +54,7 @@ class DefaultController extends Controller
     public function actionIndex(array $parms)
     {
         $this->detailPage = $parms["detailPage"];
-        $backendModule    = $parms["backendModule"];
+        $backendModule = $parms["backendModule"];
 
         if (class_exists($backendModule) && in_array('open20\amos\core\interfaces\CmsModuleInterface',
                 class_implements($backendModule))) {
@@ -63,17 +63,19 @@ class DefaultController extends Controller
             if (class_exists($modelSearchClass) && in_array('open20\amos\core\interfaces\CmsModelInterface',
                     class_implements($modelSearchClass))) {
                 $this->modelSearchClass = $modelSearchClass;
-                $this->backendModule    = $backendModule;
+                $this->backendModule = $backendModule;
             }
         }
 
         $numElementsPerPage = $parms["numElementsPerPage"];
-        $withPagination     = $parms["withPagination"];
-        $withoutSearch      = $parms["withoutSearch"];
-        $cssClass           = $parms["cssClass"];
-        $viewFieldsName     = $this->parseViewFields($parms["viewFields"]); //I campi che da cms si è deciso di visualizzare
-        $listPage           = $parms["listPage"];
-        $methodSearch       = $parms["methodSearch"];
+        $withPagination = $parms["withPagination"];
+        $withoutSearch = $parms["withoutSearch"];
+        $cssClass = $parms["cssClass"];
+        $viewFieldsName = $this->parseViewFields($parms["viewFields"]); //I campi che da cms si è deciso di visualizzare
+        $listPage = $parms["listPage"];
+        $methodSearch = $parms["methodSearch"];
+
+        $this->setScopeFromConditionSearch($parms);
 
         if (!$listPage) {
             $listPage = "list";
@@ -81,7 +83,7 @@ class DefaultController extends Controller
 
         if ($this->modelSearchClass) {
             $searchModel = new $this->modelSearchClass();
-            $limit       = null;
+            $limit = null;
             if (!$withPagination) {
                 $limit = $numElementsPerPage;
             }
@@ -116,13 +118,13 @@ class DefaultController extends Controller
                 $arrayViewFields = $globalViewFields;
             }
 
-            $searchFields                   = $searchModel->cmsSearchFields();
-            $blockItemId                    = !empty($parms["blockItemId"]) ? $parms["blockItemId"]
-                    : Yii::$app->request->getQueryParam('blockItemId');
+            $searchFields = $searchModel->cmsSearchFields();
+            $blockItemId = !empty($parms["blockItemId"]) ? $parms["blockItemId"]
+                : Yii::$app->request->getQueryParam('blockItemId');
             Yii::$app->request->queryParams = array_merge(["parms" => $parms],
                 Yii::$app->request->queryParams);
             return $this->render($listPage,
-                    [
+                [
                     'model' => $searchModel,
                     'dataProvider' => $dataProvider,
                     'cssClass' => $cssClass,
@@ -131,10 +133,51 @@ class DefaultController extends Controller
                     'searchFields' => $searchFields,
                     'withoutSearch' => $withoutSearch,
                     'blockItemId' => $blockItemId
-            ]);
+                ]);
         } else {
             return $this->goHome();
         }
+    }
+
+    /**
+     * @param $parms
+     * @return void
+     */
+    public function setScopeFromConditionSearch($parms){
+        $moduleCwh = \Yii::$app->getModule('cwh');
+        if(!empty($parms["conditionSearch"]) && strpos($parms["conditionSearch"], 'scope_community_id')) {
+            $commands = explode(";", $parms["conditionSearch"]);
+            foreach ($commands as $command) {
+                if (strpos($command, 'scope_community_id')) {
+                    $communityId = $this->extractCommunityIdFromCommand($command);
+                }
+            }
+            if (isset($moduleCwh)) {
+                if (!empty($communityId)) {
+                    $moduleCwh->setCwhScopeInSession(
+                        [
+                            'community' => $communityId,
+                        ]
+                    );
+                } else {
+                    $moduleCwh->resetCwhScopeInSession();
+                }
+            }
+        }
+    }
+
+    /**
+     * @param $command
+     * @return string|null
+     */
+    public function extractCommunityIdFromCommand($command)
+    {
+        $community_id = null;
+        $explode = explode('=>', $command);
+        if (count($explode) == 2) {
+            $community_id = trim($explode[1]);
+        }
+        return $community_id;
     }
 
     /**
@@ -149,7 +192,7 @@ class DefaultController extends Controller
     {
 
         $navItemPageBlockItem = \luya\cms\models\NavItemPageBlockItem::findOne([
-                'id' => $blockItemId]);
+            'id' => $blockItemId]);
 
         $model = \open20\amos\seo\AmosSeo::getModelFromPrettyUrl($slug);
 
@@ -163,12 +206,12 @@ class DefaultController extends Controller
             throw new \yii\web\NotFoundHttpException();
         }
         $block->setVarValues(json_decode($navItemPageBlockItem->json_config_values,
-                true));
+            true));
         $view = $relatedDitailPage ? $block->getVarValue('relatedDetailPage') : $block->getVarValue('detailPage');
 
         $modelSearchClass = $block->getVarValue('backendModule')::getModelSearchClassName();
-        $isModelVisible   = (new $modelSearchClass)->cmsIsVisible($model->id);
-        $modelClass       = $relatedDitailPage ? $model->className() : $block->getVarValue('backendModule')::getModelClassName();
+        $isModelVisible = (new $modelSearchClass)->cmsIsVisible($model->id);
+        $modelClass = $relatedDitailPage ? $model->className() : $block->getVarValue('backendModule')::getModelClassName();
 
         if (!empty($relatedDitailPage)) {
             if (!$isModelVisible || $modelClass != get_class($model)) {
@@ -242,10 +285,10 @@ class DefaultController extends Controller
             $model->load(Yii::$app->request->get(), $model_name);
         }
         return $this->render($view,
-                [
-                    'model' => $model,
-                    'blockItemId' => $blockItemId
-        ]);
+            [
+                'model' => $model,
+                'blockItemId' => $blockItemId
+            ]);
     }
 
     /**
@@ -276,17 +319,17 @@ class DefaultController extends Controller
     {
 
         $navItemPageBlockItem = \luya\cms\models\NavItemPageBlockItem::findOne([
-                'id' => $blockItemId]);
+            'id' => $blockItemId]);
         //$this->layout = '@frontend/views/layouts/'.$navItemPageBlockItem->navItemPage->layout->view_file;
-        $block                = $navItemPageBlockItem->block->classObject;
+        $block = $navItemPageBlockItem->block->classObject;
         if (!$block) {
             throw new \yii\web\NotFoundHttpException();
         }
         $block->setVarValues(json_decode($navItemPageBlockItem->json_config_values,
-                true));
+            true));
 
         $modelSearchClass = $block->getVarValue('backendModule')::getModelSearchClassName();
-        $modelClass       = $block->getVarValue('backendModule')::getModelClassName();
+        $modelClass = $block->getVarValue('backendModule')::getModelClassName();
 
         $model = $modelClass::findOne($id);
 
@@ -295,7 +338,7 @@ class DefaultController extends Controller
         }
 
 
-        $view           = $block->getVarValue('detailPage');
+        $view = $block->getVarValue('detailPage');
         $isModelVisible = (new $modelSearchClass)->cmsIsVisible($id);
 
         if (Yii::$app->request->isPost) {
@@ -316,14 +359,14 @@ class DefaultController extends Controller
             $model->load(Yii::$app->request->get(), $model_name);
         }
         return $this->render($view,
-                [
-                    'model' => $model,
-                    'blockItemId' => $blockItemId
-        ]);
+            [
+                'model' => $model,
+                'blockItemId' => $blockItemId
+            ]);
     }
-    
+
     /**
-     * 
+     *
      * @param type $id
      * @return type
      * @throws \yii\web\NotFoundHttpException
@@ -332,9 +375,9 @@ class DefaultController extends Controller
     {
 
         $navItemPageBlockItem = \luya\cms\models\NavItemPageBlockItem::findOne([
-                'id' => $blockItemId]);
+            'id' => $blockItemId]);
 
-        if (!$navItemPageBlockItem ) {
+        if (!$navItemPageBlockItem) {
             throw new \yii\web\NotFoundHttpException();
         }
 
@@ -344,20 +387,19 @@ class DefaultController extends Controller
             throw new \yii\web\NotFoundHttpException();
         }
         $block->setVarValues(json_decode($navItemPageBlockItem->json_config_values,
-                true));
-        
-        $modelClass  = "\\open20\\amos\\documenti\\AmosDocumenti";
-        if(!is_null($block->getVarValue('backendModel'))){
-            $modelClass  =  $block->getVarValue('backendModel')::getModelClassName();
+            true));
+
+        $modelClass = "\\open20\\amos\\documenti\\AmosDocumenti";
+        if (!is_null($block->getVarValue('backendModel'))) {
+            $modelClass = $block->getVarValue('backendModel')::getModelClassName();
         }
         $model = $modelClass::findOne($id);
-        
+
         if (!$model) {
             throw new \yii\web\NotFoundHttpException();
         }
         $view = $block->getVarValue('view');
-        if(empty($view))
-        {
+        if (empty($view)) {
             throw new \yii\web\NotFoundHttpException();
         }
         if ($model->getOgTitle()) {
@@ -416,16 +458,16 @@ class DefaultController extends Controller
         if ($menuItem) {
             Yii::$app->menu->setCurrent($menuItem);
         }
-        
+
         return $this->render($view,
-                [
-                    'model' => $model,
-                    'blockItemId' => $blockItemId
-        ]);
+            [
+                'model' => $model,
+                'blockItemId' => $blockItemId
+            ]);
     }
-    
+
     /**
-     * 
+     *
      * @param type $id
      * @param type $modelClass
      * @param type $view
@@ -435,11 +477,11 @@ class DefaultController extends Controller
     public function actionDetachDetail($id, $modelClass, $view)
     {
         $model = $modelClass::findOne($id);
-        
+
         if (!$model) {
             throw new \yii\web\NotFoundHttpException();
         }
-        
+
         if ($model->getOgTitle()) {
             $this->view->registerMetaTag(['name' => 'og:title', 'content' => $model->getOgTitle()],
                 'fbTitle');
@@ -496,12 +538,12 @@ class DefaultController extends Controller
 //        if ($menuItem) {
 //            Yii::$app->menu->setCurrent($menuItem);
 //        }
-        
+
         return $this->render($view,
-                [
-                    'model' => $model,
-                    'blockItemId' => null
-        ]);
+            [
+                'model' => $model,
+                'blockItemId' => null
+            ]);
     }
-    
+
 }
