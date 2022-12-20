@@ -3,11 +3,14 @@
 namespace app\modules\uikit\blocks;
 
 use Yii;
-use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 use luya\bootstrap4\Module;
 use luya\cms\helpers\BlockHelper;
 use luya\bootstrap4\BaseBootstrap4Block;
 use luya\helpers\Json;
+use app\modules\uikit\BaseUikitBlock;
+use yii\helpers\ArrayHelper;
+
 
 /**
  * Bootstrap 4 Carousel Component.
@@ -16,6 +19,7 @@ use luya\helpers\Json;
  */
 class CarouselBlock extends BaseBootstrap4Block
 {    
+    
     /**
      * @inheritdoc
      */
@@ -23,13 +27,20 @@ class CarouselBlock extends BaseBootstrap4Block
     {
         return Yii::t('backendobjects', 'block_carousel.block_name');
     }
+
+        
+    public function disable()
+    {
+        return 0;
+    }
+    
     
     /**
      * @inheritdoc
      */
     public function blockGroup()
     {
-        return ElementiBaseGroup::class;
+        return LegacyGroup::class;
     }
     
     /**
@@ -53,6 +64,31 @@ class CarouselBlock extends BaseBootstrap4Block
                     ['var' => 'image', 'type' => self::TYPE_IMAGEUPLOAD, 'label' => Yii::t('backendobjects', 'block_carousel.image')],
                     ['var' => 'link', 'type' => self::TYPE_LINK, 'label' => Yii::t('backendobjects', 'block_carousel.image_link')]
                 ]],
+                [
+                    'var' => 'visibility',
+                    'label' => 'Visibilità del blocco',
+                    'description' => 'Imposta la visibilità della sezione.',
+                    'initvalue' => '',
+                    'type' => 'zaa-select', 'options' => [
+                        ['value' => '', 'label' => 'Visibile a tutti'],
+                        ['value' => 'guest', 'label' => 'Visibile solo ai non loggati'],
+                        ['value' => 'logged', 'label' => 'Visibile solo ai loggati'],
+                    ],
+                ],
+                [
+                    'var' => 'addclass',
+                    'label' => 'Visibilità per profilo',
+                    'description' => 'Imposta la visibilità della sezione in base al profilo dell\'utente loggato',
+                    'type' => 'zaa-multiple-inputs',
+                    'options' => [
+                        [
+                            'var' => 'class',
+                            'type' => 'zaa-select',
+                            'initvalue' => '',
+                            'options' => BaseUikitBlock::getClasses(),
+                        ]
+                    ],
+                ],
             ],
             'cfgs' => [
                 ['var' => 'blockCssClass', 'type' => self::TYPE_TEXT, 'label' => Yii::t('backendobjects', 'block_carousel.config_block_css_class')],

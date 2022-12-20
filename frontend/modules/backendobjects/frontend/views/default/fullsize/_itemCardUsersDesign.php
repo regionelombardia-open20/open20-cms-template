@@ -5,6 +5,7 @@ use open20\amos\admin\widgets\BiConnectToUserWidget;
 use open20\amos\admin\widgets\BiSendMessageToUserWidget;
 use open20\amos\admin\models\search\UserProfileSearch;
 use open20\amos\core\utilities\CurrentUser;
+use Yii;
 
 $adminModule = AmosAdmin::instance();
 

@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use open20\design\assets\BootstrapItaliaDesignAsset;
 use open20\amos\admin\AmosAdmin;
 use open20\amos\een\AmosEen;
+use Yii;
 
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
 
@@ -67,7 +68,6 @@ $isGuest = \Yii::$app->user->isGuest;
             $controller = \open20\amos\een\controllers\EenPartnershipProposalController::class;
             if (method_exists($controller, 'getManageLinks')) {
                 $manageLinks = $controller::getManageLinks();
-                pr($manageLinks, 'ddd');
             }
 
             $canCreate = \Yii::$app->user->can('PROPOSTECOLLABORAZIONEEEN_CREATE', ['model' => $model]);

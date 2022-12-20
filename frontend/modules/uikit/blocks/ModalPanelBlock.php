@@ -2,12 +2,9 @@
 
 namespace app\modules\uikit\blocks;
 
-use Yii;
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 use app\modules\uikit\BaseUikitBlock;
 use app\modules\uikit\Module;
-use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
-
-
 
 final class ModalPanelBlock extends BaseUikitBlock {
 
@@ -20,29 +17,32 @@ final class ModalPanelBlock extends BaseUikitBlock {
      * @inheritdoc
      */
     public function blockGroup() {
-        return ElementiBaseGroup::class;
+        return LegacyGroup::class;
     }
 
     /**
      * @inheritdoc
      */
     public function name() {
-        return Yii::t('backendobjects', 'block_module_backend_modalpanel');
+        return Module::t('modalpanel');
     }
 
     /**
      * @inheritdoc
      */
     public function icon() {
-        return 'web_asset';
+        return 'line_weight';
     }
 
     /**
      * @inheritdoc
      */
     public function admin() {
-        return $this->frontend();
-        
+        if (strlen($this->getVarValue('text'))) {
+            return $this->frontend();
+        } else {
+            return '<div><span class="block__empty-text">' . Module::t('no_content') . '</span></div>';
+        }
     }
 
 }

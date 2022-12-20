@@ -4,6 +4,7 @@ use open20\amos\community\models\CommunityUserMm;
 use open20\amos\community\models\CommunityType;
 use open20\amos\community\utilities\CommunityUtil;
 use open20\amos\core\user\User;
+use Yii;
 
 $isOpenCommunity = false;
 $isClosedCommunity = false;

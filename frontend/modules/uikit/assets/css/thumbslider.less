@@ -352,27 +352,6 @@
   position: relative;
 }
 
-.isGalleryClass .lSSlideOuter {
-  .lSPager.lSGallery {
-    li {
-      &.active {
-        a {
-          background-color: #ffffff;
-        }
-      }
-
-      a {
-        color: transparent !important;
-        background-color: #333;
-        border-radius: 50%;
-        padding: 4px 5px;
-        font-size: 3px;
-        line-height: 5;
-      }
-    }
-  }
-}
-
 .lightSliderAction {
   position: absolute;
   bottom: 10px;
@@ -459,26 +438,17 @@
           }
 
           .el-content {
-            left: 32.5%;
-            bottom: 10%;
-            position: absolute;
-            width: 35%;
-
-            @media only screen and (max-width: 991px) {
-              left: 25%;
-              width: 50%;
+            position: initial;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            a{
+              color:white;
+              text-decoration: none;
             }
-
-            @media only screen and (max-width: 767px) {
-              left: 10%;
-              width: 80%;
-              font-size: 16px;
-            }
-
-            @media only screen and (max-width: 414px) {
-              bottom: 18%;
-              font-size: 18px;
-            }
+        
           }
 
           p:first-child {
@@ -560,8 +530,8 @@ ul.lSPager.lSGallery .thumb-caption p:last-child {
   top: 50% !important;
   background-image: none;
   color: #ffffff !important;
-  background-color: #297a38;
-  font-size: 2em;
+  background-color: transparent;
+  font-size: 3.5em;
   border-radius: 50%;
   opacity: 1;
 
@@ -829,4 +799,16 @@ ul.lSPager.lSGallery .thumb-caption {
       }
     }
   }
+}
+
+.isGalleryClass .lSSlideOuter .lSPager.lSGallery li a {
+  color: transparent !important;
+  background-color: #333;
+  border-radius: 50%;
+  padding: 4px 5px;
+  font-size: 3px;
+  line-height: 5;
+}
+.isGalleryClass .lSSlideOuter .lSPager.lSGallery li.active a {
+  background-color: #fff;
 }

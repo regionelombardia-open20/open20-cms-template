@@ -6,6 +6,7 @@ use open20\design\assets\BootstrapItaliaDesignAsset;
 use open20\design\utility\DesignUtility;
 use open20\amos\documenti\AmosDocumenti;
 use yii\helpers\Html;
+use Yii;
 
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
 $moduleDocuments = AmosDocumenti::instance();

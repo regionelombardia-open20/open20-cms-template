@@ -1,6 +1,8 @@
 <?php
 
 use trk\uikit\Uikit;
+use app\modules\uikit\Module;
+
 
 if (!empty($item['category'])) {
     $categoryColor = '#000';
@@ -10,8 +12,7 @@ if (!empty($item['category'])) {
 }
 
 
-$titleThumb = !empty($item['thumbcontent']) ? base64_encode($item['thumbcontent']) : base64_encode($item['content']);
-$buttonLabel = !empty($item['buttonLabel']) ? $item['buttonLabel'] : 'Scopri di più';
+$titleThumb = base64_encode($item['content']);
 ?>
 <?php
 if (!$data['hidethumb']) {
@@ -24,7 +25,7 @@ if (!$data['hidethumb']) {
     <li class="lSliderItem sliderItemDot">
     <?php }
     ?>
-    <img src="<?= $item['image'] ?>" alt="<?= $item['image_alt'] ?>" />
+    <img src="<?= $item['image'] ?>" alt="<?= Module::t('Immagine dello slider') ?>" />
     <div class="caption">
         <div class="el-content container text-white">
             <?php
@@ -32,19 +33,11 @@ if (!$data['hidethumb']) {
             ?>
                 <div>
                     <div class="h1">
-                        <a href="<?= $item['link'] ?>" title="Vai alla pagina <?= strip_tags($item['content']) ?>">
+                        <a href="<?= $item['link'] ?>" target="<?= $item['link_target'] ?>" title="Vai alla pagina <?= strip_tags($item['content']) ?>">
                             <?= $item['content'] ?>
                         </a>
                     </div>
-                    <?php
-                    if (!empty($item['button'])) {
-                    ?>
-                        <div>
-                            <a role="button" class="btn btn-primary" href="<?= $item['link'] ?>" title="Vai alla pagina <?= strip_tags($item['content']) ?>">
-                                <?= $buttonLabel ?>
-                            </a>
-                        </div>
-                    <?php } ?>
+                    
                 </div>
             <?php
             } else {

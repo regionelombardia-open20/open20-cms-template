@@ -2,19 +2,15 @@
 
 namespace app\modules\uikit\blocks;
 
-use Yii;
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 use app\modules\uikit\BaseUikitBlock;
-use app\modules\backendobjects\frontend\blockgroups\SviluppoGroup;
+use app\modules\uikit\Module;
 use trk\uikit\Uikit;
 
 class DataBlock extends BaseUikitBlock
 {
     public $cacheEnabled = false;
 
-    public function disable()
-    {
-        return true;
-    }
     /**
      * @inheritdoc
      */
@@ -25,7 +21,11 @@ class DataBlock extends BaseUikitBlock
      */
     public function blockGroup()
     {
-        return SviluppoGroup::class;
+        return LegacyGroup::className();
+    }
+
+    public function disable(){
+        return 0;
     }
 
     /**
@@ -33,7 +33,7 @@ class DataBlock extends BaseUikitBlock
      */
     public function name()
     {
-        return Yii::t('backendobjects', 'block_module_backend_data');
+        return Module::t('data');
     }
 
     /**

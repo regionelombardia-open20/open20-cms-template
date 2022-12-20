@@ -2,22 +2,21 @@
 
 namespace app\modules\cmsapi\frontend\controllers;
 
+use app\modules\cmsapi\frontend\Module as CmsApiModule;
 use Yii;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
+use yii\web\ServerErrorHttpException;
 use luya\cms\models\NavItem;
 use luya\cms\menu\InjectItem;
 use luya\cms\frontend\base\Controller;
+use Symfony\Component\DomCrawler\Crawler;
 
 class PreviewController extends Controller
 {
 
-    public function preview($itemId, $version = false, $date = false)
+    protected function buildPreview($itemId, $version = false, $date = false)
     {
-        if (Yii::$app->adminuser->isGuest) {
-            throw new ForbiddenHttpException('Unable to see the preview page, session expired or not logged in.');
-        }
-
         $navItem = NavItem::findOne($itemId);
 
         if (!$navItem) {
@@ -59,5 +58,54 @@ class PreviewController extends Controller
         //Yii::$app->menu->current = $item;
 
         return $this->renderContent($this->renderItem($itemId, null, $version));
+    }
+
+    public function preview($itemId, $version = false, $date = false) {
+        if (Yii::$app->adminuser->isGuest) {
+            throw new ForbiddenHttpException('Unable to see the preview page, session expired or not logged in.');
+        }
+        return $this->buildPreview($itemId, $version, $date);
+    }
+
+    public function actionPreviewContent($itemId, $version = false, $date = false) {
+        if (Yii::$app->adminuser->isGuest) {
+            throw new ForbiddenHttpException('Unable to see the preview page, session expired or not logged in.');
+        }
+
+        $accept = Yii::$app->request->headers->get('Accept');
+
+        $cmsApiModule = \Yii::$app->getModule('cmsapi');
+
+        // Compiles the HTML for the currently selected page...
+        $html = $this->buildPreview($itemId, $version, $date);
+        // ... and instances the Crawler to parse said HTML.
+        $crawler = new Crawler($html);
+
+        $navItem = NavItem::findOne($itemId);
+
+        // Gets the main content DOM tree
+        $crawler->filterXPath($cmsApiModule->contentXPathSelector)->each(function (Crawler $crawler) use ($cmsApiModule) {
+            // Removes all DOM nodes set to be ignored in the Module configuration
+            foreach($cmsApiModule->contentXPathsToIgnore as $path)
+                foreach ($crawler->filterXPath($path) as $node)
+                    $node->parentNode->removeChild($node);
+        });
+
+        $content = $crawler->filterXPath($cmsApiModule->contentXPathSelector)->html('');
+        if (empty($content)) throw new ServerErrorHttpException('No valid CMS content for the specified page.');
+
+        if (strpos($accept, 'application/json') !== false) {
+            return $this->asJson([
+                'title' => (!empty($navItem->title_tag)) ? $navItem->title_tag : $navItem->title,
+                'language' => $navItem->lang->short_code,
+                'content' => $content,
+                'description' => $navItem->description,
+                'alias' => $navItem->alias
+            ]);
+        }
+
+        return preg_replace('/<!--(.*)-->/Uis', '', $content);
+
+
     }
 }

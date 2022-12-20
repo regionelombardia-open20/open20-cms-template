@@ -13,6 +13,7 @@
 
 use open20\amos\core\helpers\Html;
 use open20\design\components\bootstrapitalia\ActiveForm;
+use Yii;
 
 $this->title = 'Reset password';
 $textPwd = 'La password deve contenere almeno: 8 caratteri, lettere maiuscole e minuscole ed almeno un numero';

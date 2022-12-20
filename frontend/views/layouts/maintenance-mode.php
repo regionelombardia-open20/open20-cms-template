@@ -2,6 +2,7 @@
 
 use app\modules\seo\frontend\behaviors\LuyaSeoBehavior;
 use open20\design\assets\BootstrapItaliaDesignAsset;
+use Yii;
 
 /* @var $this luya\web\View */
 /* @var $content string */

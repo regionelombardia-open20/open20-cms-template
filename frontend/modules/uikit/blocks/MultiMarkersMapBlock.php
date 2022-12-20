@@ -2,11 +2,12 @@
 
 namespace app\modules\uikit\blocks;
 
-use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
+use app\modules\backendobjects\frontend\blockgroups\ContenutoGroup;
 use app\modules\uikit\BaseUikitBlock;
 use trk\uikit\Uikit;
 use Yii;
 use yii\helpers\VarDumper;
+use yii\helpers\ArrayHelper;
 
 
 final class MultiMarkersMapBlock extends BaseUikitBlock
@@ -15,6 +16,11 @@ final class MultiMarkersMapBlock extends BaseUikitBlock
      * @inheritdoc
      */
     public $cacheEnabled = true;
+    
+    public function disable()
+    {
+        return true;
+    }
 
     /**
      * @inheritdoc
@@ -26,7 +32,7 @@ final class MultiMarkersMapBlock extends BaseUikitBlock
     
     public function blockGroup()
     {
-        return ElementiBaseGroup::class;
+        return ContenutoGroup::class;
     }
 
     /**
@@ -49,13 +55,7 @@ final class MultiMarkersMapBlock extends BaseUikitBlock
                     'label' => Yii::t('backendobjects', 'Id Canvas'),
                     'type' => self::TYPE_TEXT,
                     'initvalue' => '',
-                ],
-                [
-                    'var' => 'address',
-                    'label' => Yii::t('backendobjects', 'block_map_address_label'),
-                    'type' => self::TYPE_TEXT,
-                    'placeholder' => 'Zephir Software Design AG, Tramstrasse 66, 4142 Münchenstein'
-                ],
+                ],        
                 [
                     'var' => 'zoom',
                     'label' => Yii::t('backendobjects', 'block_map_zoom_label'),
@@ -114,6 +114,31 @@ final class MultiMarkersMapBlock extends BaseUikitBlock
                             'placeholder' => ''
                         ]
                         
+                    ],
+                ],
+                [
+                    'var' => 'visibility',
+                    'label' => 'Visibilità del blocco',
+                    'description' => 'Imposta la visibilità della sezione.',
+                    'initvalue' => '',
+                    'type' => 'zaa-select', 'options' => [
+                        ['value' => '', 'label' => 'Visibile a tutti'],
+                        ['value' => 'guest', 'label' => 'Visibile solo ai non loggati'],
+                        ['value' => 'logged', 'label' => 'Visibile solo ai loggati'],
+                    ],
+                ],
+                [
+                    'var' => 'addclass',
+                    'label' => 'Visibilità per profilo',
+                    'description' => 'Imposta la visibilità della sezione in base al profilo dell\'utente loggato',
+                    'type' => 'zaa-multiple-inputs',
+                    'options' => [
+                        [
+                            'var' => 'class',
+                            'type' => 'zaa-select',
+                            'initvalue' => '',
+                            'options' => BaseUikitBlock::getClasses(),
+                        ]
                     ],
                 ],
             ],

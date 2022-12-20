@@ -2,7 +2,7 @@
 
 namespace app\modules\uikit\blocks;
 
-use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 use app\modules\cms\models\Nav;
 use app\modules\uikit\BaseUikitBlock;
 use app\modules\uikit\menu\MenuItem;
@@ -12,6 +12,7 @@ use trk\uikit\Uikit;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\VarDumper;
+use yii\helpers\ArrayHelper;
 
 class MenuBlock extends BaseUikitBlock {
 
@@ -29,6 +30,7 @@ class MenuBlock extends BaseUikitBlock {
      *
      * @return ActiveRecord
      */
+    
     private function getGroups() {
         if ($this->groups === null) {
             $this->groups = Group::find()->all();
@@ -37,11 +39,15 @@ class MenuBlock extends BaseUikitBlock {
         return $this->groups;
     }
 
+    public function disable(){
+        return 0;
+    }
+
     /**
      * @inheritdoc
      */
     public function blockGroup() {
-        return ElementiBaseGroup::class;
+        return LegacyGroup::class;
     }
 
     /**
@@ -113,6 +119,40 @@ class MenuBlock extends BaseUikitBlock {
             $item->loadSons();
             $this->itemData[] = $item;
         }
+    }
+    
+    public function config() {
+        $configs = [
+            'vars' => [
+                [
+                    'var' => 'visibility',
+                    'label' => 'Visibilità del blocco',
+                    'description' => 'Imposta la visibilità della sezione.',
+                    'initvalue' => '',
+                    'type' => 'zaa-select', 'options' => [
+                        ['value' => '', 'label' => 'Visibile a tutti'],
+                        ['value' => 'guest', 'label' => 'Visibile solo ai non loggati'],
+                        ['value' => 'logged', 'label' => 'Visibile solo ai loggati'],
+                    ],
+                ],
+                [
+                    'var' => 'addclass',
+                    'label' => 'Visibilità per profilo',
+                    'description' => 'Imposta la visibilità della sezione in base al profilo dell\'utente loggato',
+                    'type' => 'zaa-multiple-inputs',
+                    'options' => [
+                        [
+                            'var' => 'class',
+                            'type' => 'zaa-select',
+                            'initvalue' => '',
+                            'options' => BaseUikitBlock::getClasses(),
+                        ]
+                    ],
+                ],
+            ],
+        ];
+
+        return ArrayHelper::merge(parent::config(), $configs);
     }
 
 }

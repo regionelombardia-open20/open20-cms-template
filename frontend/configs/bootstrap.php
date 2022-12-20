@@ -8,6 +8,7 @@
  * @category   CategoryName
  */
 $bootstrap   = [];
+$bootstrap[] = 'open20\amos\core\bootstrap\Breadcrumb';
 $bootstrap[] = 'log';
 $bootstrap[] = 'cms';
 $bootstrap[] = 'design';

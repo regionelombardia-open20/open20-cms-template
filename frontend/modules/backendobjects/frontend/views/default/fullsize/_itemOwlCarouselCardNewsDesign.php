@@ -4,6 +4,7 @@ use open20\amos\news\utility\NewsUtility;
 use open20\amos\core\utilities\CurrentUser;
 use open20\amos\admin\AmosAdmin;
 use open20\amos\core\record\CachedActiveQuery;
+use Yii;
 
 $relationQuery = $model->getCreatedUserProfile();
 $relationCreated = CachedActiveQuery::instance($relationQuery);

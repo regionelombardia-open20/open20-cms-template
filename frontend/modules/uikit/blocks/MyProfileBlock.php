@@ -9,12 +9,11 @@
 
 namespace app\modules\uikit\blocks;
 
-use Yii;
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 use app\modules\uikit\Module;
 use app\modules\uikit\Uikit;
 use open20\amos\admin\AmosAdmin;
 use open20\amos\admin\models\UserProfile;
-use app\modules\backendobjects\frontend\blockgroups\SviluppoGroup;
 use open20\amos\core\record\CachedActiveQuery;
 
 /**
@@ -55,7 +54,7 @@ class MyProfileBlock extends \app\modules\uikit\BaseUikitBlock
 
     public function name()
     {
-        return Yii::t('backendobjects', 'block_module_backend_myprofile');
+        return Module::t('Il mio profilo');
     }
 
     /**
@@ -63,7 +62,7 @@ class MyProfileBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function blockGroup()
     {
-        return SviluppoGroup::class;
+        return LegacyGroup::class;
     }
 
     /**

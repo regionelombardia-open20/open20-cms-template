@@ -7,6 +7,7 @@ use open20\design\assets\BootstrapItaliaDesignAsset;
 use open20\amos\admin\AmosAdmin;
 use open20\design\utility\DesignUtility;
 use open20\amos\community\AmosCommunity;
+use Yii;
 
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
 

@@ -12,6 +12,7 @@
 use open20\amos\admin\AmosAdmin;
 use open20\amos\core\helpers\Html;
 use open20\design\components\bootstrapitalia\ActiveForm;
+use Yii;
 
 $this->title = AmosAdmin::t('amosadmin', 'Password dimenticata');
 

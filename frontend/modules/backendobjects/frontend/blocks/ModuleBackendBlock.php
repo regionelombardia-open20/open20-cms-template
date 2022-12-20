@@ -7,6 +7,7 @@ use yii\web\Response;
 use app\modules\backendobjects\frontend\blockgroups\SviluppoGroup;
 use luya\base\ModuleReflection;
 use luya\cms\base\PhpBlock;
+use app\modules\uikit\BaseUikitBlock;
 
 /**
  * Module Backend Block.
@@ -26,9 +27,15 @@ class ModuleBackendBlock extends PhpBlock
     /**
      * @inheritDoc
      */
+
+    
     public function blockGroup()
     {
         return SviluppoGroup::className();
+    }
+
+    public function disable(){
+        return 0;
     }
 
     /**
@@ -65,6 +72,31 @@ class ModuleBackendBlock extends PhpBlock
                 ['var' => 'methodSearch', 'label' => Yii::t('backendobjects', 'block_module_backend_methodSearch_label'), 'type' => self::TYPE_TEXT],
                 ['var' => 'conditionSearch', 'label' => Yii::t('backendobjects', 'block_module_backend_conditionSearch_label'), 'type' => self::TYPE_TEXT],
                 ['var' => 'relatedDetailPage', 'label' => Yii::t('backendobjects', 'block_module_backend_related_detailPage_label'), 'type' => self::TYPE_TEXT],
+                [
+                    'var' => 'visibility',
+                    'label' => 'Visibilità del blocco',
+                    'description' => 'Imposta la visibilità della sezione.',
+                    'initvalue' => '',
+                    'type' => 'zaa-select', 'options' => [
+                        ['value' => '', 'label' => 'Visibile a tutti'],
+                        ['value' => 'guest', 'label' => 'Visibile solo ai non loggati'],
+                        ['value' => 'logged', 'label' => 'Visibile solo ai loggati'],
+                    ],
+                ],
+                [
+                    'var' => 'addclass',
+                    'label' => 'Visibilità per profilo',
+                    'description' => 'Imposta la visibilità della sezione in base al profilo dell\'utente loggato',
+                    'type' => 'zaa-multiple-inputs',
+                    'options' => [
+                        [
+                            'var' => 'class',
+                            'type' => 'zaa-select',
+                            'initvalue' => '',
+                            'options' => BaseUikitBlock::getClasses(),
+                        ]
+                    ],
+                ],
             ],
         ];
     }
@@ -93,6 +125,8 @@ class ModuleBackendBlock extends PhpBlock
     {
         $str_view_module = '{% if vars.backendModule is empty %}<span class="block__empty-text">' . Yii::t('backendobjects', 'block_module_backend_no_module') . '</span>{% else %}<p><i class="material-icons">apps</i> ' . Yii::t('backendobjects', 'block_module_backend_integration') . ': <strong>';
         $moduleName = "";
+        
+        $str_view = '';
 
         switch ($this->getVarValue('backendModule')) {
             case "open20\\amos\\news\\AmosNews":
@@ -149,9 +183,11 @@ class ModuleBackendBlock extends PhpBlock
             foreach ($frontendModule->modulesEnabled as $backModuleEnabled) {
                 if (class_exists($backModuleEnabled) && in_array('open20\amos\core\interfaces\CmsModuleInterface', class_implements($backModuleEnabled))) {
                     $moduleName = $backModuleEnabled::getModuleName();
-                    $modelSearchClass = $backModuleEnabled::getModelSearchClassName();
-                    if (class_exists($modelSearchClass) && in_array('open20\amos\core\interfaces\CmsModelInterface', class_implements($modelSearchClass))) {
-                        $data[] = ['value' => $backModuleEnabled, 'label' => $moduleName];
+                    if (Yii::$app->hasModule($moduleName)) {
+                        $modelSearchClass = $backModuleEnabled::getModelSearchClassName();
+                        if (class_exists($modelSearchClass) && in_array('open20\amos\core\interfaces\CmsModelInterface', class_implements($modelSearchClass))) {
+                            $data[] = ['value' => $backModuleEnabled, 'label' => $moduleName];
+                        }
                     }
                 }
             }

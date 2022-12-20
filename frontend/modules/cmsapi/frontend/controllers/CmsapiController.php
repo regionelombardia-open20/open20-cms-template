@@ -527,7 +527,8 @@ class CmsapiController extends Controller
                                 $navItem = NavItem::findOne(['nav_id' => $model->id,
                                         'lang_id' => $postCmsPage->lang_id]);
                                 if (!is_null($navItem)) {
-                                    $previewController = new PreviewController();
+                                    $moduleCmsapi = \Yii::$app->getModule('cmsapi');
+                                    $previewController = new PreviewController('preview', $moduleCmsapi, []);
                                     $result            = $previewController->preview($navItem->id);
                                 }
                             }

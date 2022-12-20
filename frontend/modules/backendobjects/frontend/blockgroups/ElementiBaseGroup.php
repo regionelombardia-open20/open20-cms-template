@@ -14,6 +14,6 @@ class ElementiBaseGroup extends MainGroup
     
     public function getPosition()
     {
-        return 1;
+        return 8;
     }
 }

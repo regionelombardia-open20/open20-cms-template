@@ -81,5 +81,5 @@ if ($data['layout'] != 'stacked') {
         </div>
     </div>
     <?= $this->render('content', compact('item', 'data')) ?>
-<?php endif ?>
+<?php endif;
 

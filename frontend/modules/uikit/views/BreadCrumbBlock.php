@@ -10,7 +10,7 @@ $currentAsset = BootstrapItaliaDesignAsset::register($this);
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
             <a class="text-decoration-none" href="<?= Yii::$app->menu->home->link ?>">
-                <svg class="icon icon-sm icon-primary align-top">
+                <svg class="icon icon-sm icon-black align-top">
                     <use xlink:href=" <?= $currentAsset->baseUrl ?>/sprite/material-sprite.svg#home"></use>
                 </svg>
             </a>
@@ -21,7 +21,8 @@ $currentAsset = BootstrapItaliaDesignAsset::register($this);
             $current = Yii::$app->menu->current;
 
         ?>
-            <?php if(!($item->title=='Home' || $item->title=='home' || $item->title=='Homepage' || $item->title=='homepage')): ?>
+        
+           
                 <?php if($current!=$item->link): ?>
                     <li class="breadcrumb-item">
                         <a href="<?= $item->link ?>"><?= $item->title ?></a>
@@ -33,7 +34,6 @@ $currentAsset = BootstrapItaliaDesignAsset::register($this);
                         <?= $item->title ?>
                     </li>
                 <?php endif; ?>
-            <?php endif; ?>
 
             <?php
         }

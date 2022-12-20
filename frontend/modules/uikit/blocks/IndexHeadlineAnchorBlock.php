@@ -2,17 +2,17 @@
 
 namespace app\modules\uikit\blocks;
 
-use Yii;
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 use app\modules\uikit\Module;
-use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
+use DOMDocument;
 use trk\uikit\Uikit;
-use \DOMDocument;
 use yii\helpers\Url;
 
-class IndexHeadlineAnchorBlock extends \app\modules\uikit\BaseUikitBlock {
+class IndexHeadlineAnchorBlock extends \app\modules\uikit\BaseUikitBlock 
+{
 
     private $blocks = ['\app\modules\uikit\blocks\HeadlineAnchorBlock'];
-
+    
     /**
      * @inheritdoc
      */
@@ -22,14 +22,14 @@ class IndexHeadlineAnchorBlock extends \app\modules\uikit\BaseUikitBlock {
      * @inheritdoc
      */
     public function blockGroup() {
-        return ElementiBaseGroup::class;
+        return LegacyGroup::class;
     }
 
     /**
      * @inheritdoc
      */
     public function name() {
-        return Yii::t('backendobjects', 'block_module_backend_index-headline-anchor');
+        return Module::t('index-headline-anchor');
     }
 
     /**
@@ -43,43 +43,47 @@ class IndexHeadlineAnchorBlock extends \app\modules\uikit\BaseUikitBlock {
      * @inheritdoc
      */
     public function admin() {
-
-        return $this->frontend();
+        if (count($this->getVarValue('items', []))) {
+            return $this->frontend();
+        } else {
+            return '<div><span class="block__empty-text">' . Module::t('no_content') . '</span></div>';
+        }
     }
 
-    public function frontend(array $params = array()) {
+    public function frontend(array $params = array()) 
+    {
         $titles = [];
-
+       
         $blockId = $this->getEnvOption('id');
         $params['blockItemId'] = $blockId;
-
+        
         $configs = $this->getValues();
         $configs["id"] = Uikit::unique($this->component);
         $params['data'] = Uikit::configs($configs);
         $params['debug'] = $this->config();
         $params['filters'] = $this->filters;
-
-        $nav = $this->getEnvOption('pageObject');
-        if (!is_null($nav)) {
-            if ($nav instanceof \app\modules\cms\models\NavItemPage || $nav instanceof \luya\cms\models\NavItemPage) {
-                $page = $nav;
-            } else {
-                $nav = $nav->one();
-                $page = \luya\cms\models\NavItemPage::findOne(['nav_item_id' => $nav->id]);
-            }
-
-            if (!is_null($page)) {
+        
+        $nav = $this->getEnvOption('pageObject')->one();
+        if (!is_null($nav)) 
+        {
+            $page = \luya\cms\models\NavItemPage::findOne(['nav_item_id' => $nav->id]);
+            if (!is_null($page)) 
+            {
                 $models = \luya\cms\models\NavItemPageBlockItem::find()->
-                                andWhere(['nav_item_page_id' => $page->id])->
-                                andWhere(['block_id' => $this->blocksFind()])
-                                ->orderBy(['prev_id' => SORT_ASC, 'sort_index' => SORT_ASC])->all();
-                foreach ($models as $model) {
-                    if (!$model->is_hidden) {
+		andWhere(['nav_item_page_id' => $page->id])->
+                andWhere(['block_id' => $this->blocksFind()])
+                ->orderBy(['prev_id' => SORT_ASC])->all();
+                foreach ($models as $model) 
+                {
+                    if(!$model->is_hidden)
+                    {
                         $values = json_decode($model->json_config_values);
-                        if ($values->title_element == $this->getVarValue('header', '')) {
-                            $link = "#" . $values->content;
+                        if($values->title_element == $this->getVarValue('header', ''))
+                        {
+                            $link = Url::current([], true) . "#" . ($values->anchor ? $values->anchor : $values->content);
                             $htags = \yii\helpers\Html::a($values->content, \yii\helpers\Url::to($link));  //$this->getTextBetweenTags($values->content,$configs['header']);
-                            if (!empty($htags)) {
+                            if(!empty($htags))
+                            {
                                 $titles[] = $htags;
                             }
                         }
@@ -91,36 +95,44 @@ class IndexHeadlineAnchorBlock extends \app\modules\uikit\BaseUikitBlock {
         return $this->view->render($this->getViewFileName('php'), $params, $this);
     }
 
+    
     /**
      * 
      * @param type $string
      * @param type $tagname
      * @return type
      */
-    private function getTextBetweenTags($string, $tagname) {
+    private function getTextBetweenTags($string, $tagname)
+    {
         $d = new DOMDocument();
         $d->loadHTML($string);
         $return = array();
-        foreach ($d->getElementsByTagName($tagname) as $item) {
-
-            if (!is_null($item->firstChild) && $item->firstChild->nodeName == "a") {
+        foreach ($d->getElementsByTagName($tagname) as $item) 
+        {
+            
+            if(!is_null($item->firstChild) && $item->firstChild->nodeName == "a")
+            {
                 $return = $d->saveHTML($item->firstChild);
-            } else {
+            }else
+            {
                 $return = $item->textContent;
             }
         }
         return $return;
     }
-
+    
     /**
      * 
      * @return array
      */
-    private function blocksFind() {
+    private function blocksFind()
+    {
         $ids = [];
-        foreach ($this->blocks as $block) {
+        foreach($this->blocks as $block)
+        {
             $obj = \luya\cms\models\Block::findOne(['class' => $block]);
-            if (!is_null($obj)) {
+            if(!is_null($obj))
+            {
                 $ids[] = $obj->id;
             }
         }

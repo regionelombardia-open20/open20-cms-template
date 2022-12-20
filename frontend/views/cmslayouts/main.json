@@ -1,7 +1,7 @@
 {
 	"rows" : [
 	    [
-	        {"cols": 12, "var": "content", "label": "Main Container"}
+	        {"cols": 12, "var": "content"}
 	    ]
 	]
 }

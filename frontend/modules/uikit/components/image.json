@@ -2,8 +2,8 @@
     "vars": [
         {
             "var": "image",
-            "label": "Image",
-            "description": "",
+            "label": "Immagine",
+            "description": "Seleziona l'immagine.",
             "initvalue": "",
             "options": {
                 "no_filter": false
@@ -12,58 +12,32 @@
         },
         {
             "var": "image_box_shadow",
-            "label": "Box Shadow",
-            "description": "Insert the image's box shadow.",
+            "label": "Aggiungi ombreggiatura",
+            "description": "Se selezionato permette di aggiungere un'ombreggiatura all'immagine.",
             "initvalue": "",
             "type": "zaa-checkbox"
         },
         {
             "var": "link",
-            "label": "Link",
-            "description": "",
+            "label": "Link dell'immagine",
+            "description": "Se selezionato permette di rendere l'immagine cliccabile.",
             "initvalue": "",
             "placeholder": "http:\/\/",
             "type": "zaa-link"
-        },{
-            "var": "link_target",
-            "label": "Open link in a new window",
-            "description": "If link, open in a new window",
-            "initvalue": "",
-            "type": "zaa-checkbox"
-        },{
-            "var": "text",
-            "label": "Text",
-            "description": "Text to show.",
-            "initvalue": "",
-            "type": "zaa-text"
         }
     ],
     "cfgs": [
         {
-            "var": "image_alt",
-            "label": "Image Alt",
-            "description": "Enter the image's alt attribute.",
-            "initvalue": "",
-            "type": "zaa-text"
-        },
-        {
-            "var": "link_title",
-            "label": "Link Title",
-            "description": "Enter the image's link title attribute.",
-            "initvalue": "",
-            "type": "zaa-text"
-        },
-        {
-            "var": "link_class",
-            "label": "Link Class",
-            "description": "Define one or more class names for the link. Separate multiple classes with spaces.",
-            "initvalue": "",
-            "type": "zaa-text"
-        },
-        {
             "var": "class",
-            "label": "Class",
-            "description": "Define one or more class names for the element. Separate multiple classes with spaces.",
+            "label": "Classe css",
+            "description": "Classe css associata al componente.",
+            "initValue": "",
+            "type": "zaa-text"
+        },
+        {
+            "var": "image_alt",
+            "label": "Alt dell'immagine",
+            "description": "Attributo per l'accessibilità: nel caso in cui l'immagine si rompa verrà visualizzato questo testo.",
             "initvalue": "",
             "type": "zaa-text"
         }

@@ -3,6 +3,23 @@
 /* @var $this \luya\cms\base\PhpBlockView */
 
 use luya\lazyload\LazyLoad;
+use app\modules\uikit\BaseUikitBlock;
+
+$canSeeBlock = true;
+$visibility = $this->varValue('visibility');
+
+switch($visibility){
+    case 'guest':
+        $canSeeBlock = Yii::$app->user->isGuest;          
+    break;
+    case 'logged':
+        $canSeeBlock = !Yii::$app->user->isGuest; 
+		$n_class = $this->varValue('addclass');
+		if($canSeeBlock && !empty($n_class)){
+			$canSeeBlock = BaseUikitBlock::visivility($n_class);
+		}
+    break;
+}
 
 $images = $this->extraValue('images');
 $indicators = null;
@@ -18,7 +35,10 @@ if (!empty($images)):
             break;
         }
     }
-    if ($hasImages): ?>
+?>
+<?php if ($canSeeBlock): ?>
+
+    <?php if ($hasImages): ?>
         <div id="<?= $id ?>" class="carousel<?= $this->cfgValue('blockCssClass', null, ' {{blockCssClass}}') ?> slide<?= $this->cfgValue('crossfade', null, ' carousel-fade'); ?><?= $this->cfgValue('row', null, ' row') ?>" data-ride="carousel">
             <div class="carousel-inner">
             <?php foreach ($images as $image):
@@ -79,4 +99,4 @@ if (!empty($images)):
             ); ?>
         </div>
     <?php endif; ?>
-<?php endif; ?>
+<?php endif; 

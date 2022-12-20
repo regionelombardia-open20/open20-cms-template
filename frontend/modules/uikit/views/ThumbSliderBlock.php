@@ -4,6 +4,24 @@
 use app\assets\ThumbSliderAsset;
 use yii\web\View;
 use app\modules\uikit\Uikit;
+use app\modules\uikit\BaseUikitBlock;
+
+$canSeeBlock = true;
+$visibility = $this->varValue('visibility');
+
+switch($visibility){
+    case 'guest':
+        $canSeeBlock = Yii::$app->user->isGuest;          
+    break;
+    case 'logged':
+        $canSeeBlock = !Yii::$app->user->isGuest; 
+		$n_class = $this->varValue('addclass');
+		if($canSeeBlock && !empty($n_class)){
+			$canSeeBlock = BaseUikitBlock::visivility($n_class);
+		}
+    break;
+}
+
 
 
 ThumbSliderAsset::register($this);
@@ -18,9 +36,9 @@ $attrs = $data['attrs'];
 
 //gallery with thumb
 if (empty($data['hidethumb'])) {
-    $classGallery = ' galleryThumb';
+    $classGallery = 'galleryThumb';
 }else {
-    $classGallery = ' gallerySlider';
+    $classGallery = 'gallerySlider isGalleryClass';
 }
 
 //gallery NO thumb
@@ -30,30 +48,27 @@ if (!empty($data['class'])) {
     $class = 'wrap-lightslider '. $classGallery;
 }
 
-$controls = $data['showactions'] ? 'true' : 'false';
-$gallery = $data['gallery'] ? 'true' : 'false';
-
-if($gallery == 'true') {
-    $class = $class. ' isGalleryClass';
-}
-
-//FrontAsset::register($this);
-
-
+$i = 0;
+$limit = 3;
 ?>
-<div class="thumbslider-container">
-    <div <?= Uikit::attrs(compact('class'), $attrs) ?>>
-        <ul id="lightSlider">
-            <?php foreach ($data['items'] as $item) : ?>
-                <?= $this->render('thumbslider/item', compact('item', 'data')) ?>
-            <?php endforeach ?>
-        </ul>
 
-        <?php if($controls  == 'true'): ?>
-            <div class="lightSliderAction">
-                <span class="am am-play play-btn" ></span>
-                <span class="am am-pause pause-btn"></span>
-            </div>
-        <?php endif; ?>
+<?php if ($canSeeBlock): ?>
+    <div class="thumbslider-container">
+        <div <?= Uikit::attrs(compact('class'), $attrs) ?>>
+            <ul id="lightSlider">
+                <?php foreach ($data['items'] as $item) : ?>
+                    <?= $this->render('thumbslider/item', compact('item', 'data')) ?>
+                <?php 
+                if(++$i >= $limit){
+                    break;
+                }
+                endforeach ?>
+            </ul>
+
+                <div class="lightSliderAction">
+                    <span class="am am-play play-btn" ></span>
+                    <span class="am am-pause pause-btn"></span>
+                </div>
+        </div>
     </div>
-</div>
+<?php endif; ?>

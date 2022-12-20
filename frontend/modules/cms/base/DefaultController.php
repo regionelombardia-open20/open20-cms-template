@@ -7,6 +7,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use Lullabot\AMP\AMP;
 use Lullabot\AMP\Validate\Scope;
+use Yii;
 
 class DefaultController extends \luya\cms\frontend\controllers\DefaultController
 {

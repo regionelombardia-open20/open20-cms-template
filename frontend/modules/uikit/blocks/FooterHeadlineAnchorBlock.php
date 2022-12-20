@@ -2,10 +2,12 @@
 
 namespace app\modules\uikit\blocks;
 
-use app\modules\backendobjects\frontend\blockgroups\FooterGroup;
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 use app\modules\uikit\BaseUikitBlock;
 use trk\uikit\Module;
 use Yii;
+use yii\helpers\ArrayHelper;
+
 
 
 final class FooterHeadlineAnchorBlock  extends BaseUikitBlock
@@ -21,7 +23,11 @@ final class FooterHeadlineAnchorBlock  extends BaseUikitBlock
      */
     public function blockGroup()
     {
-        return FooterGroup::class;
+        return LegacyGroup::class;
+    }
+
+    public function disable(){
+        return 0;
     }
 
     /**
@@ -50,5 +56,39 @@ final class FooterHeadlineAnchorBlock  extends BaseUikitBlock
         } else {
             return '<div><span class="block__empty-text">' . Module::t('no_content') . '</span></div>';
         }
+    }
+    
+    public function config() {
+        $configs = [
+            'vars' => [
+                [
+                    'var' => 'visibility',
+                    'label' => 'Visibilità del blocco',
+                    'description' => 'Imposta la visibilità della sezione.',
+                    'initvalue' => '',
+                    'type' => 'zaa-select', 'options' => [
+                        ['value' => '', 'label' => 'Visibile a tutti'],
+                        ['value' => 'guest', 'label' => 'Visibile solo ai non loggati'],
+                        ['value' => 'logged', 'label' => 'Visibile solo ai loggati'],
+                    ],
+                ],
+                [
+                    'var' => 'addclass',
+                    'label' => 'Visibilità per profilo',
+                    'description' => 'Imposta la visibilità della sezione in base al profilo dell\'utente loggato',
+                    'type' => 'zaa-multiple-inputs',
+                    'options' => [
+                        [
+                            'var' => 'class',
+                            'type' => 'zaa-select',
+                            'initvalue' => '',
+                            'options' => BaseUikitBlock::getClasses(),
+                        ]
+                    ],
+                ],
+            ],
+        ];
+
+        return ArrayHelper::merge(parent::config(), $configs);
     }
 }

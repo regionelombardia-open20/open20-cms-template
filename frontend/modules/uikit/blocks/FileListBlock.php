@@ -5,7 +5,9 @@ namespace app\modules\uikit\blocks;
 use Yii;
 use app\modules\uikit\BaseUikitBlock;
 use luya\cms\helpers\BlockHelper;
-use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
+use app\modules\uikit\Module;
+use app\modules\backendobjects\frontend\blockgroups\ListatoContenutiGroup;
+use yii\helpers\ArrayHelper;
 
 /**
  * File list block.
@@ -24,7 +26,7 @@ final class FileListBlock extends BaseUikitBlock
      */
     public function blockGroup()
     {
-        return ElementiBaseGroup::class;
+        return ListatoContenutiGroup::class;
     }
     /**
      * @inheritdoc
@@ -49,15 +51,50 @@ final class FileListBlock extends BaseUikitBlock
     {
         return [
             'vars' => [
-                ['var' => 'files', 'label' => Yii::t('backendobjects', "block_file_list_files_label"), 'type' => 'zaa-file-array-upload'],
+                [
+                    'var' => 'files', 
+                    'label' => Yii::t('backendobjects', "Elementi"),
+                    'description' => Yii::t('backendobjects', "Seleziona i documenti da inserire nel listato. Per ogni documento va caricato il file e scelta una descrizione."),
+                    'type' => 'zaa-file-array-upload'
+                    ],
+                [
+                    'var' => 'visibility',
+                    'label' => 'Visibilità del blocco',
+                    'description' => 'Imposta la visibilità della sezione.',
+                    'initvalue' => '',
+                    'type' => 'zaa-select', 'options' => [
+                        ['value' => '', 'label' => 'Visibile a tutti'],
+                        ['value' => 'guest', 'label' => 'Visibile solo ai non loggati'],
+                        ['value' => 'logged', 'label' => 'Visibile solo ai loggati'],
+                    ],
+                ],
+                [
+                    'var' => 'addclass',
+                    'label' => 'Visibilità per profilo',
+                    'description' => 'Imposta la visibilità della sezione in base al profilo dell\'utente loggato',
+                    'type' => 'zaa-multiple-inputs',
+                    'options' => [
+                        [
+                            'var' => 'class',
+                            'type' => 'zaa-select',
+                            'initvalue' => '',
+                            'options' => BaseUikitBlock::getClasses(),
+                        ]
+                    ],
+                ],
             ],
             'cfgs' => [
-                ['var' => 'showType', 'label' => Yii::t('backendobjects', "block_file_list_files_showtype_label"), 'initvalue' => 0, 'type' => 'zaa-select', 'options' => [
+                [
+                    'var' => 'showType',
+                    'label' => Yii::t('backendobjects', "block_file_list_files_showtype_label"),
+                    'initvalue' => 0,
+                    'type' => 'zaa-select',
+                    'description' => Yii::t('backendobjects', "Se selezionato per ogni file mostrerà il nome e la sua estensione. Di default non è selezionato, e quindi l'estensione non si vede."),
+                    'options' => [
                         ['value' => '1', 'label' => Yii::t('backendobjects', "block_file_list_showtype_yes")],
                         ['value' => '0', 'label' => Yii::t('backendobjects', "block_file_list_showtype_no")],
                     ],
                 ],
-                ['var' => 'link_title', 'label' => Yii::t('backendobjects', "block_file_list_files_link_title"), 'type' => 'zaa-text', 'description' => 'Enter the document\'s link title attribute.'],
             ],
         ];
     }
@@ -77,6 +114,10 @@ final class FileListBlock extends BaseUikitBlock
      */
     public function admin()
     {
-        return $this->frontend();
+        if (count($this->getVarValue('files', []))) {
+            return $this->frontend();
+        } else {
+            return '<div><span class="block__empty-text">'.Module::t('Nessun documento inserito.').'</span></div>';
+        }
     }
 }

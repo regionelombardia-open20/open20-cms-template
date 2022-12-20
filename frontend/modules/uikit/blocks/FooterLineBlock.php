@@ -2,9 +2,11 @@
 
 namespace app\modules\uikit\blocks;
 
-use app\modules\backendobjects\frontend\blockgroups\FooterGroup;
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 use app\modules\uikit\BaseUikitBlock;
 use Yii;
+use yii\helpers\ArrayHelper;
+
 
 
 final class FooterLineBlock extends BaseUikitBlock
@@ -22,12 +24,15 @@ final class FooterLineBlock extends BaseUikitBlock
         return Yii::t('backendobjects', 'block_module_line_name');
     }
     
+    public function disable(){
+        return 0;
+    }
     /**
      * @inheritdoc
      */
     public function blockGroup()
     {
-        return FooterGroup::class;
+        return LegacyGroup::class;
     }
 
     /**
@@ -76,7 +81,32 @@ final class FooterLineBlock extends BaseUikitBlock
                     ['value' => 'white-border-color', 'label' => Yii::t('backendobjects', 'block_line_linecolor_white')],
                     ['value' => 'primary-border-color', 'label' => Yii::t('backendobjects', 'block_line_linecolor_primary')],
                     ['value' => 'secondary-border-color', 'label' => Yii::t('backendobjects', 'block_line_linecolor_secondary')],
-                ], 'initvalue' => 'border-200']
+                ], 'initvalue' => 'border-200'],
+               [
+                    'var' => 'visibility',
+                    'label' => 'Visibilità del blocco',
+                    'description' => 'Imposta la visibilità della sezione.',
+                    'initvalue' => '',
+                    'type' => 'zaa-select', 'options' => [
+                        ['value' => '', 'label' => 'Visibile a tutti'],
+                        ['value' => 'guest', 'label' => 'Visibile solo ai non loggati'],
+                        ['value' => 'logged', 'label' => 'Visibile solo ai loggati'],
+                    ],
+                ],
+                [
+                    'var' => 'addclass',
+                    'label' => 'Visibilità per profilo',
+                    'description' => 'Imposta la visibilità della sezione in base al profilo dell\'utente loggato',
+                    'type' => 'zaa-multiple-inputs',
+                    'options' => [
+                        [
+                            'var' => 'class',
+                            'type' => 'zaa-select',
+                            'initvalue' => '',
+                            'options' => BaseUikitBlock::getClasses(),
+                        ]
+                    ],
+                ],
             ],
         ];
     }

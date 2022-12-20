@@ -41,7 +41,6 @@ abstract class CmsPageBlock extends NavItemPageBlockItem
     /**
      *
      * @param array $values
-     * @return array
      */
     protected function flatArray(array &$values)
     {

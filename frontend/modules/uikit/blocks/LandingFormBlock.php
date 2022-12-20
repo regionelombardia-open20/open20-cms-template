@@ -2,6 +2,7 @@
 
 namespace app\modules\uikit\blocks;
 
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 use app\modules\cms\utility\RegisterUser;
 use app\modules\uikit\BaseUikitFormBlock;
 use app\modules\uikit\Module;
@@ -11,11 +12,9 @@ use open20\amos\core\record\RecordDynamicModel;
 use open20\amos\events\models\Event;
 use open20\amos\events\models\EventInvitation;
 use open20\amos\events\models\EventType;
-use Hybrid_User_Profile;
-use app\modules\backendobjects\frontend\blockgroups\SviluppoGroup;
 use Mustache_Engine;
-use trk\uikit\Uikit;
 use Yii;
+use trk\uikit\Uikit;
 use yii\base\InvalidConfigException;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
@@ -36,7 +35,7 @@ class LandingFormBlock extends BaseUikitFormBlock
      */
     public function name()
     {
-        return Yii::t('backendobjects', 'block_module_backend_landingform');
+        return Module::t('landingform');
     }
 
     /**
@@ -44,7 +43,7 @@ class LandingFormBlock extends BaseUikitFormBlock
      */
     public function blockGroup()
     {
-        return SviluppoGroup::class;
+        return LegacyGroup::class;
     }
 
     /**
@@ -62,7 +61,6 @@ class LandingFormBlock extends BaseUikitFormBlock
      */
     public function frontend(array $params = array())
     {
-
         $configs = $this->getValues();
         $cfg = Uikit::configs($configs);
         $result = $this->getPostResponse();
@@ -96,6 +94,7 @@ class LandingFormBlock extends BaseUikitFormBlock
                     $model->socialScelto = $social;
                 }
 
+
                 $var = $cfg['user_name_form_field'];
                 if (!empty($get['pName'])) {
                     $model->$var = $get['pName'];
@@ -110,6 +109,7 @@ class LandingFormBlock extends BaseUikitFormBlock
                     $getEmail = str_replace(' ', '+', $getEmail);
                     $model->$var = $getEmail;
                 }
+
                 $params['model'] = $model;
             }
             if (!empty($cfg['community_id'])) {
@@ -199,7 +199,7 @@ class LandingFormBlock extends BaseUikitFormBlock
                                 $register = $this->buildRegisterUser($data);
                                 $user = $register->registerToPlatform($model, $data, $isWaiting);
                             } else {
-                                if ($data['send_mail']) {
+                                if ($data['send_mail'] && (!empty($data['email_text']) || !empty($data['email_waiting_list_text']))) {
                                     $this->sendMail($model, $data, $isWaiting);
                                 }
                             }
@@ -323,6 +323,10 @@ class LandingFormBlock extends BaseUikitFormBlock
                 $mailModule->defaultLayout = $data['email_layout'];
             }
 
+            if (!empty($model->created_at)) {
+                $model->created_at = date('d/m/Y H:i', strtotime($model->created_at));
+            }
+
             if ($waiting) {
                 $text = $m->render($data['email_waiting_list_text'], $model);
             } else {
@@ -333,13 +337,10 @@ class LandingFormBlock extends BaseUikitFormBlock
                 $ccn = explode(';', $data['ccn_email']);
             }
 
+            $to = [];
             $toField = $data['to_form_field'];
-
-            if ($toField == 'email' || $toField == 'mail'){
-                $toField = implode([$model->$toField], ';');
-            }
-
-            $result = $mailModule->send($from, $toField, $data['email_subject'], $text, [], $ccn, []);
+            $tos = [$model->$toField];
+            $result = $mailModule->send($from, $tos, $data['email_subject'], $text, [], $ccn, []);
         }
         return $result;
     }
@@ -354,6 +355,8 @@ class LandingFormBlock extends BaseUikitFormBlock
     {
         $context = $community->context;
         if ($context == 'open20\amos\events\models\Event') {
+            $event = Event::find()->andWhere([
+                'community_id' => $community->id])->one();
             $event = Event::find()->andWhere(['community_id' => $community->id])->one();
             return $event->canSubscribeAutomatic();
         }
@@ -413,8 +416,12 @@ class LandingFormBlock extends BaseUikitFormBlock
                 $ccn = explode(';', $data['ccn_email']);
             }
 
+            $tos = [];
             $toField = $data['to_form_field'];
-            $tos = [$model->$toField];
+            if (!empty($toField)) {
+                $tos = [$model->$toField];
+            }
+
             $result = $mailModule->send($from, $tos, $data['email_subject'], $text, [], [], []);
         }
         return $result;

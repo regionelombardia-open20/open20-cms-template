@@ -2,9 +2,9 @@
 
 namespace app\modules\uikit\blocks;
 
-use Yii;
+
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 use app\modules\uikit\Module;
-use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
 use trk\uikit\Uikit;
 
 class DocumentAttachmentsBlock extends \app\modules\uikit\BaseUikitBlock
@@ -14,16 +14,12 @@ class DocumentAttachmentsBlock extends \app\modules\uikit\BaseUikitBlock
      */
     protected $component = "documentattachments";
 
-    public function disable()
-    {
-        return true;
-    }
     /**
      * @inheritdoc
      */
     public function blockGroup()
     {
-        return ElementiBaseGroup::class;
+        return LegacyGroup::class;
     }
 
     /**
@@ -31,7 +27,7 @@ class DocumentAttachmentsBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function name()
     {
-        return Yii::t('backendobjects', 'block_module_backend_documentattachments');
+        return Module::t('documentattachments');
     }
 
     /**

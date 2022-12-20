@@ -11,6 +11,11 @@ class Module extends \luya\base\Module
      * @var array configs for store general field configs.
      */
     public static $configs = [];
+    public $disableLegacyGroup = true;
+    public $disableDevelopmentGroup = true;
+    public $disableAnalizeSeoButton = false;
+    public $hidePermissionRole = false;
+    
 
     /**
      * @inheritdoc

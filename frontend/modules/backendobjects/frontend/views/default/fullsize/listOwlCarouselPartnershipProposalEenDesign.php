@@ -8,7 +8,7 @@ use yii\helpers\Html;
 use open20\design\utility\DesignIcon;
 use open20\design\utility\DesignUtility;
 use open20\amos\een\AmosEen;
-
+use Yii;
 
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
 

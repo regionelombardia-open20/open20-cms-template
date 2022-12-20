@@ -1,10 +1,9 @@
 <?php
 namespace app\modules\uikit\blocks;
 
-use Yii;
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 use app\modules\uikit\BaseUikitBlock;
 use app\modules\uikit\Module;
-use app\modules\backendobjects\frontend\blockgroups\SviluppoGroup;
 use trk\uikit\Uikit;
 
 /**
@@ -24,14 +23,15 @@ final class CallViewPanel extends BaseUikitBlock {
      * @inheritdoc
      */
     public function blockGroup() {
-        return SviluppoGroup::class;
+        return LegacyGroup::class;
     }
+
 
     /**
      * @inheritdoc
      */
     public function name() {
-        return Yii::t('backendobjects', 'block_module_backend_callviewpanel');
+        return Module::t('callviewpanel');
     }
 
     /**

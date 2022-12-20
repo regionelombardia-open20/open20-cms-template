@@ -1,12 +1,12 @@
 <?php
 namespace app\modules\uikit\blocks;
 
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 use app\modules\uikit\BaseUikitBlock;
-use app\modules\backendobjects\frontend\blockgroups\ElementiAvanzatiGroup;
+use app\modules\uikit\Module;
+use Yii;
 use luya\cms\models\NavItemPage;
 use trk\uikit\Uikit;
-use Yii;
-use app\modules\uikit\Module;
 
 
 
@@ -22,7 +22,7 @@ class LastPageUpdateBlock extends BaseUikitBlock
      */
     public function blockGroup()
     {
-        return ElementiAvanzatiGroup::className();
+        return LegacyGroup::className();
     }
 
     /**
@@ -30,7 +30,7 @@ class LastPageUpdateBlock extends BaseUikitBlock
      */
     public function name()
     {
-        return Yii::t('backendobjects', 'block_module_backend_last-page-update');
+        return Module::t('last-page-update');
     }
 
     /**

@@ -3,6 +3,7 @@ namespace app\modules\cms\logger\formatter;
 
 use Monolog\Formatter\LineFormatter as BaseLineFormatter;
 use Monolog\Utils;
+use SoapFault;
 
 
 class LineFormatter extends BaseLineFormatter {
@@ -13,7 +14,7 @@ class LineFormatter extends BaseLineFormatter {
      * @param int $depth
      * @return string
      */
-    protected function normalizeException(\Throwable $e, int $depth = 0): string {
+    protected function normalizeException($e) {
         $str = $this->formatException($e);
 
         if ($previous = $e->getPrevious()) {
@@ -30,7 +31,7 @@ class LineFormatter extends BaseLineFormatter {
      * @param Throwable $e
      * @return string
      */
-    private function formatException(\Throwable $e): string {
+    private function formatException($e) {
         $str = '[object] (' . Utils::getClass($e) . '(code: ' . $e->getCode();
         if ($e instanceof SoapFault) {
             if (isset($e->faultcode)) {

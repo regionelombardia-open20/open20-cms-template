@@ -18,6 +18,7 @@ class BlockCfg extends BlockConfigElement
             'var' => $this->item['var'],
             'label' => $this->item['label'],
             'type' => $this->item['type'],
+            'description' => $this->get('description',''),
             'placeholder' => $this->get('placeholder'),
             'options' => $this->get('options'),
             'initvalue' => $this->get('initvalue'),

@@ -6,6 +6,7 @@ use open20\design\assets\BootstrapItaliaDesignAsset;
 use open20\design\utility\DesignUtility;
 use open20\amos\documenti\AmosDocumenti;
 use yii\helpers\Html;
+use Yii;
 
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
 
@@ -62,7 +63,7 @@ if ($hideModuleBackendIfEmptyList) {
                     'title' => $titleLink
                 ]
             );
-            $subTitleSection  = Html::tag(
+            $subTitleSection = Html::tag(
                 'p',
                 AmosDocumenti::t(
                     'amosdocumenti',
@@ -93,6 +94,10 @@ if ($hideModuleBackendIfEmptyList) {
         $canCreate = \Yii::$app->user->can('DOCUMENTI_CREATE', ['model' => $model]);
 
         ?>
+
+        <?php if (!$withoutSearch) { ?>
+            <?= $this->render('parts/_searchDocumentDesign', ['model' => $model]); ?>
+        <?php } ?>
         <?=
         $this->render(
             '@vendor/open20/design/src/views/layouts/parts/bi-plugin-header',
@@ -144,7 +149,9 @@ if ($hideModuleBackendIfEmptyList) {
             <?php if (!$isGuest) : ?>
                 <div class="no-<?= str_replace(' ', '-', $modelLabel) ?>-alert">
                     <div class="alert alert-warning" role="alert">
-                        <p class="mb-0"><strong><?= AmosDocumenti::t('amosdocumenti', 'Non ci sono documenti di tuo interesse da visualizzare!') ?></strong></p>
+                        <p class="mb-0">
+                            <strong><?= AmosDocumenti::t('amosdocumenti', 'Non ci sono documenti di tuo interesse da visualizzare!') ?></strong>
+                        </p>
                         <?=
                         Html::a(
                             AmosDocumenti::t('amosdocumenti', 'Clicca qui'),
@@ -154,15 +161,16 @@ if ($hideModuleBackendIfEmptyList) {
                                 'class' => 'btn btn-xs btn-primary'
                             ]
                         )
-                            . ' ' .
-                            AmosDocumenti::t('amosdocumenti', 'e scopri ora tutti i documenti di {platformName}', ['platformName' => \Yii::$app->name])
+                        . ' ' .
+                        AmosDocumenti::t('amosdocumenti', 'e scopri ora tutti i documenti di {platformName}', ['platformName' => \Yii::$app->name])
                         ?>
                     </div>
                 </div>
             <?php else : ?>
                 <div class="no-<?= str_replace(' ', '-', $modelLabel) ?>-alert">
                     <div class="alert alert-warning" role="alert">
-                        <p class="mb-0"><strong><?= AmosDocumenti::t('amosdocumenti', 'Non sono presenti documenti') ?></strong></p>
+                        <p class="mb-0">
+                            <strong><?= AmosDocumenti::t('amosdocumenti', 'Non sono presenti documenti') ?></strong></p>
                     </div>
                 </div>
             <?php endif; ?>

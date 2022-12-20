@@ -160,11 +160,25 @@ if ($item['title'] || $item['meta'] || $item['content'] || $item['link']) {
     }
 }
 ?>
-<div class="it-single-slide-wrapper">
-    <?php if ($image) :?>
+<?php if ($attrs_pull_push) : ?>
+<div<?= Uikit::attrs($attrs_pull_push) ?>>
+<?php endif ?>
+    <?php if ($attrs_kenburns) : ?>
+    <div<?= Uikit::attrs($attrs_kenburns) ?>>
+    <?php endif ?>
         <?= $image ?>
-    <?php elseif ($item['video']): ?>
         <?= $item['video'] ?>
-    <?php endif; ?>
-    <?= $this->render('content', compact('item', 'data')) ?>
+    <?php if ($attrs_kenburns) : ?>
+    </div>
+    <?php endif ?>
+<?php if ($attrs_pull_push) : ?>
 </div>
+<div<?= Uikit::attrs($attrs_pull_push_overlay) ?>></div>
+<?php endif ?>
+<?php if ($attrs_position) : ?>
+    <div<?= Uikit::attrs($attrs_position) ?>>
+        <div<?= Uikit::attrs($attrs_overlay) ?>>
+        <?= $this->render('content', compact('item', 'data')) ?>
+        </div>
+    </div>
+<?php endif ?>

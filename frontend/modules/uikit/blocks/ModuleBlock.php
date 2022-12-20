@@ -11,6 +11,7 @@ use app\modules\backendobjects\frontend\blockgroups\SviluppoGroup;
 use luya\base\ModuleReflection;
 use luya\cms\helpers\BlockHelper;
 use luya\cms\base\PhpBlock;
+use yii\helpers\ArrayHelper;
 
 /**
  * Module integration Block to render controller and/or actions.
@@ -39,6 +40,10 @@ final class ModuleBlock extends BaseUikitBlock
     {
         return SviluppoGroup::class;
     }
+
+    public function disable(){
+        return 1;
+    }
     
     /**
      * @inheritdoc
@@ -56,6 +61,31 @@ final class ModuleBlock extends BaseUikitBlock
         return [
             'vars' => [
                 ['var' => 'moduleName', 'label' => Yii::t('backendobjects', 'block_module_modulename_label'), 'type' => self::TYPE_SELECT, 'options' => $this->getModuleNames()],
+                [
+                    'var' => 'visibility',
+                    'label' => 'Visibilità del blocco',
+                    'description' => 'Imposta la visibilità della sezione.',
+                    'initvalue' => '',
+                    'type' => 'zaa-select', 'options' => [
+                        ['value' => '', 'label' => 'Visibile a tutti'],
+                        ['value' => 'guest', 'label' => 'Visibile solo ai non loggati'],
+                        ['value' => 'logged', 'label' => 'Visibile solo ai loggati'],
+                    ],
+                ],
+                [
+                    'var' => 'addclass',
+                    'label' => 'Visibilità per profilo',
+                    'description' => 'Imposta la visibilità della sezione in base al profilo dell\'utente loggato',
+                    'type' => 'zaa-multiple-inputs',
+                    'options' => [
+                        [
+                            'var' => 'class',
+                            'type' => 'zaa-select',
+                            'initvalue' => '',
+                            'options' => BaseUikitBlock::getClasses(),
+                        ]
+                    ],
+                ],
             ],
             'cfgs' => [
                 ['var' => 'moduleController', 'label' => Yii::t('backendobjects', 'block_module_modulecontroller_label'), 'type' => self::TYPE_SELECT, 'options' => BlockHelper::selectArrayOption($this->getControllerClasses())],

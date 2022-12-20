@@ -28,4 +28,4 @@ $attrs_link['uk-scroll'] = strpos($item['link'], '#') === 0;
         <?= $item['content'] ?>
     <?php endif ?>
 </div>
-<?php endif ?>
+<?php endif;

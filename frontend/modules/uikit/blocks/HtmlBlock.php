@@ -7,6 +7,8 @@ use app\modules\uikit\BaseUikitBlock;
 use luya\cms\frontend\Module;
 use app\modules\backendobjects\frontend\blockgroups\SviluppoGroup;
 use luya\cms\base\PhpBlock;
+use yii\helpers\ArrayHelper;
+
 
 /**
  * HTML Block
@@ -26,6 +28,10 @@ final class HtmlBlock extends BaseUikitBlock
     public function blockGroup()
     {
         return SviluppoGroup::class;
+    }
+
+    public function disable(){
+        return 0;
     }
     
     /**
@@ -52,6 +58,31 @@ final class HtmlBlock extends BaseUikitBlock
         return [
             'vars' => [
                 ['var' => 'html', 'label' => Yii::t('backendobjects', 'block_html_html_label'), 'type' => self::TYPE_TEXTAREA],
+                [
+                    'var' => 'visibility',
+                    'label' => 'Visibilità del blocco',
+                    'description' => 'Imposta la visibilità della sezione.',
+                    'initvalue' => '',
+                    'type' => 'zaa-select', 'options' => [
+                        ['value' => '', 'label' => 'Visibile a tutti'],
+                        ['value' => 'guest', 'label' => 'Visibile solo ai non loggati'],
+                        ['value' => 'logged', 'label' => 'Visibile solo ai loggati'],
+                    ],
+                ],
+                [
+                    'var' => 'addclass',
+                    'label' => 'Visibilità per profilo',
+                    'description' => 'Imposta la visibilità della sezione in base al profilo dell\'utente loggato',
+                    'type' => 'zaa-multiple-inputs',
+                    'options' => [
+                        [
+                            'var' => 'class',
+                            'type' => 'zaa-select',
+                            'initvalue' => '',
+                            'options' => BaseUikitBlock::getClasses(),
+                        ]
+                    ],
+                ],
             ],
             'cfgs' => [
                 ['var' => 'raw', 'label' => Yii::t('backendobjects', 'block_html_cfg_raw_label'), 'type' => self::TYPE_CHECKBOX]

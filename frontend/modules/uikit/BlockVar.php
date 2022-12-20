@@ -18,6 +18,8 @@ class BlockVar extends BlockConfigElement
             'var' => $this->item['var'],
             'label' => $this->item['label'],
             'type' => $this->item['type'],
+            'description' => $this->get('description',''),
+            'image' => $this->get('image',''),
             'placeholder' => $this->get('placeholder'),
             'options' => $this->get('options'),
             'initvalue' => $this->get('initvalue'),

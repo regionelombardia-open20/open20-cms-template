@@ -69,6 +69,9 @@ $config = [
         'elastic' => [
             'class' => 'open20\elasticsearch\commands\RebuildIndexController',
         ],
+        'platform' => [
+            'class' => 'app\controllers\UtilityController',
+        ],
     ],
 ];
 

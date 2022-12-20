@@ -296,17 +296,7 @@
 .wrap-lightslider {
   position: relative;
 }
-.isGalleryClass .lSSlideOuter .lSPager.lSGallery li.active a {
-  background-color: #ffffff;
-}
-.isGalleryClass .lSSlideOuter .lSPager.lSGallery li a {
-  color: transparent !important;
-  background-color: #333;
-  border-radius: 50%;
-  padding: 4px 5px;
-  font-size: 3px;
-  line-height: 5;
-}
+
 .lightSliderAction {
   position: absolute;
   bottom: 10px;
@@ -378,17 +368,18 @@
   }
 }
 .gallerySlider .lSSlideOuter .lightSlider .lSliderItem .caption .el-content {
-  left: 32.5%;
-  bottom: 10%;
-  position: absolute;
-  width: 35%;
+  position: initial;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-@media only screen and (max-width: 991px) {
-  .gallerySlider .lSSlideOuter .lightSlider .lSliderItem .caption .el-content {
-    left: 25%;
-    width: 50%;
-  }
+.gallerySlider .lSSlideOuter .lightSlider .lSliderItem .caption .el-content a{
+  color:white;
+  text-decoration: none;
 }
+
 @media only screen and (max-width: 767px) {
   .gallerySlider .lSSlideOuter .lightSlider .lSliderItem .caption .el-content {
     left: 10%;
@@ -469,8 +460,8 @@ ul.lSPager.lSGallery .thumb-caption p:last-child {
   top: 50% !important;
   background-image: none;
   color: #ffffff !important;
-  background-color: #297a38;
-  font-size: 2em;
+  background-color: transparent;
+  font-size: 3.5em;
   border-radius: 50%;
   opacity: 1;
 }
@@ -728,4 +719,16 @@ ul.lSPager.lSGallery .thumb-caption p:last-child {
   .thumbslider-container .wrap-lightslider.galleryThumb .lSAction a {
     top: 25% !important;
   }
+}
+
+.isGalleryClass .lSSlideOuter .lSPager.lSGallery li a {
+  color: transparent !important;
+  background-color: #333;
+  border-radius: 50%;
+  padding: 4px 5px;
+  font-size: 3px;
+  line-height: 5;
+}
+.isGalleryClass .lSSlideOuter .lSPager.lSGallery li.active a {
+  background-color: #fff;
 }

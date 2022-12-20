@@ -2,8 +2,8 @@
     "vars": [
         {
             "var": "image",
-            "label": "Image",
-            "description": "",
+            "label": "Immagine di sfondo",
+            "description": "Seleziona l'immagine di sfondo del banner.",
             "initvalue": "",
             "options": {
                 "no_filter": false
@@ -11,16 +11,23 @@
             "type": "zaa-image-upload"
         },
         {
+            "var": "overlay",
+            "label": "Aggiungi un'ombreggiatura all'immagine",
+            "description": "Aggiunge un'ombreggiatura all'immagine al fine di scurirla per garantire il contrasto minimo con il testo. E' consigliato selezionare l'opzione per l'accessibilità.",
+            "initvalue": "",
+            "type": "zaa-checkbox"
+        },
+        {
             "var": "title",
-            "label": "Title",
-            "description": "Enter banner title attribute.",
+            "label": "Titolo",
+            "description": "Seleziona il titolo del banner.",
             "initvalue": "",
             "type": "zaa-text"
         },
         {
             "var": "title_element",
-            "label": "Title Dimension",
-            "description": "Choose one of the elements to fit your semantic structure.",
+            "label": "Dimensione del titolo",
+            "description": "Scegli la dimensione del titolo nel banner. H1 è la dimensione più grande, H6 la più piccola.",
             "initvalue": "h1",
             "options": [{
                     "value": "h1",
@@ -40,61 +47,37 @@
                 }, {
                     "value": "h6",
                     "label": "H6"
-                }, {
-                    "value": "div",
-                    "label": "div"
                 }],
             "type": "zaa-select"
         },
         {
             "var": "label_category",
-            "label": "Label Category",
-            "description": "Define banner label category",
+            "label": "Categoria",
+            "description": "Definisce la categoria dell'hero banner. Se selezionato sarà visualizzata con un badge testuale sopra il titolo.",
             "initvalue": "",
             "type": "zaa-text"
         },
         {
             "var": "text",
-            "label": "Text",
-            "description": "Define bannertext",
+            "label": "Abstract",
+            "description": "Se selezionato è il testo descrittivo vusualizzato sotto il titolo.",
             "initvalue": "",
             "type": "zaa-text"
         },
         {
-            "var": "overlay",
-            "label": "Overlay",
-            "description": "Define if overlay.",
-            "initvalue": "",
-            "type": "zaa-checkbox"
-        },
-        {
             "var": "smallSize",
-            "label": "Banner Small",
-            "description": "Define banner in small size.",
+            "label": "Hero basso",
+            "description": "Se selezionato l'hero banner sarà meno alto di quello di default. Consigliato per banner con abstract mancante o molto breve.",
             "initvalue": "",
             "type": "zaa-checkbox"
         }
     ],
     "cfgs": [
         {
-            "var": "title_image",
-            "label": "Image title",
-            "description": "Enter the image's title attribute.",
-            "initvalue": "",
-            "type": "zaa-text"
-        },
-        {
-            "var": "alt_image",
-            "label": "Image alt",
-            "description": "Enter the image's alt attribute.",
-            "initvalue": "",
-            "type": "zaa-text"
-        },
-        {
-            "var": "title_class",
-            "label": "Title class",
-            "description": "Define one or more class names for the title. Separate multiple classes with spaces.",
-            "initvalue": "",
+            "var": "class",
+            "label": "Classe css",
+            "description": "Classe css associata al componente.",
+            "initValue": "",
             "type": "zaa-text"
         }
     ]

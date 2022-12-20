@@ -38,7 +38,7 @@ zaa.directive("zaaTinymce", function () {
                         theme: 'modern',
                         convert_urls: false,
                         plugins: 'print searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools  contextmenu colorpicker textpattern help',
-                        toolbar1: 'formatselect | bold italic strikethrough | link | alignleft aligncenter | numlist bullist outdent indent  | removeformat',
+                        toolbar1: 'formatselect | bold italic strikethrough | link unlink image | alignleft aligncenter | numlist bullist outdent indent  | removeformat',
                         image_advtab: true,
                         templates: [
                             {title: 'Test template 1', content: 'Test 1'},
@@ -126,6 +126,290 @@ zaa.directive("zaaDbfield", function () {
          },
         template: function () {
             return '<div class="form-group form-side-by-side" ng-class="{\'input--hide-label\': i18n}"><div class="form-side form-side-label"><label for="{{id}}">{{label}}</label></div><div class="form-side"><input id="{{id}}" insert-paste-listener ng-model="model" ng-blur="onBlur($event)" ng-focus="onFocus($event)" type="text" class="form-control" autocomplete="{{autocomplete}}" placeholder="{{placeholder}}" /></div></div>';
+        }
+    }
+});
+
+/**
+ * <zaa-radio model="model" options="[{label:'foo', value: 'bar', image: '/img/image.png'}, {...}]"></zaa-radio>
+ */
+zaa.directive("zaaRadioImage", function () {
+    return {
+        restrict: "E",
+        scope: {
+            "model": "=",
+            "options": "=",
+            "label": "@label",
+            "i18n": "@i18n",
+            "id": "@fieldid",
+            "initvalue": "@initvalue"
+        },
+        controller: ['$scope', '$timeout', function ($scope, $timeout) {
+            $scope.setModelValue = function (value) {
+                $scope.model = value;
+            };
+
+            $scope.init = function () {
+                if ($scope.model == undefined || $scope.model == null) {
+                    $scope.model = typeCastValue($scope.initvalue);
+                }
+            };
+            $timeout(function () {
+                $scope.init();
+            });
+        }],
+        template: function () {
+            return '<div class="form-group form-side-by-side" ng-class="{\'input--hide-label\': i18n}">' +
+                '<div class="form-side form-side-label">' +
+                '<label for="{{id}}">{{label}}</label>' +
+                '</div>' +
+                '<div class="form-side">' +
+                '<div ng-repeat="(key, item) in options" class="form-check">' +
+                '<input value="{{item.value}}" type="radio" ng-click="setModelValue(item.value)" ng-checked="item.value == model" name="{{id}}_{{key}}" class="form-check-input" id="{{id}}_{{key}}">' +
+                '<label class="form-check-label" for="{{id}}_{{key}}">' +
+                '<img ng-if="item.image" src="{{item.image}}" alt=""/>' +
+                '{{item.label}}' +
+                '</label>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+        }
+    };
+});
+
+/**
+ * <zaa-text model="itemCopy.title" label="<?= Module::t('view_index_page_title'); ?>"></zaa-text>
+ */
+zaa.directive("zaaTextImage", function () {
+    return {
+        restrict: "E",
+        scope: {
+            "model": "=",
+            "options": "=",
+            "label": "@label",
+            "i18n": "@i18n",
+            "id": "@fieldid",
+            "placeholder": "@placeholder",
+            "autocomplete": "@autocomplete"
+        },
+        template: function () {
+            return '<div class="form-group form-side-by-side" ng-class="{\'input--hide-label\': i18n}"><div class="form-side form-side-label">'+
+            '<label for="{{id}}">' +
+            '<img ng-if="options[0].image" src="{{options[0].image}}" alt=""/>' + 
+            '{{label}}' +             
+            '</label></div><div class="form-side"><input id="{{id}}" insert-paste-listener ng-model="model" type="text" class="form-control" autocomplete="{{autocomplete}}" placeholder="{{placeholder}}" /></div></div>';
+        }
+    }
+});
+
+/**
+ * options arg object:
+ *
+ * options.items[] = [{"value" : 1, "label" => 'Label for Value 1' }]
+ *
+ * @param preselect boolean if enable all models will be selected by default.
+ */
+zaa.directive("zaaSocialSearch", function () {
+    return {
+        restrict: "E",
+        scope: {
+            "model": "=",
+            "options": "=",
+            "i18n": "@i18n",
+            "id": "@fieldid",
+            "label": "@label",
+            "preselect": "@preselect"
+        },
+        controller: ['$scope', '$filter', '$http', function ($scope, $filter, $http) {
+
+            if ($scope.model == undefined) {
+                $scope.model = [];
+            }
+            
+            $scope.searching = 'Cerca';
+            $scope.searchHistory = [];
+
+            $scope.preselectOptionValuesToModel = function (options) {
+                angular.forEach(options, function (value) {
+                    $scope.model.push({ 
+                        'id': value.id, 
+                        'social': value.social, 
+                        'value': value.value, 
+                        'image': value.image, 
+                        'user': value.user, 
+                        'user_icon': value.user_icon,
+                        'date': value.date,
+                        'link': value.link,
+                        'user_link': value.user_link,
+                        'tot_share': value.tot_share,
+                        'tot_comments': value.tot_comments,
+                        'tot_like': value.tot_like,
+                    });
+                });
+            };
+
+            $scope.searchString = '';
+
+            $scope.$watch('options.items', function (n, o) {
+               
+                if (n != undefined && n.length != 0) {
+                    $scope.optionitems = $filter('orderBy')(n, 'label');
+                    if ($scope.preselect) {
+                        $scope.preselectOptionValuesToModel(n);
+                    }
+                }
+            });
+
+            $scope.filtering = function () {
+                $scope.optionitems = $filter('filter')($scope.options.items, {$: $scope.searchString});
+            }
+
+            $scope.toggleSelection = function (value) {
+              
+                console.log($scope.model);
+                if ($scope.model == undefined) {
+                    $scope.model = [];
+                }
+                
+                for (var i in $scope.model) {
+                    if ($scope.model[i]["value"] == value.value) {
+                        $scope.model.splice(i, 1);
+                        return;
+                    }
+                }
+                $scope.model.push({ 
+                    'id': value.id, 
+                    'social': value.social, 
+                    'value': value.value, 
+                    'image': value.image, 
+                    'user': value.user, 
+                    'user_icon': value.user_icon,
+                    'date': value.date, 
+                    'link': value.link,
+                    'user_link': value.user_link,
+                    'tot_share': value.tot_share,
+                    'tot_comments': value.tot_comments,
+                    'tot_like': value.tot_like,
+                });
+            }
+
+            $scope.isChecked = function (item) {
+                for (var i in $scope.model) {
+                    if ($scope.model[i]["value"] == item.value) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            
+            $scope.search = function (input) {
+                
+                $scope.searching = 'Ricerca in corso...';
+                var keys = angular.element('#key_social').val();
+                if(input != undefined){
+                    keys = input;
+                    angular.element('#key_social').val(keys);
+                }
+                if(!$scope.searchHistory.includes(keys) && keys != '')
+                    $scope.searchHistory.push(keys);
+    
+                $http.post('admin/api-cms-admin/get-posts',{keys:keys}).then(function(response) {
+                    
+                    var posts = [];
+                    angular.forEach(response.data, function (value) {
+                        posts.push({ 
+                            'id': value.id, 
+                            'social': value.social, 
+                            'value': value.value, 
+                            'image': value.image, 
+                            'user': value.user, 
+                            'user_icon': value.user_icon,
+                            'date': value.date,
+                            'link': value.link,
+                            'user_link': value.user_link,
+                            'tot_share': value.tot_share,
+                            'tot_comments': value.tot_comments,
+                            'tot_like': value.tot_like,
+                        });
+                    });
+                    
+                    angular.forEach($scope.model, function (value) {
+                        posts.push({ 
+                            'id': value.id, 
+                            'social': value.social, 
+                            'value': value.value, 
+                            'image': value.image, 
+                            'user': value.user, 
+                            'user_icon': value.user_icon,
+                            'date': value.date,
+                            'link': value.link,
+                            'user_link': value.user_link,
+                            'tot_share': value.tot_share,
+                            'tot_comments': value.tot_comments,
+                            'tot_like': value.tot_like,
+                        });
+                    });
+                              
+                    $scope.options.items = posts.filter((obj, pos, arr) => {
+                        return arr.map(mapObj => mapObj['id']).indexOf(obj['id']) === pos;
+                    });
+                    
+                    $scope.searching = 'Cerca';
+  
+                });
+                
+            }
+        }],
+        link: function (scope) {
+            scope.random = Math.random().toString(36).substring(7);
+        },
+        template: function () {
+            return '<div class="form-group form-side-by-side" ng-class="{\'input--hide-label\': i18n}">' +
+                        '<div class="form-side form-side-label">' +
+                            '<label for="key_social">Inserisci chiave di ricerca contenuti social</label>' +
+                        '</div>' +
+                        '<div class="form-side">' + 
+                            '<div style="display:flex">' +
+                                '<input id="key_social" type="text" class="form-control" autocomplete="{{autocomplete}}" placeholder="{{placeholder}}" />' + 
+                                '<a class="btn btn-save" ng-click="search()" style="width:23%">{{searching}}</a>' +
+                            '</div>' +
+                            '<div class="search-history" ng-if="searchHistory.length > 0" style="display:flex">' +
+                                '<p style="padding-right:15px">Ultime ricerce:</p>' +
+                                '<div class="socialwall-search-history" style="display:flex">' +
+                                    '<p ng-repeat="(k, tag) in searchHistory track by k"><a ng-click="search(tag)" style="padding-right:15px">{{tag}}</a></p>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +                    
+                    '</div>' +
+            
+                '<div class="form-group form-side-by-side" ng-class="{\'input--hide-label\': i18n}">' +
+                '<div class="form-side form-side-label">' +
+                '<label for="{{id}}">{{label}}</label>' +
+                '</div>' +
+                '<div class="form-side">' +
+
+                '<div class="position-relative mb-3">' +
+                    '<div class="input-group">' +
+                        '<div class="input-group-prepend">' +
+                            '<div class="input-group-text">' +
+                                '<i class="material-icons">search</i>' +
+                            '</div>' +
+                        '</div>' +
+                        '<input class="form-control" type="text" ng-change="filtering()" ng-model="searchString" placeholder="' + i18n['ngrest_crud_search_text'] + '">' +
+                    '</div>' +
+                    '<span class="zaa-checkbox-array-counter badge badge-secondary">{{options.items.length}}</span>' +
+                '</div>' +
+
+                '<div class="form-check" ng-repeat="(k, item) in optionitems track by k">' +
+                '<input type="checkbox" class="form-check-input" ng-checked="isChecked(item)" id="{{random}}_{{k}}" ng-click="toggleSelection(item)" />' +
+                '<label for="{{random}}_{{k}}">' +
+                    '<span class="nome_social" ng-if="item.social">{{item.social}}</span>' + 
+                    '<img class="{{item.social}}" ng-if="item.image" src="{{item.image}}" alt=""/>' +
+                    '{{item.value}}' +
+                '</label>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
         }
     }
 });

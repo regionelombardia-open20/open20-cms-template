@@ -2,7 +2,6 @@
 
 namespace app\components;
 
-use open20\design\utility\CmsLanguageUtility;
 use yii\helpers\Html;
 use Yii;
 use open20\design\utility\DesignUtility;
@@ -30,8 +29,6 @@ class CmsMenu
      */
     public function luyaMenu($name, $iconSubmenu, $onlyFirstLevel = false, $assetBundle = null, $expanded = false)
     {
-
-
         $propQuery = Property::find()->andWhere(['in', 'var_name', [
             'userAuthProtection', 'rolePermissions', 'bulletCounts',
             'menuReadonly'
@@ -39,12 +36,7 @@ class CmsMenu
         $propCache = CachedActiveQuery::instance($propQuery);
         $propCache->cache();
 
-        $actualLang = strtolower(CmsLanguageUtility::getAppLanguage());
-        $defaultLanguage = Yii::$app->db->createCommand('SELECT id FROM admin_lang where short_code="' . $actualLang . '"')->queryOne();
-        if (empty($defaultLanguage) || isset(\Yii::$app->params['menuCmsConfigurations']['mainEngCmsMenu'])) {
-            $defaultLanguage = Yii::$app->db->createCommand('SELECT id FROM admin_lang where is_default=1')->queryOne();
-        }
-
+        $defaultLanguage = Yii::$app->db->createCommand('SELECT id FROM admin_lang where is_default=1')->queryOne();
         /**
          * @var array $prop
          *
@@ -234,10 +226,10 @@ class CmsMenu
         if (!empty($bc)) {
             $explode = explode('-', $bc);
             if (count($explode) == 2) {
-                $table = $explode[0];
+                $table      = $explode[0];
                 $bulletType = $explode[1];
                 $theCount = \open20\amos\core\record\Record::getStaticBullet($bulletType, false, $table, true);
-                $count = is_null($theCount) ? 0 : $theCount;
+                $count      = is_null($theCount) ? 0 : $theCount;
             }
         }
 
@@ -252,8 +244,8 @@ class CmsMenu
      */
     public static function getBadgeMenu($row, $indx)
     {
-        $count = self::getBulletCountMenu($row, $indx);
-        $badge = '';
+        $count        = self::getBulletCountMenu($row, $indx);
+        $badge        = '';
         $bulletParent = Html::tag('span', '', ['class' => 'bullet-parent']);
 
         if ($count > 0) {
@@ -285,7 +277,7 @@ class CmsMenu
     public static function getLinkByParent($row, $indx)
     {
         $urlArr = [];
-        $i = 0;
+        $i      = 0;
         while ($i <= $indx) {
             $urlArr[] = $row['alias' . $i];
             $i++;
@@ -346,26 +338,25 @@ class CmsMenu
         $indx = 0,
         $expanded = false,
         $enableDoubleAction = false
-    )
-    {
-        $listMenu = '';
+    ) {
+        $listMenu   = '';
         $currentUrl = end(explode('/', strtok(\yii\helpers\Url::current(), '?')));
         self::registerRecursiveBulletJs();
-        $mnLvl = [];
+        $mnLvl      = [];
 
         foreach ($menu as $row) {
 
             if (!empty($row['id' . $indx]) && !in_array($row['id' . $indx], $mnLvl)) {
-                $mnLvl[] = $row['id' . $indx];
-                $href = '/site/to-menu-url?url=' . (!empty($row['link' . $indx]) ? self::getLinkTarget($row, $indx)
-                        : self::getLinkByParent($row, $indx));
-                $title = $row['title' . $indx];
-                $titleAlt = $title;
+                $mnLvl[]       = $row['id' . $indx];
+                $href          = '/site/to-menu-url?url=' . (!empty($row['link' . $indx]) ? self::getLinkTarget($row, $indx)
+                    : self::getLinkByParent($row, $indx));
+                $title         = $row['title' . $indx];
+                $titleAlt      = $title;
                 $canPermission = self::canPermissionMenu($row, $indx);
-                $isPublic = self::isPublic($row, $indx);
-                $badge = self::getBadgeMenu($row, $indx);
-                $isReadonly = self::isReadonlyMenu($row, $indx);
-                $hasChildren = self::hasChildrenMenu($row, $indx);
+                $isPublic      = self::isPublic($row, $indx);
+                $badge         = self::getBadgeMenu($row, $indx);
+                $isReadonly    = self::isReadonlyMenu($row, $indx);
+                $hasChildren   = self::hasChildrenMenu($row, $indx);
 
                 $isSubMenu = ($indx > 0 ? true : false);
 
@@ -380,11 +371,11 @@ class CmsMenu
 
 
                 if ($isReadonly) {
-                    $href = '/it/login';
+                    $href          = '/it/login';
                     $classReadonly = 'menu-link-locked';
-                    $titleAlt = \Yii::t("app", "per abilitare questo menu") . ' ' . DesignUtility::getTextSigninOrSignup();
-                    $dataToggle = 'tooltip';
-                    $iconLock = '<span class="mdi mdi-lock-outline icon-myopen ml-auto"></span>';
+                    $titleAlt      = \Yii::t("app", "per abilitare questo menu") . ' ' . DesignUtility::getTextSigninOrSignup();
+                    $dataToggle    = 'tooltip';
+                    $iconLock      = '<span class="mdi mdi-lock-outline icon-myopen ml-auto"></span>';
                 }
 
 
@@ -416,13 +407,13 @@ class CmsMenu
                                     'title' => $titleAlt,
                                     'href' => '#',
                                     'data' =>
-                                        [
-                                            'toggle' => (($hasChildren) ? 'dropdown' : '')
-                                        ],
+                                    [
+                                        'toggle' => (($hasChildren) ? 'dropdown' : '')
+                                    ],
                                     'aria' =>
-                                        [
-                                            'expanded' => $expanded ? 'true' : 'false'
-                                        ]
+                                    [
+                                        'expanded' => $expanded ? 'true' : 'false'
+                                    ]
                                 ]
                             );
                             $menuDoubleAction = $singleMenu . $singleDropdownMenu;
@@ -436,13 +427,13 @@ class CmsMenu
                                     'title' => $titleAlt,
                                     'href' => '#',
                                     'data' =>
-                                        [
-                                            'toggle' => (($hasChildren) ? 'dropdown' : '')
-                                        ],
+                                    [
+                                        'toggle' => (($hasChildren) ? 'dropdown' : '')
+                                    ],
                                     'aria' =>
-                                        [
-                                            'expanded' => $expanded ? 'true' : 'false'
-                                        ]
+                                    [
+                                        'expanded' => $expanded ? 'true' : 'false'
+                                    ]
                                 ]
                             );
                             $menuDoubleAction = $singleMenu;
@@ -453,35 +444,35 @@ class CmsMenu
 
                             $menuDoubleAction
 
-                            .
+                                .
 
-                            Html::tag(
-                                'div',
                                 Html::tag(
                                     'div',
                                     Html::tag(
-                                        'ul',
-                                        $this->arrayBiHamburgerSubmenuRender(
-                                            $menu,
-                                            $iconSubmenu,
-                                            $assetBundle,
-                                            $subIndx,
-                                            $currentUrl,
-                                            $row['id' . $indx]
+                                        'div',
+                                        Html::tag(
+                                            'ul',
+                                            $this->arrayBiHamburgerSubmenuRender(
+                                                $menu,
+                                                $iconSubmenu,
+                                                $assetBundle,
+                                                $subIndx,
+                                                $currentUrl,
+                                                $row['id' . $indx]
+                                            ),
+                                            [
+                                                'class' => 'link-list'
+                                            ]
                                         ),
                                         [
-                                            'class' => 'link-list'
+                                            'class' => 'link-list-wrapper'
                                         ]
                                     ),
                                     [
-                                        'class' => 'link-list-wrapper'
+                                        'id' => 'menu' . $row['id' . $indx],
+                                        'class' => 'dropdown-menu' . ($expanded ? ' show' : '')
                                     ]
                                 ),
-                                [
-                                    'id' => 'menu' . $row['id' . $indx],
-                                    'class' => 'dropdown-menu' . ($expanded ? ' show' : '')
-                                ]
-                            ),
                             [
                                 'class' => 'nav-item dropdown' . ' ' . ($isActive ? 'active' : '') . ' ' . ($expanded ? ' show' : '') . ' ' . ($enableDoubleAction ? 'cms-menu-double-action' : '')
                             ]
@@ -534,8 +525,7 @@ class CmsMenu
         $indx = 1,
         $currentUrl = null,
         $father = null
-    )
-    {
+    ) {
         $listSubmenu = '';
         if (empty($currentUrl)) {
             $currentUrl = end(explode('/', strtok(\yii\helpers\Url::current(), '?')));
@@ -558,18 +548,18 @@ class CmsMenu
                 if (!empty($row['id' . $lvl])) {
                     if (!in_array($row['id' . $lvl], $this->arrLvl)) {
                         $this->arrLvl[] = $row['id' . $lvl];
-                        $href = '/site/to-menu-url?url=' . (!empty($row['link' . $lvl]) ? self::getLinkTarget(
-                                $row,
-                                $lvl
-                            ) : self::getLinkByParent($row, $lvl));
-                        $title = $row['title' . $lvl];
-                        $titleAlt = $title;
-                        $canPermission = self::canPermissionMenu($row, $lvl);
-                        $isPublic = self::isPublic($row, $lvl);
-                        $badge = self::getBadgeMenu($row, $lvl);
-                        $isReadonly = self::isReadonlyMenu($row, $lvl);
-                        $hasChildren = self::hasChildrenMenu($row, $lvl);
-                        $isSubMenu = ($lvl > 0 ? true : false);
+                        $href           = '/site/to-menu-url?url=' . (!empty($row['link' . $lvl]) ? self::getLinkTarget(
+                            $row,
+                            $lvl
+                        ) : self::getLinkByParent($row, $lvl));
+                        $title          = $row['title' . $lvl];
+                        $titleAlt       = $title;
+                        $canPermission  = self::canPermissionMenu($row, $lvl);
+                        $isPublic       = self::isPublic($row, $lvl);
+                        $badge          = self::getBadgeMenu($row, $lvl);
+                        $isReadonly     = self::isReadonlyMenu($row, $lvl);
+                        $hasChildren    = self::hasChildrenMenu($row, $lvl);
+                        $isSubMenu      = ($lvl > 0 ? true : false);
 
                         $classReadonly = '';
 
@@ -582,11 +572,11 @@ class CmsMenu
 
 
                         if ($isReadonly) {
-                            $href = '/it/login';
+                            $href          = '/it/login';
                             $classReadonly = 'menu-link-locked';
-                            $titleAlt = \Yii::t("app", "per abilitare questo menu") . ' ' . DesignUtility::getTextSigninOrSignup();
-                            $dataToggle = 'tooltip';
-                            $iconLock = '<span class="mdi mdi-lock-outline icon-myopen ml-auto"></span>';
+                            $titleAlt      = \Yii::t("app", "per abilitare questo menu") . ' ' . DesignUtility::getTextSigninOrSignup();
+                            $dataToggle    = 'tooltip';
+                            $iconLock      = '<span class="mdi mdi-lock-outline icon-myopen ml-auto"></span>';
                         }
 
 
@@ -594,7 +584,7 @@ class CmsMenu
 
                             if ($hasChildren && !$isReadonly) {
 
-                                $subIndx = $lvl + 1;
+                                $subIndx     = $lvl + 1;
                                 $listSubmenu .= Html::tag(
                                     'li',
                                     Html::a(
@@ -606,43 +596,43 @@ class CmsMenu
                                             'title' => $titleAlt,
                                             'href' => '#',
                                             'data' =>
-                                                [
-                                                    'toggle' => (($hasChildren) ? 'dropdown' : '')
-                                                ],
+                                            [
+                                                'toggle' => (($hasChildren) ? 'dropdown' : '')
+                                            ],
                                             'aria' =>
-                                                [
-                                                    'expanded' => 'false'
-                                                    // 'controls' => 'menu' . $item->id
-                                                ]
+                                            [
+                                                'expanded' => 'false'
+                                                // 'controls' => 'menu' . $item->id
+                                            ]
                                         ]
                                     )
-                                    . Html::tag(
-                                        'div',
-                                        Html::tag(
+                                        . Html::tag(
                                             'div',
                                             Html::tag(
-                                                'ul',
-                                                $this->arrayBiHamburgerSubmenuRender(
-                                                    $menu,
-                                                    $iconSubmenu,
-                                                    $assetBundle,
-                                                    $subIndx,
-                                                    $currentUrl,
-                                                    $row['id' . $lvl]
+                                                'div',
+                                                Html::tag(
+                                                    'ul',
+                                                    $this->arrayBiHamburgerSubmenuRender(
+                                                        $menu,
+                                                        $iconSubmenu,
+                                                        $assetBundle,
+                                                        $subIndx,
+                                                        $currentUrl,
+                                                        $row['id' . $lvl]
+                                                    ),
+                                                    [
+                                                        'class' => 'link-list'
+                                                    ]
                                                 ),
                                                 [
-                                                    'class' => 'link-list'
+                                                    'class' => 'link-list-wrapper'
                                                 ]
                                             ),
                                             [
-                                                'class' => 'link-list-wrapper'
+                                                'id' => 'menu' . $row['id' . $lvl],
+                                                'class' => 'dropdown-menu'
                                             ]
                                         ),
-                                        [
-                                            'id' => 'menu' . $row['id' . $lvl],
-                                            'class' => 'dropdown-menu'
-                                        ]
-                                    ),
                                     [
                                         'class' => 'nav-item dropdown dropdown-submenu' . ' ' . ($isActive ? 'active' : '')
                                     ]

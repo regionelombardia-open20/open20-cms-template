@@ -4,7 +4,9 @@ namespace app\modules\uikit\blocks;
 
 use Yii;
 use app\modules\uikit\BaseUikitBlock;
-use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
+use app\modules\backendobjects\frontend\blockgroups\ContenutoGroup;
+use yii\helpers\ArrayHelper;
+
 
 /**
  * Embed YouTube and Vimeo video Block.
@@ -47,7 +49,7 @@ final class VideoBlock extends BaseUikitBlock
      */
     public function blockGroup()
     {
-        return ElementiBaseGroup::class;
+        return ContenutoGroup::class;
     }
 
     /**
@@ -57,11 +59,45 @@ final class VideoBlock extends BaseUikitBlock
     {
         return [
             'vars' => [
-                ['var' => 'url', 'label' => Yii::t('backendobjects', 'block_video_url_label'), 'type' => self::TYPE_TEXT],
+                [
+                    'var' => 'url', 'label' => Yii::t('backendobjects', 'block_video_url_label'),
+                    'description'=> 'Inserisci l\'URL del video esterno che vuoi presentare. Sono supportati i video di Youtube e Vimeo.',
+                    'type' => self::TYPE_TEXT
+                ],
+                [
+                    'var' => 'visibility',
+                    'label' => 'Visibilità del blocco',
+                    'description' => 'Imposta la visibilità della sezione.',
+                    'initvalue' => '',
+                    'type' => 'zaa-select', 'options' => [
+                        ['value' => '', 'label' => 'Visibile a tutti'],
+                        ['value' => 'guest', 'label' => 'Visibile solo ai non loggati'],
+                        ['value' => 'logged', 'label' => 'Visibile solo ai loggati'],
+                    ],
+                ],
+                [
+                    'var' => 'addclass',
+                    'label' => 'Visibilità per profilo',
+                    'description' => 'Imposta la visibilità della sezione in base al profilo dell\'utente loggato',
+                    'type' => 'zaa-multiple-inputs',
+                    'options' => [
+                        [
+                            'var' => 'class',
+                            'type' => 'zaa-select',
+                            'initvalue' => '',
+                            'options' => BaseUikitBlock::getClasses(),
+                        ]
+                    ],
+                ],
             ],
             'cfgs' => [
-                ['var' => 'controls', 'label' => Yii::t('backendobjects', 'block_video_controls_label'), 'type' => self::TYPE_CHECKBOX],
-                ['var' => 'width', 'label' => Yii::t('backendobjects', 'block_video_width_label'), 'type' => self::TYPE_NUMBER],
+            
+                [
+                    'var' => 'width', 
+                    'label' => Yii::t('backendobjects', 'block_video_width_label'), 
+                    'description'=> 'Scegli la larghezza assoluta in pixel del video.',
+                    'type' => self::TYPE_NUMBER
+                ],
             ],
         ];
     }
@@ -94,6 +130,7 @@ final class VideoBlock extends BaseUikitBlock
             }
             return self::PROVIDER_YOUTUBE_EMBED_URL . $args['v'] . '?' . http_build_query($params);
         }
+        return $this->getVarValue('url');
     }
     
     /**

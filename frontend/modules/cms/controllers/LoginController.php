@@ -200,7 +200,7 @@ class LoginController extends BaseLoginController
                 }
             }
         }
-        if(is_null($redirect)){
+        if(empty($redirect)){
             $redirect = '/admin/login/index';
         }
         return $this->redirect($redirect);

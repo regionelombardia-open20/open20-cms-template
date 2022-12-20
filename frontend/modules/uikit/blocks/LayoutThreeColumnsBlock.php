@@ -4,7 +4,11 @@ namespace app\modules\uikit\blocks;
 
 use Yii;
 use app\modules\uikit\BaseUikitLayoutBlock;
-use app\modules\backendobjects\frontend\blockgroups\ContenitoreGroup;
+
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
+use app\modules\uikit\BaseUikitBlock;
+use yii\helpers\ArrayHelper;
+
 
 /**
  * Three Columns Layout Block : thirds, quarters-2-1-1, quarters-1-1-2, quarters-1-2-1, fixed-inner, fixed-outer
@@ -17,8 +21,13 @@ final class LayoutThreeColumnsBlock extends BaseUikitLayoutBlock
     /**
      * @return array
      */
+    
     public function availableLayouts() {
         return ['thirds', 'quarters-2-1-1', 'quarters-1-1-2', 'quarters-1-2-1', 'fixed-inner', 'fixed-outer'];
+    }
+
+    public function disable(){
+        return 0;
     }
 
     /**
@@ -40,14 +49,29 @@ final class LayoutThreeColumnsBlock extends BaseUikitLayoutBlock
         $configs = parent::config();
         
         $vars = [
-            ['var' => 'visibility', 
-                 'label' => 'Visibilità del blocco', 
-                 'description'=> 'Set visibility for all, only guest, only logged.',
-                 'initvalue' => '', 
-                 'type' => 'zaa-select', 'options' => [
+            [
+                'var' => 'visibility',
+                'label' => 'Visibilità del blocco',
+                'description' => 'Imposta la visibilità della sezione.',
+                'initvalue' => '',
+                'type' => 'zaa-select', 'options' => [
                     ['value' => '', 'label' => 'Visibile a tutti'],
                     ['value' => 'guest', 'label' => 'Visibile solo ai non loggati'],
-                    ['value' => 'logged', 'label' => 'Visibile solo ai loggati'],                      
+                    ['value' => 'logged', 'label' => 'Visibile solo ai loggati'],
+                ],
+            ],
+            [
+                'var' => 'addclass',
+                'label' => 'Visibilità per profilo',
+                'description' => 'Imposta la visibilità della sezione in base al profilo dell\'utente loggato',
+                'type' => 'zaa-multiple-inputs',
+                'options' => [
+                    [
+                        'var' => 'class',
+                        'type' => 'zaa-select',
+                        'initvalue' => '',
+                        'options' => BaseUikitBlock::getClasses(),
+                    ]
                 ],
             ],
             ['var' => 'cache', 
@@ -74,7 +98,7 @@ final class LayoutThreeColumnsBlock extends BaseUikitLayoutBlock
      */
     public function blockGroup()
     {
-        return ContenitoreGroup::class;
+        return LegacyGroup::class;
     }
     
     /**

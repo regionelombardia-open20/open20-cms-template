@@ -2,12 +2,9 @@
 
 namespace app\modules\uikit\blocks;
 
-use Yii;
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 use app\modules\uikit\BaseUikitBlock;
 use app\modules\uikit\Module;
-use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
-
-
 
 final class GalleryPanelBlock extends BaseUikitBlock
 {
@@ -25,7 +22,7 @@ final class GalleryPanelBlock extends BaseUikitBlock
 
     public function name()
     {
-        return Yii::t('backendobjects', 'block_module_backend_gallerypanel');
+        return Module::t('gallerypanel');
     }
 
     /**
@@ -33,7 +30,7 @@ final class GalleryPanelBlock extends BaseUikitBlock
      */
     public function blockGroup()
     {
-        return ElementiBaseGroup::class;
+        return LegacyGroup::class;
     }
 
     public function icon()

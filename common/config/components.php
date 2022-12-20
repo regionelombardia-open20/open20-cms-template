@@ -80,8 +80,4 @@ return [
         'class' => 'yii\caching\FileCache',
         'cachePath' => '@runtime/translateCache'
     ],
-    'user' => [
-        'class' => 'open20\amos\core\user\AmosUser',
-        'identityClass' => 'open20\amos\core\user\User',
-    ],
 ];

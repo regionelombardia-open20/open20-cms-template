@@ -1,6 +1,7 @@
 <?php
 
 use open20\amos\core\utilities\CurrentUser;
+use Yii;
 
 $model->usePrettyUrl = true;
 

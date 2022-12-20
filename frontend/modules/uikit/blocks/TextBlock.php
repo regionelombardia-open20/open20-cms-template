@@ -5,7 +5,8 @@ namespace app\modules\uikit\blocks;
 use Yii;
 use luya\TagParser;
 use app\modules\uikit\BaseUikitBlock;
-use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
+use app\modules\backendobjects\frontend\blockgroups\ContenutoGroup;
+use yii\helpers\ArrayHelper;
 
 /**
  * Paragraph Text Block.
@@ -24,7 +25,7 @@ final class TextBlock extends BaseUikitBlock
      */
     public function blockGroup()
     {
-        return ElementiBaseGroup::class;
+        return ContenutoGroup::class;
     }
     
     /**
@@ -50,10 +51,45 @@ final class TextBlock extends BaseUikitBlock
     {
         return [
             'vars' => [
-                ['var' => 'content', 'label' => Yii::t('backendobjects', 'block_text_content_label'), 'type' => 'zaa-wysiwyg'],
+                [
+                    'var' => 'content', 'label' => Yii::t('backendobjects', 'block_text_content_label'), 
+                    'description'=> 'Inserisci testo.',
+                    'type' => 'zaa-wysiwyg'
+                    
+                ],
+                [
+                    'var' => 'visibility',
+                    'label' => 'Visibilità del blocco',
+                    'description' => 'Imposta la visibilità della sezione.',
+                    'initvalue' => '',
+                    'type' => 'zaa-select', 'options' => [
+                        ['value' => '', 'label' => 'Visibile a tutti'],
+                        ['value' => 'guest', 'label' => 'Visibile solo ai non loggati'],
+                        ['value' => 'logged', 'label' => 'Visibile solo ai loggati'],
+                    ],
+                ],
+                [
+                    'var' => 'addclass',
+                    'label' => 'Visibilità per profilo',
+                    'description' => 'Imposta la visibilità della sezione in base al profilo dell\'utente loggato',
+                    'type' => 'zaa-multiple-inputs',
+                    'options' => [
+                        [
+                            'var' => 'class',
+                            'type' => 'zaa-select',
+                            'initvalue' => '',
+                            'options' => BaseUikitBlock::getClasses(),
+                        ]
+                    ],
+                ],
             ],
             'cfgs' => [
-                ['var' => 'cssClass', 'label' => Yii::t('backendobjects', 'block_cfg_additonal_css_class'), 'type' => 'zaa-text'],
+                [
+                    'var' => 'cssClass', 
+                    'label' => Yii::t('backendobjects', 'block_cfg_additonal_css_class'), 
+                    'description'=> 'Classe css associata al componente.',
+                    'type' => 'zaa-text'
+                ],
             ]
         ];
     }

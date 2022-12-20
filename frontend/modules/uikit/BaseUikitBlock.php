@@ -10,6 +10,11 @@
 namespace app\modules\uikit;
 
 use trk\uikit\Uikit;
+use Yii;
+ use open20\amos\admin\models\UserProfile;
+ use open20\amos\admin\models\UserProfileClasses;
+ use open20\amos\admin\models\UserProfileClassesUserMm;
+ use yii\helpers\ArrayHelper;
 
 /**
  * Class BaseUikitBlock
@@ -67,5 +72,39 @@ abstract class BaseUikitBlock extends \trk\uikit\BaseUikitBlock
         }
         ksort($this->_cfgs);
         return array_values($this->_cfgs);
+    }
+	
+	
+    public function visivility($n_class){
+            $canSeeBlock = true;
+            // if(!empty($n_class)){
+            //         $user_id = Yii::$app->user->id;
+            //         $user_profile = UserProfile::findOne($user_id);
+            //         //if($user_profile->typee)
+            //         $profiles = [];
+
+            //         if($user_profile->type == UserProfileClasses::UTENTI_FINALI || is_null($user_profile->type)){
+            //                 foreach($n_class as $class){
+            //                         $profiles[] = $class['class'];
+            //                 }
+
+            //                 $check = UserProfileClassesUserMm::find()->andWhere(['user_id' => $user_id])->andWhere(['user_profile_classes_id'=>$profiles])->count();
+            //                 if($check == 0){
+            //                         $canSeeBlock = false;
+            //                 }
+            //         }
+            // }
+
+            return $canSeeBlock;
+    }
+    
+    public function getClasses(){
+        // $data = [];
+        // $profiles = ArrayHelper::map(UserProfileClasses::find()->andWhere(['enabled' => 1])->andWhere(['type' =>UserProfileClasses::UTENTI_FINALI])->all(), 'id', 'name');
+        // foreach ($profiles as $k => $f) {
+        //     $data[] = ['value' => $k, 'label' => $f];
+        // }
+        // return $data;
+        return null;
     }
 }

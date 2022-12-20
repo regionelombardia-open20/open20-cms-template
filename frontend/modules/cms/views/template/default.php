@@ -1,6 +1,7 @@
 <?php
 use luya\admin\Module;
 use app\modules\cms\components\AdminUser;
+use Yii;
 
 $isAdmin = AdminUser::isAdmin();
 ?>

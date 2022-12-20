@@ -126,10 +126,10 @@ return [
     ],
     'schema' => [
         'class' => 'simialbi\yii2\schemaorg\Module',
-        //'autoCreate' => false,
-        //'autoRender' => false
+    //'autoCreate' => false,
+    //'autoRender' => false
     ],
-    'seo' =>[
+    'seo' => [
         'class' => 'open20\amos\seo\AmosSeo',
         'modelsEnabled' => [
         ],
@@ -247,5 +247,8 @@ return [
     ],
     'myactivities' => [
         'class' => 'open20\amos\myactivities\AmosMyActivities',
+    ],
+    'utility' => [
+        'class' => 'open20\amos\utility\Module'
     ],
 ];

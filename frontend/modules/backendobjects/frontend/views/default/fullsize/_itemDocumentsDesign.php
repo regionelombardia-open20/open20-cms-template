@@ -17,6 +17,12 @@ if ($documentMainFile != null) {
 if (!empty($model->link_document)) {
   $fileUrl = $model->link_document;
 }
+
+$category = $model->documentiCategorie;
+$nameCategory = null;
+if(!empty($category)){
+  $nameCategory= $category->titolo;
+}
 ?>
 
 
@@ -35,11 +41,12 @@ if (!empty($model->link_document)) {
       'type' => $documentMainFile->type,
       'typeFolder' => $model->is_folder,
       'description' =>  $model->descrizione_breve,
-      'size' => $model->documentMainFile->size%1024,
+      'size' => round($model->documentMainFile->size / 1024, 0),
       'date' => $model->created_at,
       'model' => $model,
       'actionModify' => '/documenti/documenti/update?id='.$model->id,
-      'actionDelete' => 'documenti/documenti/delete?id='.$model->id
+      'actionDelete' => 'documenti/documenti/delete?id='.$model->id,
+      'category' => $nameCategory,
     ]
   );
 ?>

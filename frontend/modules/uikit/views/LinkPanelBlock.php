@@ -1,77 +1,122 @@
 <?php
 
 use app\modules\uikit\Uikit;
-use open20\design\assets\BootstrapItaliaDesignAsset;
-use open20\design\utility\DesignIcon;
 
 /**
  * @var $this
  * @var $data
  */
+$id = $data['id'];
+$class = $data['class'];
 
-$currentAsset = BootstrapItaliaDesignAsset::register($this);
-
-
-$linkClass = is_array($data['class']) ? implode(' ',$data['class']) : $data['class'];
-if($data['link_type']=='button'){
-    $linkClass=$linkClass . ' btn'. ' btn-'. $data['button_style'] . ' btn-' . $data['button_size'];
-    if(!empty($data['icon_name'])){
-        $linkClass=$linkClass . ' btn-icon';
-    }
-}
-
-$linkTarget = $data['link_target'] ? '_blank' : '_self';
-$linkClass = $data['is_disabled'] ? $linkClass . ' disabled' : $linkClass;
-
-$iconClass='icon';
+$attrs_image = [];
+$attrs_link = [];
 
 
-?>
-<?php if($data['HTML_type']=='button'): ?>
-    <button class="<?= $linkClass ?> open20-cms-button" 
-    role="button" 
-    style="<?= $this->extraValue('style') ?>"
-    >
-<?php else: ?>
-    <a class="<?= $linkClass ?> open20-cms-button" 
-    href="<?= $data['link'] ?>" 
-    target="<?= $linkTarget ?>" 
-    title="<?= strip_tags($data['text_content']) ?>" 
-    <?=$data['is_disabled'] ? 'aria-disabled="true"' : '';?>
-    style="<?= $this->extraValue('style') ?>"
-    >
-<?php endif; ?>
 
-        <?php if($data['icon_rounded']): ?>
-            <span class="rounded-icon">
-        <?php endif; ?>
-            <?php switch($data['icon_type'])
-            {
-                case 1:
-                    echo DesignIcon::show($data['icon_name'], DesignIcon::ICON_BI, 'icon', $currentAsset);
+
+if ($data['link_block']) :
+    // Link
+    if ($data['link']) {
+        $attrs_link = [];
+        $attrs_link['href'] = $data['link'];
+        $attrs_link['target'] = $data['link_target'] ? '_blank' : '';
+        $attrs_link['uk-scroll'] = strpos($data['link'], '#') === 0;
+        $attrs_link['class'][] = 'link-panel item-link el-link text-decoration-none';
+        switch ($data['link_style']) {
+            case '':
                 break;
-                case 2:
-                    echo DesignIcon::show($data['icon_name'], DesignIcon::ICON_MD, 'icon', $currentAsset);
+            case 'link-muted':
+            case 'link-text':
+                $attrs_link['class'][] = "uk-{$data['link_style']}";
                 break;
-            }
-            ?>
-        <?php if($data['icon_rounded']): ?>
-            </span>
-        <?php endif; ?>
-        <span><?= $data['text_content'] ?></span>
-
-<?php if($data['HTML_type']=='button'): ?>
-    </button>
-<?php else: ?>
-    </a>
-<?php endif; ?>
-
-
-<?php if(!empty($data['text_color'])): ?>
-    <style>
-        svg{
-            fill:currentColor !important;
+            default:
+                $attrs_link['class'][] = "uk-button uk-button-{$data['link_style']}";
+                $attrs_link['class'][] = $data['link_size'] ? "uk-button-{$data['link_size']}" : '';
         }
-    </style>
-<?php endif; ?>
+    }
+    ?>
+    <a<?= Uikit::attrs($attrs_link) ?>>
+    <?php endif
+    ?>
+    <div<?= Uikit::attrs(compact('id', 'class')) ?>>
+        <?php
+        // Image
+        if ($data['image']):
+            $attrs_image['class'][] = 'el-image';
+//        $attrs_image['class'][] = $data['image_border'] ? "uk-border-{$data['image_border']}" : '';
+
+            $image = Uikit::image($data['image'], $attrs_image);
+            ?>
+            <?= $image ?>
+        <?php endif ?>
+        <div class="el-content">
+            <?php
+            // category
+            if ($data['category']):
+                ?>
+                <p class = "category"><span><?= $data['category'] ?></span></p>
+            <?php endif ?>
+
+            <?php
+            if (!$data['link_block']) :
+
+                // Link
+                if ($data['link']) {
+                    $attrs_link = [];
+                    $attrs_link['href'] = $data['link'];
+                    $attrs_link['target'] = $data['link_target'] ? '_blank' : '';
+                    $attrs_link['uk-scroll'] = strpos($data['link'], '#') === 0;
+                    $attrs_link['class'][] = 'el-link';
+                    switch ($data['link_style']) {
+                        case '':
+                            break;
+                        case 'link-muted':
+                        case 'link-text':
+                            $attrs_link['class'][] = "uk-{$data['link_style']}";
+                            break;
+                        default:
+                            $attrs_link['class'][] = "uk-button uk-button-{$data['link_style']}";
+                            $attrs_link['class'][] = $data['link_size'] ? "uk-button-{$data['link_size']}" : '';
+                    }
+                }
+
+                if ($data['link_text']) :
+                    ?>
+                    <p><a<?= Uikit::attrs($attrs_link) ?>><?= $data['link_text'] ?></a></p>
+                    <h2 class="el-title"><?= $data['title'] ?></h2>
+                <?php elseif (!$data['link_text']) : ?>
+                    <a<?= Uikit::attrs($attrs_link) ?>><h2 class="el-title"><?= $data['title'] ?></h2></a>
+                <?php endif ?>
+            <?php else : ?>
+                <h2 class="el-title"><?= $data['title'] ?></h2>
+            <?php endif ?>
+            <?php
+            // subtitle
+            if ($data['subtitle']):
+                ?>
+                <h3 class="el-subtitle"><?= $data['subtitle'] ?></h3>
+            <?php endif ?>
+
+            <?php
+            // startdate
+            if ($data['startdate']):
+                ?>
+                <div class="date-start"><?= Yii::$app->getFormatter()->asDate($data['startdate']); ?></div>
+            <?php endif ?>
+            <?php
+            // enddate
+            if ($data['enddate']):
+                ?>
+                <div class="date-end"><?= Yii::$app->getFormatter()->asDate($data['enddate']); ?></div>
+            <?php endif ?>
+
+        </div>
+    </div>
+    <?php if ($data['link_block']) :
+        ?>
+    </a>
+
+<?php endif
+?>
 

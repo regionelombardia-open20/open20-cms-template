@@ -561,6 +561,7 @@ class RegisterUser extends BaseObject
                 return true;
             }
         }
+        return true;
     }
 
     /**
@@ -642,6 +643,9 @@ class RegisterUser extends BaseObject
         }
         $params = ArrayHelper::toArray($model);
         $params['token'] = $linkToken;
+        if (!empty($params['created_at'])) {
+            $params['created_at'] = date('d/m/Y H:i', strtotime($params['created_at']));
+        }
 
         if($event){
             $eventTemplates = $event->eventEmailTemplates;
@@ -700,6 +704,9 @@ class RegisterUser extends BaseObject
         }
         $params = ArrayHelper::toArray($model);
         $params['token'] = $linkToken;
+        if (!empty($params['created_at'])) {
+            $params['created_at'] = date('d/m/Y H:i', strtotime($params['created_at']));
+        }
         if($event){
             $eventTemplates = $event->eventEmailTemplates;
             if($eventTemplates){

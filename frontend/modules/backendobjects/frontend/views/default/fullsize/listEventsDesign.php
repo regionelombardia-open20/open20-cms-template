@@ -6,6 +6,7 @@ use open20\design\assets\BootstrapItaliaDesignAsset;
 use yii\helpers\Html;
 use open20\design\utility\DesignUtility;
 use open20\amos\events\AmosEvents;
+use Yii;
 
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
 

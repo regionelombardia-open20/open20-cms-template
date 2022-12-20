@@ -5,6 +5,7 @@ namespace app\modules\cms\models;
 use app\modules\cms\admin\Module;
 use open20\amos\attachments\behaviors\FileBehavior;
 use yii\helpers\ArrayHelper;
+use Yii;
 
 class NavItem extends \luya\cms\models\NavItem {
 

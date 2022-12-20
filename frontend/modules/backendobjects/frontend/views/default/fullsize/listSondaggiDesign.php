@@ -6,7 +6,7 @@ use open20\design\assets\BootstrapItaliaDesignAsset;
 use open20\amos\admin\AmosAdmin;
 use yii\helpers\Html;
 use open20\design\utility\DesignUtility;
-
+use Yii;
 
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
 
@@ -53,13 +53,13 @@ if ($hideModuleBackendIfEmptyList) {
                 'p',
                 AmosSondaggi::t(
                     'amossondaggi',
-                    'Per partecipare a tutti i sondaggi, {ctaLoginRegister}',
+                    '#beforeActionSubtitleSectionGuest',
                     ['ctaLoginRegister' => $ctaLoginRegister]
                 )
             );
         } else {
             $titleSection = AmosSondaggi::t('amossondaggi', 'Sondaggi di mio interesse');
-            $labelLinkAll = AmosSondaggi::t('amossondaggi', 'Tutti i sondaggi di mio interesse');
+            $labelLinkAll = AmosSondaggi::t('amossondaggi', 'Tutte i sondaggi di mio interesse');
             $urlLinkAll   = '/sondaggi/pubblicazione/own-interest';
             $titleLinkAll = AmosSondaggi::t('amossondaggi', 'Visualizza la lista dei sondaggi di tuo interesse');
 

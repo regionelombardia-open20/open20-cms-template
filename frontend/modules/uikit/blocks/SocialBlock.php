@@ -1,10 +1,10 @@
 <?php
-
 namespace app\modules\uikit\blocks;
 
 use Yii;
 use app\modules\uikit\BaseUikitBlock;
-use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
+use yii\helpers\ArrayHelper;
 
 /**
  * Social Block.
@@ -12,20 +12,29 @@ use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
  */
 final class SocialBlock extends BaseUikitBlock
 {
+
     /**
+     *
      * @inheritdoc
      */
     public $component = "social";
 
     /**
+     *
      * @inheritdoc
      */
     public function blockGroup()
     {
-        return ElementiBaseGroup::class;
+        return LegacyGroup::class;
+    }
+
+    public function disable()
+    {
+        return 0;
     }
 
     /**
+     *
      * @inheritdoc
      */
     public function name()
@@ -34,6 +43,7 @@ final class SocialBlock extends BaseUikitBlock
     }
 
     /**
+     *
      * @inheritdoc
      */
     public function icon()
@@ -42,11 +52,12 @@ final class SocialBlock extends BaseUikitBlock
     }
 
     /**
+     *
      * @inheritdoc
      */
     public function frontend(array $params = array())
     {
-        if(count($this->getVarValue('items', []))) {
+        if (count($this->getVarValue('items', []))) {
             return parent::frontend($params);
         } else {
             return "";
@@ -54,11 +65,12 @@ final class SocialBlock extends BaseUikitBlock
     }
 
     /**
+     *
      * @inheritdoc
      */
     public function admin()
     {
-        if($output = $this->frontend()) {
+        if ($output = $this->frontend()) {
             return $output;
         } else {
             return '<div><span class="block__empty-text">' . Yii::t('backendobjects', 'block_module_block_social_no_content') . '</span></div>';

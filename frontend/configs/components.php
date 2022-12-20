@@ -92,7 +92,6 @@ return [
     ],
     'storage' => [
         'class' => 'app\modules\cms\storage\AmosFileSystem',
-        'whitelistExtensions' => ['csv', 'svg', 'doc', 'docx'],
         'whitelistMimeTypes' => ['text/plain', 'image/svg+xml'], // as this is the mime type for csv files
     ],
     'translatemanager' => [

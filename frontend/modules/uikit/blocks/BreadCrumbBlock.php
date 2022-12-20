@@ -2,11 +2,10 @@
 
 namespace app\modules\uikit\blocks;
 
-use Yii;
-use app\modules\uikit\Module;
-use app\modules\backendobjects\frontend\blockgroups\ElementiAvanzatiGroup;
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 use app\modules\uikit\BaseUikitBlock;
-
+use app\modules\uikit\Module;
+use Yii;
 
 
 class BreadCrumbBlock extends BaseUikitBlock
@@ -21,7 +20,7 @@ class BreadCrumbBlock extends BaseUikitBlock
      */
     public function blockGroup()
     {
-        return ElementiAvanzatiGroup::className();
+        return LegacyGroup::className();
     }
 
     /**
@@ -29,7 +28,7 @@ class BreadCrumbBlock extends BaseUikitBlock
      */
     public function name()
     {
-        return Yii::t('backendobjects', 'block_module_backend_breadcrumb');
+        return Module::t('breadcrumb');
     }
 
     /**

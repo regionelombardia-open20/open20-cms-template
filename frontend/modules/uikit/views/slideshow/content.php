@@ -117,16 +117,30 @@ if ($item['link']) {
 <div<?= Uikit::attrs($attrs_meta) ?>><?= $item['meta'] ?></div>
 <?php endif ?>
 
-<?php if ($item['title']) : ?>
-<div <?= $data['title_element'] . Uikit::attrs($attrs_title) ?>>
-    <?php if ($data['title_color'] == 'background') : ?>
-    <span class="uk-text-background"><?= $item['title'] ?></span>
-    <?php elseif ($data['title_decoration'] == 'line') : ?>
-    <span><?= $item['title'] ?></span>
-    <?php else : ?>
-    <?= $item['title'] ?>
-    <?php endif ?>
-<?= $data['title_element'] ?>
+
+
+<div class="card-wrapper card-space h-100">
+    <div class="card card-bg">
+        <div class="card-body">
+            <p class="card-title h5 font-weight-bold">
+                <?= $item['title'] ?>
+            </p>
+            <p class="card-text">
+                <?= $item['content'] ?>
+            </p>
+            <?php if ($item['link']) : 
+                if (!empty($item['cta_text'])) :?>
+                    <a href="<?= $item['link'] ?>" class="read-more" title="<?= Module::t($item['cta_text']) ?>">
+                        <?= Module::t($item['cta_text']) ?>
+                    </a>
+                <?php else: ?>
+                    <a href="<?= $item['link'] ?>" class="read-more" title="<?= Module::t('Scopri di più') ?>">
+                        <?= Module::t('Scopri di più') ?>
+                    </a>
+                <?php endif ?>
+            <?php endif ?>
+        </div>
+    </div>
 </div>
 <?php endif ?>
 

@@ -10,6 +10,7 @@
  */
 
 use open20\amos\core\helpers\Html;
+use Yii;
 
 /**
  * @var yii\web\View $this

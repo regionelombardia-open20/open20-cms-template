@@ -83,7 +83,7 @@ if (isset(\Yii::$app->params['menuCmsConfigurations']['mainEngCmsMenu'])) {
 $language_code = Yii::$app->composition['langShortCode'];
 $language = Lang::findOne(['short_code' => $language_code]);
 
-if ($language_code == 'en' && (isset(\Yii::$app->params['menuCmsConfigurations']['mainEngCmsMenu']))) {
+if ($language_code == 'en') {
     $cmsDefaultMenu = Html::tag('ul', $cmsEngDefaultMenu, ['class' => 'navbar-nav' . ' ' . $cmsDefaultEngMenuCustomClass]);
     $cmsDefaultMenuFooter = Html::tag('ul', $cmsEngDefaultMenuFooter, ['class' => 'footer-list link-list' . ' ' . $cmsDefaultEngMenuCustomClass]);
 } else {

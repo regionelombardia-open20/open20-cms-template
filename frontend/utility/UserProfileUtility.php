@@ -25,11 +25,14 @@ use yii\log\Logger;
 class UserProfileUtility extends AmsoUserProfileUtility
 {
     /**
+     * 
      * @param UserProfile $model
-     * @param Community $model
-     * @return bool
+     * @param Community $community
+     * @param string $module_name
+     * @param boolean $socialAccount
+     * @return boolean
      */
-    public static function sendCredentialsMail($model, $community = null, $module_name = null)
+    public static function sendCredentialsMail($model, $community = null, $module_name = null, $socialAccount = false)
     {
         try {
             $model->user->generatePasswordResetToken();

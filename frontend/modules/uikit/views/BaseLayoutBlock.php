@@ -1,19 +1,21 @@
 <?php
 
 use trk\uikit\Uikit;
+use app\modules\uikit\BaseUikitBlock;
 
-/**
- * @var $this object
- * @var $data array
- */
 $canSeeBlock = true;
-$visibility = $data['visibility'];
+$visibility = $this->varValue('visibility');
+
 switch($visibility){
     case 'guest':
         $canSeeBlock = Yii::$app->user->isGuest;          
     break;
     case 'logged':
-        $canSeeBlock = !Yii::$app->user->isGuest;  
+        $canSeeBlock = !Yii::$app->user->isGuest; 
+		$n_class = $this->varValue('addclass');
+		if($canSeeBlock && !empty($n_class)){
+			$canSeeBlock = BaseUikitBlock::visivility($n_class);
+		}
     break;
 }
 
@@ -89,4 +91,4 @@ if ($data['width']) {
             } ?>
         </div>
     <?php if ($attrs_container) : ?></div><?php endif ?>
-<?php endif; ?>
+<?php endif; 

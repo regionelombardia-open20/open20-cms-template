@@ -5,6 +5,7 @@ namespace app\modules\cms\models;
 use app\modules\cms\admin\Module;
 use luya\cms\models\NavItemPage;
 use luya\cms\models\NavItemPageBlockItem;
+use luya\cms\models\NavItemRedirect;
 use luya\helpers\Url;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -135,6 +136,10 @@ class Nav extends \luya\cms\models\Nav {
         $navItem = new NavItem();
         $navItem->parent_nav_id = $parentNavId;
         $navItemPage = new NavItemPage();
+        if (!empty($other['NavItemRedirect'])) {
+            $navItemRedirect = new NavItemRedirect();
+        }
+
 
         if (!$isDraft && empty($isDraft) && !is_numeric($isDraft)) {
             $isDraft = 0;
@@ -163,6 +168,11 @@ class Nav extends \luya\cms\models\Nav {
             if (!empty($other['NavItem'])) {
                 $navItem->attributes = array_merge($navItem->attributes, $other['NavItem']);
             }
+
+            if (!empty($other['NavItemRedirect'])) {
+                $navItem->nav_item_type = 3;
+                $navItemRedirect->attributes = array_merge($navItemRedirect->attributes, $other['NavItemRedirect']);
+            }
         }
 
         $navItemPage->attributes = ['nav_item_id' => 0, 'layout_id' => $layoutId, 'create_user_id' => Module::getAuthorUserId(), 'timestamp_create' => time(), 'version_alias' => Module::VERSION_INIT_LABEL];
@@ -173,23 +183,35 @@ class Nav extends \luya\cms\models\Nav {
         if (!$navItem->validate()) {
             $_errors = ArrayHelper::merge($navItem->getErrors(), $_errors);
         }
-        if (!$navItemPage->validate()) {
-            $_errors = ArrayHelper::merge($navItemPage->getErrors(), $_errors);
+        if (!empty($other['NavItemRedirect'])) {
+            if (empty($other['NavItemRedirect']) && !$navItemPage->validate()) {
+                $_errors = ArrayHelper::merge($navItemPage->getErrors(), $_errors);
+            }
+            if (!$navItemRedirect->validate()) {
+                $_errors = ArrayHelper::merge($navItemRedirect->getErrors(), $_errors);
+            }
         }
-
         if (!empty($_errors)) {
             return $_errors;
         }
 
-        $navItemPage->save(false); // as validation is done already
+        //se c'è il redirect non serve il navitempage
+        if (!empty($other['NavItemRedirect'])) {
+            $navItemRedirect->save(false);
+        } else {
+            $navItemPage->save(false); // as validation is done already
+        }
+
         $nav->save(false); // as validation is done already
 
-        $navItem->nav_item_type_id = $navItemPage->id;
         $navItem->nav_id = $nav->id;
+        if (!empty($navItemRedirect)) {
+            $navItem->nav_item_type_id = $navItemRedirect->id;
+        } else {
+            $navItem->nav_item_type_id = $navItemPage->id;
+        }
         $navItemId = $navItem->save(false); // as validation is done already
-
         $navItemPage->updateAttributes(['nav_item_id' => $navItem->id]);
-
         return $nav->id;
     }
 

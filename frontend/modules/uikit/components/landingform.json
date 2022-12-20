@@ -1,43 +1,43 @@
 {
     "vars": [{
-            "var": "id",
-            "label": "Id",
-            "initValue": "form_id_0",
-            "description": "Sono permessi solo lettere e numeri senza spazi.",
-            "placeholder": "ID del form HTML",
-            "type": "zaa-text"
-        }, {
-            "var": "table",
-            "label": "Table (required)",
-            "description": "Sono permessi solo lettere e numeri senza spazi.",
-            "placeholder": "Nome Tabella su Database",
-            "type": "zaa-dbfield"
-        }, {
-            "var": "submitlabel",
-            "label": "Submit label",
-            "description": "",
-            "placeholder": "Etichetta bottone di submit",
-            "type": "zaa-text"
-        }, 
+        "var": "id",
+        "label": "Id",
+        "initValue": "form_id_0",
+        "description": "Sono permessi solo lettere e numeri senza spazi.",
+        "placeholder": "ID del form HTML",
+        "type": "zaa-text"
+    }, {
+        "var": "table",
+        "label": "Table (required)",
+        "description": "Sono permessi solo lettere e numeri senza spazi.",
+        "placeholder": "Nome Tabella su Database",
+        "type": "zaa-dbfield"
+    }, {
+        "var": "submitlabel",
+        "label": "Submit label",
+        "description": "",
+        "placeholder": "Etichetta bottone di submit",
+        "type": "zaa-text"
+    },
         {
             "var": "reCaptcha",
             "label": "reCaptcha",
             "description": "",
             "placeholder": "",
             "type": "zaa-checkbox"
-        } 
-        , {
+        }
+    , {
             "var": "items",
             "label": "Fields",
             "description": "",
             "type": "zaa-multiple-inputs",
             "options": [{
-                    "var": "field",
-                    "label": "Field",
-                    "description": "",
-                    "initvalue": "",
-                    "type": "zaa-dbfield"
-                },
+                "var": "field",
+                "label": "Field",
+                "description": "",
+                "initvalue": "",
+                "type": "zaa-dbfield"
+            },
                 {
                     "var": "label",
                     "label": "Label",
@@ -110,52 +110,52 @@
                     "description": "",
                     "initvalue": "",
                     "options": [{
-                            "value": "label",
-                            "label": "Label"
-                        }, {
-                            "value": "attachmentsInput",
-                            "label": "AttachmentsInput"
-                        }, {
-                            "value": "checkbox",
-                            "label": "Checkbox"
-                        }, {
-                            "value": "radioList",
-                            "label": "RadioList"
-                        }, {
-                            "value": "string",
-                            "label": "InputText"
-                        }, {
-                            "value": "textarea",
-                            "label": "TextArea"
-                        }, {
-                            "value": "integer",
-                            "label": "Integer"
-                        }, {
-                            "value": "date",
-                            "label": "Date"
-                        }, {
-                            "value": "email",
-                            "label": "Email"
-                        }, {
-                            "value": "conferma_email",
-                            "label": "Conferma Email"
-                        }, {
-                            "value": "password",
-                            "label": "Password"
-                        }
-                        , {
+                        "value": "label",
+                        "label": "Label"
+                    }, {
+                        "value": "attachmentsInput",
+                        "label": "AttachmentsInput"
+                    }, {
+                        "value": "checkbox",
+                        "label": "Checkbox"
+                    }, {
+                        "value": "radioList",
+                        "label": "RadioList"
+                    }, {
+                        "value": "string",
+                        "label": "InputText"
+                    }, {
+                        "value": "textarea",
+                        "label": "TextArea"
+                    }, {
+                        "value": "integer",
+                        "label": "Integer"
+                    }, {
+                        "value": "date",
+                        "label": "Date"
+                    }, {
+                        "value": "email",
+                        "label": "Email"
+                    }, {
+                        "value": "conferma_email",
+                        "label": "Conferma Email"
+                    }, {
+                        "value": "password",
+                        "label": "Password"
+                    }
+                    , {
                             "value": "select",
                             "label": "Select"
                         }
-                        , {
+                    , {
                             "value": "selectdb",
                             "label": "SelectDB"
                         },
-                         {
+                        {
                             "value": "selectrel",
                             "label": "Select Relative"
                         }
-                        , {
+                    , {
                             "value": "hidden",
                             "label": "Hidden"
                         }, {
@@ -198,18 +198,18 @@
                     "initValue": "",
                     "type": "zaa-multiple-inputs",
                     "options": [{
-                            "var": "value",
-                            "label": "Value",
-                            "description": "",
-                            "initvalue": "",
-                            "type": "zaa-text"
-                        }, {
-                            "var": "label",
-                            "label": "Label",
-                            "description": "",
-                            "initvalue": "",
-                            "type": "zaa-text"
-                        }
+                        "var": "value",
+                        "label": "Value",
+                        "description": "",
+                        "initvalue": "",
+                        "type": "zaa-text"
+                    }, {
+                        "var": "label",
+                        "label": "Label",
+                        "description": "",
+                        "initvalue": "",
+                        "type": "zaa-text"
+                    }
                     ]
                 }
             ]

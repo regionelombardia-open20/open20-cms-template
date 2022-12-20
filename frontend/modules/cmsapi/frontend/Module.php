@@ -6,7 +6,8 @@ use luya\base\CoreModuleInterface;
 
 final class Module extends \luya\base\Module implements CoreModuleInterface
 {
-    
+    public $enableTagParsing;
+    public $overlayToolbar;
     private $css_layoutsection_with_image = '';
     public $urlRules                      = [
         ['pattern' => 'api/1/qrcode', 'route' => 'cmsapi/cmsapi/qrcode'],
@@ -22,7 +23,15 @@ final class Module extends \luya\base\Module implements CoreModuleInterface
         ['pattern' => 'api/1/update-page', 'route' => 'cmsapi/cmsapi/update-page'],
         ['pattern' => 'api/1/preview-page', 'route' => 'cmsapi/cmsapi/preview-page'],
         ['pattern' => 'api/1/preview-page-html', 'route' => 'cmsapi/cmsapi/get-preview-page-html'],
-        ['pattern' => 'api/1/is-new-alias-valid', 'route' => 'cmsapi/cmsapi/is-new-alias-valid'],
+        ['pattern' => 'api/1/preview-content', 'route' => 'cmsapi/preview/preview-content'],
+    ];
+
+    public $contentXPathSelector = "//*[contains(@class, 'wrap-modules')]";
+    public $contentXPathsToIgnore = [
+        "//nav",
+        "//form",
+        "//*[contains(@class, 'modal')]",
+        "//*[contains(@class, 'social-share')]",
     ];
 
     public function getTks_template_page_id()

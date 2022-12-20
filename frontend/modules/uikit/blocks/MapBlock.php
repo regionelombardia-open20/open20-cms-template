@@ -4,7 +4,8 @@ namespace app\modules\uikit\blocks;
 
 use Yii;
 use app\modules\uikit\BaseUikitBlock;
-use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
+use app\modules\backendobjects\frontend\blockgroups\ContenutoGroup;
+use yii\helpers\ArrayHelper;
 
 /**
  * Google Maps Block.
@@ -28,7 +29,7 @@ final class MapBlock extends BaseUikitBlock
     
     public function blockGroup()
     {
-        return ElementiBaseGroup::class;
+        return ContenutoGroup::class;
     }
 
     /**
@@ -49,13 +50,15 @@ final class MapBlock extends BaseUikitBlock
                 [
                     'var' => 'address',
                     'label' => Yii::t('backendobjects', 'block_map_address_label'),
+                    'description' => Yii::t('backendobjects', 'Inserisci l\'indirizzo dove mettere il pin sulla mappa. Deve avere il formato Via + nome della via + nome della città.'),
                     'type' => self::TYPE_TEXT,
-                    'placeholder' => 'Zephir Software Design AG, Tramstrasse 66, 4142 Münchenstein'
+                    'placeholder' => 'Via Bologna 549, Ferrara'
                 ],
                 [
                     'var' => 'zoom',
                     'label' => Yii::t('backendobjects', 'block_map_zoom_label'),
                     'type' => self::TYPE_SELECT,
+                    'description' => Yii::t('backendobjects', 'Definisci lo zoom da impostare a partire dal pin sulla mappa.'),
                     'initvalue' => '12',
                     'options' => [
                         ['value' => '0', 'label' => Yii::t('backendobjects', 'block_map_zoom_entire')],
@@ -86,16 +89,52 @@ final class MapBlock extends BaseUikitBlock
                     'var' => 'maptype',
                     'label' => Yii::t('backendobjects', 'block_map_maptype_label'),
                     'type' => self::TYPE_SELECT,
+                    'description' => Yii::t('backendobjects', 'Seleziona la tipologia di mappa da visualizzare.'),
                     'options' => [
                         ['value' => 'm', 'label' => Yii::t('backendobjects', 'block_map_maptype_roadmap')],
                         ['value' => 'k', 'label' => Yii::t('backendobjects', 'block_map_maptype_satellitemap')],
-                        ['value' => 'h', 'label' => Yii::t('backendobjects', 'block_map_maptype_hybrid')],
+                       // ['value' => 'h', 'label' => Yii::t('backendobjects', 'block_map_maptype_hybrid')],
+                    ],
+                ],
+                [
+                    'var' => 'visibility',
+                    'label' => 'Visibilità del blocco',
+                    'description' => 'Imposta la visibilità della sezione.',
+                    'initvalue' => '',
+                    'type' => 'zaa-select', 'options' => [
+                        ['value' => '', 'label' => 'Visibile a tutti'],
+                        ['value' => 'guest', 'label' => 'Visibile solo ai non loggati'],
+                        ['value' => 'logged', 'label' => 'Visibile solo ai loggati'],
+                    ],
+                ],
+                [
+                    'var' => 'addclass',
+                    'label' => 'Visibilità per profilo',
+                    'description' => 'Imposta la visibilità della sezione in base al profilo dell\'utente loggato',
+                    'type' => 'zaa-multiple-inputs',
+                    'options' => [
+                        [
+                            'var' => 'class',
+                            'type' => 'zaa-select',
+                            'initvalue' => '',
+                            'options' => BaseUikitBlock::getClasses(),
+                        ]
                     ],
                 ],
             ],
             'cfgs' => [
-                ['var' => 'snazzymapsUrl', 'label' => Yii::t('backendobjects', 'block_map_snazzymapsUrl_label'), 'type' => self::TYPE_TEXT],
-                ['var' => 'mapsKey', 'label' => Yii::t('backendobjects', 'block_map_api_key'), 'type' => self::TYPE_TEXT],
+                [
+                    'var' => 'snazzymapsUrl', 
+                    'label' => Yii::t('backendobjects', 'block_map_snazzymapsUrl_label'), 
+                    'description' => Yii::t('backendobjects', 'Configurazione tecnica per Snazzy Maps iFrame. Non è obbligatoria la compilazione.'),
+                    'type' => self::TYPE_TEXT
+                ],
+                [
+                    'var' => 'mapsKey', 
+                    'label' => Yii::t('backendobjects', 'block_map_api_key'), 
+                    'description' => Yii::t('backendobjects', 'Configurazione tecnica per Maps API Key. Non è obbligatoria la compilazione.'),
+                    'type' => self::TYPE_TEXT
+                ],
             ]
         ];
     }

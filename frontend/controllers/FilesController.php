@@ -2,11 +2,12 @@
 
 namespace app\controllers;
 
+use open20\amos\core\controllers\AmosController;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 
-class FilesController extends \yii\web\Controller
+class FilesController extends AmosController
 {
     
     /**

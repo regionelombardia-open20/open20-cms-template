@@ -2,9 +2,8 @@
 
 namespace app\modules\uikit\blocks;
 
-use Yii;
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 use app\modules\uikit\Module;
-use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
 
 class AccordionAttachmentsBlock extends \app\modules\uikit\BaseUikitBlock
 {
@@ -13,16 +12,12 @@ class AccordionAttachmentsBlock extends \app\modules\uikit\BaseUikitBlock
      */
     protected $component = "accordionattachments";
 
-    public function disable()
-    {
-        return true;
-    }
     /**
      * @inheritdoc
      */
     public function blockGroup()
     {
-        return ElementiBaseGroup::class;
+        return LegacyGroup::class;
     }
 
     /**
@@ -30,7 +25,7 @@ class AccordionAttachmentsBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function name()
     {
-        return Yii::t('backendobjects', 'block_module_backend_accordionattachments');
+        return Module::t('accordionattachments');
     }
 
     /**

@@ -4,9 +4,10 @@ namespace app\modules\backendobjects\frontend\blocks;
 
 use Yii;
 use yii\web\Response;
-use app\modules\backendobjects\frontend\blockgroups\ElementiAvanzatiGroup;
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 use luya\base\ModuleReflection;
 use luya\cms\base\PhpBlock;
+use app\modules\uikit\BaseUikitBlock;
 
 /**
  * Module Backend Block.
@@ -26,9 +27,15 @@ class ContenutiDinamiciBlock extends PhpBlock
     /**
      * @inheritDoc
      */
+
+
     public function blockGroup()
     {
-        return ElementiAvanzatiGroup::className();
+        return LegacyGroup::className();
+    }
+
+    public function disable(){
+        return 0;
     }
 
     /**
@@ -58,6 +65,31 @@ class ContenutiDinamiciBlock extends PhpBlock
                 ['var' => 'viewFields', 'label' => Yii::t('backendobjects', 'block_module_contenuti_dinamici_viewFields_label'), 'type' => self::TYPE_CHECKBOX_ARRAY, 'options' => $this->getViewFields()],
                 ['var' => 'withPagination', 'label' => Yii::t('backendobjects', 'block_module_contenuti_dinamici_withPagination_label'), 'type' => self::TYPE_CHECKBOX],
                 ['var' => 'numElementsPerPage', 'label' => Yii::t('backendobjects', 'block_module_contenuti_dinamici_numElementsPerPage_label'), 'type' => self::TYPE_NUMBER],
+                [
+                    'var' => 'visibility',
+                    'label' => 'Visibilità del blocco',
+                    'description' => 'Imposta la visibilità della sezione.',
+                    'initvalue' => '',
+                    'type' => 'zaa-select', 'options' => [
+                        ['value' => '', 'label' => 'Visibile a tutti'],
+                        ['value' => 'guest', 'label' => 'Visibile solo ai non loggati'],
+                        ['value' => 'logged', 'label' => 'Visibile solo ai loggati'],
+                    ],
+                ],
+                [
+                    'var' => 'addclass',
+                    'label' => 'Visibilità per profilo',
+                    'description' => 'Imposta la visibilità della sezione in base al profilo dell\'utente loggato',
+                    'type' => 'zaa-multiple-inputs',
+                    'options' => [
+                        [
+                            'var' => 'class',
+                            'type' => 'zaa-select',
+                            'initvalue' => '',
+                            'options' => BaseUikitBlock::getClasses(),
+                        ]
+                    ],
+                ],
 
             ],
             'cfgs' => [
@@ -96,10 +128,16 @@ class ContenutiDinamiciBlock extends PhpBlock
     {
         $str_view_module = '{% if vars.backendModule is empty %}<span class="block__empty-text">' . Yii::t('backendobjects', 'block_module_backend_no_module') . '</span>{% else %}<p><i class="material-icons">apps</i> ' . Yii::t('backendobjects', 'block_module_backend_integration') . ': <strong>';
         $moduleName = "";
-
+        
+        $str_view = '';
+        
         switch ($this->getVarValue('backendModule')) {
             case "open20\\amos\\news\\AmosNews":
                 $moduleName = "News";
+                $str_view .= '<img src="/img/preview_cms/news-preview.png">';
+                break;
+            case "open20\\amos\\news\\AmosDocumenti":
+                $moduleName = "Documenti";
                 $str_view .= '<img src="/img/preview_cms/news-preview.png">';
                 break;
             case "open20\\amos\\community\\AmosCommunity":
@@ -121,6 +159,10 @@ class ContenutiDinamiciBlock extends PhpBlock
             case "open20\\amos\\sondaggi\\AmosSondaggi":
                 $moduleName = "Eventi";
                 $str_view .= '<img src="/img/preview_cms/sondaggio-preview.png">';
+                break;
+            case "open2\\amos\\ticket\\AmosTicket":
+                $moduleName = "Ticket";
+                $str_view .= '<img src="/img/preview_cms/news-preview.png">';
                 break;
         }
         return $str_view_module . $moduleName . '</strong></p>{% endif %}' . $str_view;
@@ -152,9 +194,11 @@ class ContenutiDinamiciBlock extends PhpBlock
             foreach ($frontendModule->modulesEnabled as $backModuleEnabled) {
                 if (class_exists($backModuleEnabled) && in_array('open20\amos\core\interfaces\CmsModuleInterface', class_implements($backModuleEnabled))) {
                     $moduleName = $backModuleEnabled::getModuleName();
-                    $modelSearchClass = $backModuleEnabled::getModelSearchClassName();
-                    if (class_exists($modelSearchClass) && in_array('open20\amos\core\interfaces\CmsModelInterface', class_implements($modelSearchClass))) {
-                        $data[] = ['value' => $backModuleEnabled, 'label' => $moduleName];
+                    if (Yii::$app->hasModule($moduleName)) {
+                        $modelSearchClass = $backModuleEnabled::getModelSearchClassName();
+                        if (class_exists($modelSearchClass) && in_array('open20\amos\core\interfaces\CmsModelInterface', class_implements($modelSearchClass))) {
+                            $data[] = ['value' => $backModuleEnabled, 'label' => $moduleName];
+                        }
                     }
                 }
             }

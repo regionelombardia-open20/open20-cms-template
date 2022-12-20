@@ -4,11 +4,10 @@
 
 namespace app\modules\uikit\blocks;
 
-use Yii;
+
 use app\modules\uikit\Module;
-use app\modules\backendobjects\frontend\blockgroups\SviluppoGroup;
-
-
+use luya\cms\frontend\blockgroups\TextGroup;
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 
 class PhpPanelBlock extends \app\modules\uikit\BaseUikitBlock
 {
@@ -24,7 +23,7 @@ class PhpPanelBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function blockGroup()
     {
-        return SviluppoGroup::class;
+        return LegacyGroup::class;
     }
 
     /**
@@ -32,7 +31,7 @@ class PhpPanelBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function name()
     {
-        return Yii::t('backendobjects', 'block_module_backend_phppanel');
+        return Module::t('phppanel');
     }
 
     /**
@@ -40,7 +39,7 @@ class PhpPanelBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function icon()
     {
-        return 'code';
+        return 'line_weight';
     }
 
     /**

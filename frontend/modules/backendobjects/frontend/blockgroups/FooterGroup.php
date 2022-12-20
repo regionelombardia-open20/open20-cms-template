@@ -19,6 +19,6 @@ class FooterGroup extends BlockGroup {
     
     public function getPosition()
     {
-        return 5;
+        return 12;
     }
 }

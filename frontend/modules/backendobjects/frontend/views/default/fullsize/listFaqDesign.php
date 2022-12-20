@@ -6,6 +6,7 @@ use open20\amos\admin\AmosAdmin;
 use yii\helpers\Html;
 use open20\design\utility\DesignUtility;
 use open2\amos\ticket\AmosTicket;
+use Yii;
 
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
 
@@ -14,7 +15,7 @@ $isGuest = \Yii::$app->user->isGuest;
 
 
 <?php
-$modelLabel = strtolower($model->getGrammar()->getModelLabel());
+$modelLabel = "Faq";
 $hideBiPluginHeader = (strpos($cssClass, 'hide-bi-plugin-header') !== false) ? true : false;
 $hideModuleBackendIfEmptyList = (strpos($cssClass, 'hide-module-if-empty-list') !== false && $dataProvider->getTotalCount() <= 0) ? true : false;
 
@@ -31,7 +32,7 @@ if ($hideModuleBackendIfEmptyList) {
             $titleSection = AmosTicket::t('amosticket', 'FAQs');
             $urlLinkAll = '/ticket/assistenza/cerca-faq';
             $labelLinkAll = AmosTicket::t('amosticket', 'Tutte le FAQs');
-            $titleLinkAll = BaseAmAmosDiscussioniosModule::t('amosticket', 'Visualizza la lista delle FAQs');
+            $titleLinkAll = AmosTicket::t('amosticket', 'Visualizza la lista delle FAQs');
 
             $ctaLoginRegister = Html::a(
                 AmosTicket::t('amosticket', 'accedi o registrati alla piattaforma'),

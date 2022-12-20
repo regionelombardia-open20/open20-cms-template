@@ -1,111 +1,51 @@
 {
     "vars": [
+        
         {
-            "var": "link_type",
-            "label": "Type",
-            "description": "Set the type: link text or button",
-            "initvalue": "link",
-            "options": [{
-                    "value": "link",
-                    "label": "Link"
-                }, {
-                    "value": "button",
-                    "label": "Button"
-                }],
-            "type": "zaa-select"
-        },{
-            "var": "button_style",
-            "label": "Button Style",
-            "description": "If the link type is 'button' it sets the style of the button. If the link type is 'link' it does not affect.",
-            "initvalue": "",
-            "options": [ 
-                {
-                    "value": "",
-                    "label": "No Style"
-                },
-                {
-                    "value": "primary",
-                    "label": "Button Primary"
-                }, {
-                    "value": "secondary",
-                    "label": "Button Secondary"
-                }, {
-                    "value": "tertiary",
-                    "label": "Button Tertiary"
-                }, {
-                    "value": "outline-primary",
-                    "label": "Button Outline Primary"
-                }, {
-                    "value": "outline-secondary",
-                    "label": "Button Outline Secondary"
-                }, {
-                    "value": "outline-tertiary",
-                    "label": "Button Outline Tertiary"
-                }],
-            "type": "zaa-select"
-        }, {
-            "var": "button_background",
-            "label": "Button Color",
-            "description": "Use the background color instead of button style.",
-            "initValue": "",
-            "type": "zaa-color"
-        },{
-            "var": "text_color",
-            "label": "Text Color",
-            "description": "If background is selected text color is auto. If text color is set, the color is override",
-            "initValue": "",
-            "type": "zaa-color"
-        },{
-            "var": "button_size",
-            "label": "Button Size",
-            "description": "If the link type is 'button' it sets the size of the button. If the link type is 'link' it does not affect.",
-            "initvalue": "default",
-            "options": [{
-                "value": "xs",
-                "label": "Mini"
-                },
-                {
-                    "value": "sm",
-                    "label": "Small"
-                }, {
-                    "value": "",
-                    "label": "Default"
-                }, {
-                    "value": "lg",
-                    "label": "Large"
-                }],
-            "type": "zaa-select"
-        },{
-            "var": "text_content",
-            "label": "Text Content",
+            "var": "title",
+            "label": "Title",
             "description": "",
-            "initValue": "",
-            "type": "zaa-wysiwyg"
-        },{
-            "var": "icon_type",
-            "label": "Icon Type",
-            "description": "Select iconset.",
             "initvalue": "",
-            "options": [{
-                    "value": "1",
-                    "label": "Bootstrap Italia"
-                }, {
-                    "value": "2",
-                    "label": "Material"
-                }],
-            "type": "zaa-select"
-        },{
-            "var": "icon_name",
-            "label": "Icon Name",
-            "description": "If you have selected the 'Material Icon' icon set look here: https://materialdesignicons.com/. If you have selected the 'Bootstrap Italia' set look here: https://italia.github.io/bootstrap-italia/docs/utilities/icone/",
-            "initValue": "",
             "type": "zaa-text"
         },{
-            "var": "icon_rounded",
-            "label": "Icon rounded",
-            "description": "Set icon in button rounded",
+            "var": "subtitle",
+            "label": "Subtitle",
+            "description": "",
             "initvalue": "",
-            "type": "zaa-checkbox"
+            "type": "zaa-text"
+        },{
+            "var": "category",
+            "label": "Category",
+            "description": "",
+            "initvalue": "",
+            "type": "zaa-text"
+        },{
+            "var": "startdate",
+            "label": "Start Date",
+            "description": "",
+            "initvalue": "",
+            "type": "zaa-date"
+        },{
+            "var": "enddate",
+            "label": "End Date",
+            "description": "",
+            "initvalue": "",
+            "type": "zaa-date"
+        },{
+            "var": "image",
+            "label": "Image",
+            "description": "",
+            "initvalue": "",
+            "options": {
+                "no_filter": false
+            },
+            "type": "zaa-image-upload"
+        },{
+            "var": "image_alt",
+            "label": "Image Alt",
+            "description": "",
+            "initvalue": "",
+            "type": "zaa-text"
         },{
             "var": "link",
             "label": "Link",
@@ -113,16 +53,10 @@
             "initvalue": "",
             "placeholder": "http:\/\/",
             "type": "zaa-link"
-        },{
-            "var": "link_target",
-            "label": "Open in a new window",
-            "description": "",
-            "initvalue": "",
-            "type": "zaa-checkbox"
-        },{
-            "var": "is_disabled",
-            "label": "Disabled",
-            "description": "",
+        }, {
+            "var": "link_block",
+            "label": "Link block",
+            "description": "Link on the whole image block",
             "initvalue": "",
             "type": "zaa-checkbox"
         }
@@ -130,20 +64,12 @@
     ],
     "cfgs": [
         {
-            "var": "HTML_type",
-            "label": "HTML Type",
-            "description": "Set the HTML tag",
-            "initvalue": "a",
-            "options": [ 
-                {
-                    "value": "a",
-                    "label": "a"
-                },
-                {
-                    "value": "button",
-                    "label": "button"
-                }],
-            "type": "zaa-select"
+            "var": "name",
+            "label": "Name",
+            "description": "Define a name to easily indentify this element inside the builder.",
+            "initValue": "",
+            "placeholder": "",
+            "type": "zaa-text"
         }, {
             "var": "id",
             "label": "ID",
@@ -156,6 +82,65 @@
             "description": "Define one or more class names for the element. Separate multiple classes with spaces.",
             "initValue": "",
             "type": "zaa-text"
+        },{
+            "var": "link_text",
+            "label": "Link Text",
+            "description": "Enter the text for the link.",
+            "initvalue": "Read more",
+            "type": "zaa-text"
+        }, {
+            "var": "link_target",
+            "label": "Open in a new window",
+            "description": "",
+            "initvalue": "",
+            "type": "zaa-checkbox"
+        }, {
+            "var": "link_style",
+            "label": "Link Style",
+            "description": "Set the link style.",
+            "initvalue": "default",
+            "options": [{
+                    "value": "",
+                    "label": "Link"
+                }, {
+                    "value": "link-muted",
+                    "label": "Link Muted"
+                }, {
+                    "value": "link-text",
+                    "label": "Link Text"
+                }, {
+                    "value": "default",
+                    "label": "Button Default"
+                }, {
+                    "value": "primary",
+                    "label": "Button Primary"
+                }, {
+                    "value": "secondary",
+                    "label": "Button Secondary"
+                }, {
+                    "value": "danger",
+                    "label": "Button Danger"
+                }, {
+                    "value": "text",
+                    "label": "Button Text"
+                }],
+            "type": "zaa-select"
+        }, {
+            "var": "link_size",
+            "label": "Button Size",
+            "description": "Set the button size.",
+            "initvalue": "",
+            "options": [{
+                    "value": "small",
+                    "label": "Small"
+                }, {
+                    "value": "",
+                    "label": "Default"
+                }, {
+                    "value": "large",
+                    "label": "Large"
+                }],
+            "type": "zaa-select"
         }
     ]
     

@@ -9,6 +9,12 @@ namespace app\modules\uikit;
  */
 class Uikit extends \trk\uikit\Uikit{
   
+    /**
+     * nasconde o abilita controllo su ruolo nella SezioneOrizzontaleBlock
+     * @var type boolean
+     */
+    
+    
     public static function pickBool($array, $keys)
     {
         $retarray = array_intersect_key($array, array_flip((array) $keys));

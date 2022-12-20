@@ -2,9 +2,9 @@
 
 namespace app\modules\uikit\blocks;
 
-use Yii;
+
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
 use app\modules\uikit\Module;
-use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
 
 
 final class TabsPanelBlock extends \app\modules\uikit\BaseUikitBlock
@@ -25,7 +25,7 @@ final class TabsPanelBlock extends \app\modules\uikit\BaseUikitBlock
     }
 
     public function name() {
-        return Yii::t('backendobjects', 'block_module_backend_tabspanel');
+        return Module::t('tabspanel');
     }
 
    /**
@@ -33,7 +33,7 @@ final class TabsPanelBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function blockGroup()
     {
-        return ElementiBaseGroup::class;
+        return LegacyGroup::class;
     }
 
     /**
@@ -41,6 +41,6 @@ final class TabsPanelBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function icon()
     {
-        return 'tab';
+        return 'format_color_text';
     }
 }

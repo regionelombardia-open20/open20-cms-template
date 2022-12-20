@@ -10,7 +10,18 @@ use open20\amos\attachments\models\File;
 class AmosFileSystem extends \luya\admin\storage\BaseFileSystemStorage
 {
     
-    
+    public function init()
+    {
+        $moduleAttachments = \Yii::$app->getModule('attachments');
+        if($moduleAttachments){
+            if(empty($this->whitelistExtensions) && !empty($moduleAttachments->whiteListExtensions)){
+                $this->whitelistExtensions = $moduleAttachments->whiteListExtensions;
+            }
+        }
+        parent::init();
+
+    }
+
     /**
      * 
      * @return type
@@ -196,47 +207,36 @@ class AmosFileSystem extends \luya\admin\storage\BaseFileSystemStorage
      * @param type $newSource
      * @throws Exception
      */
-    public function fileSystemReplaceFile($fileName, $newSource) 
-    {
+    public function fileSystemReplaceFile($fileName, $newSource) {
         $ret = false;
         $module = $this->getModuleAttachments();
-        if(!is_null($module))
-        {
+        if (!is_null($module)) {
             $filefind = pathinfo($fileName, PATHINFO_FILENAME);
             $model = new \open20\amos\attachments\models\EmptyContentModel();
             $file = File::findOne([
-                'name' => $filefind,
-                'item_id' => $model->id,
-                'attribute' => 'file',
-                'model' => $model->className()
+                        'name' => $filefind,
+                        'item_id' => $model->id,
+                        'attribute' => 'file',
+                        'model' => $model->className()
             ]);
-            if(!is_null($file))
-            {
+            if (!is_null($file)) {
                 $module->detachFile($file->id);
             }
             $filetowrite = $module->getUserDirPath() . $fileName;
-            if(is_uploaded_file ($source))
-            {
-                if(!move_uploaded_file($newSource, $filetowrite))
-                {
-                    throw new Exception("error while moving uploaded file from $source to $savePath");
+            if (is_uploaded_file($newSource)) {
+                if (!move_uploaded_file($newSource, $filetowrite)) {
+                    throw new Exception("error while moving uploaded file from $newSource to $filetowrite");
+                }
+            } else {
+                if (!copy($newSource, $filetowrite)) {
+                    throw new $newSource("error while copy file from $newSource to $filetowrite.");
                 }
             }
-            else
-            {
-                if(!copy($newSource, $filetowrite))
-                {
-                    throw new $source("error while copy file from $source to $savePath.");
-                }
-            }
-            $file = $module->attachFile($filetowrite,$model);
-            if(!is_null($file))
-            {
+            $fileNew = $module->attachFile($filetowrite, $model);
+            if (!is_null($fileNew)) {
                 $ret = true;
             }
-        }
-        else
-        {
+        } else {
             throw new Exception('no attachment module is present.');
         }
         return $ret;
@@ -248,37 +248,27 @@ class AmosFileSystem extends \luya\admin\storage\BaseFileSystemStorage
      * @param type $fileName
      * @throws Exception
      */
-    public function fileSystemSaveFile($source, $fileName) 
-    {
-        
+    public function fileSystemSaveFile($source, $fileName) {
+
         $ret = false;
         $module = $this->getModuleAttachments();
-        if(!is_null($module))
-        {
+        if (!is_null($module)) {
             $filetowrite = $module->getUserDirPath() . $fileName;
-            if(is_uploaded_file ($source))
-            {
-                if(!move_uploaded_file($source, $filetowrite))
-                {
-                    throw new Exception("error while moving uploaded file from $source to $savePath");
+            if (is_uploaded_file($source)) {
+                if (!move_uploaded_file($source, $filetowrite)) {
+                    throw new Exception("error while moving uploaded file from $source to $filetowrite");
                 }
-            }
-            else
-            {
-                if(!copy($source, $filetowrite))
-                {
-                    throw new $source("error while copy file from $source to $savePath.");
+            } else {
+                if (!copy($source, $filetowrite)) {
+                    throw new $source("error while copy file from $source to $filetowrite.");
                 }
             }
             $model = new \open20\amos\attachments\models\EmptyContentModel();
-            $file = $module->attachFile($filetowrite,$model);
-            if(!is_null($file))
-            {
+            $file = $module->attachFile($filetowrite, $model);
+            if (!is_null($file)) {
                 $ret = true;
             }
-        }
-        else
-        {
+        } else {
             throw new Exception('no attachment module is present.');
         }
         return $ret;

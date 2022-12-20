@@ -396,7 +396,7 @@ abstract class BaseUikitFormBlock extends PhpBlock
                             $this->getTypeRule($item['type']),
                             $this->getTypeRuleOptions($item));
                         if ($item['required']) {
-                            $validator = yii\validators\Validator::$builtInValidators['required'];
+                            $validator = \yii\validators\Validator::$builtInValidators['required'];
                             $ValidatorClass = new $validator; 
                             
                             $options = [];
@@ -595,9 +595,9 @@ abstract class BaseUikitFormBlock extends PhpBlock
          */
         $formtype = ($formtype == 'textarea') ? 'string' : $formtype;
         
-        if(isset(yii\validators\Validator::$builtInValidators[$formtype])){
+        if(isset(\yii\validators\Validator::$builtInValidators[$formtype])){
             
-            $validator = yii\validators\Validator::$builtInValidators[$formtype];      
+            $validator = \yii\validators\Validator::$builtInValidators[$formtype];      
             $ValidatorClass = new $validator;
                          
             $options = [];

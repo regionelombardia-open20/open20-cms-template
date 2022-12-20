@@ -2,6 +2,7 @@
 use luya\cms\admin\Module;
 use luya\admin\Module as AdminModule;
 use luya\admin\helpers\Angular;
+use Yii;
 
 ?>
 <modal is-modal-hidden="pageSettingsOverlayHidden" modal-title="<?= Module::t('cmsadmin_settings_modal_title'); ?>">

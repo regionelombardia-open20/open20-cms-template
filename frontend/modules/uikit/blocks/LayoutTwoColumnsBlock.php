@@ -1,127 +1,50 @@
 <?php
 namespace app\modules\uikit\blocks;
 
-use Yii;
-use app\modules\uikit\BaseUikitBlock;
-use app\modules\backendobjects\frontend\blockgroups\ContenitoreGroup;
+use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
+use trk\uikit\BaseLayoutBlock;
+use trk\uikit\Module;
 
 
-final class LayoutTwoColumnsBlock extends BaseUikitBlock
+final class LayoutTwoColumnsBlock extends BaseLayoutBlock
 {
 
-    public $isContainer = true;
-    public $cacheEnabled = false;
+    public function init()
+    {
+        parent::init();
+        $this->cacheEnabled = false;
+    }
+
+    public function disable(){
+        return 0;
+    }
+
+    /**
+     * @return array
+     */
+    public function availableLayouts() {
+        return ['halves', 'thirds-2-1', 'thirds-1-2', 'quarters-3-1', 'quarters-1-3', 'fixed-left', 'fixed-right'];
+    }
+
+    /**
+     * @return string
+     */
+    public function defaultLayout() {
+        return 'halves';
+    }
 
     /**
      * @inheritdoc
      */
     public function name()
     {
-        return Yii::t('backendobjects', 'block_module_backend_two-columns-layout-open20');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function icon()
-    {
-        return 'view_column';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function config()
-    {
-        
-        $configs = [
-            'vars' => [
-                ['var' => 'width', 
-                 'label' => Yii::t('backendobjects', 'block_layout_width_label'), 
-                 'initvalue' => 6, 
-                 'type' => 'zaa-select', 'options' => [
-                        ['value' => 1, 'label' => '1'],
-                        ['value' => 2, 'label' => '2'],
-                        ['value' => 3, 'label' => '3'],
-                        ['value' => 4, 'label' => '4'],
-                        ['value' => 5, 'label' => '5'],
-                        ['value' => 6, 'label' => '6'],
-                        ['value' => 7, 'label' => '7'],
-                        ['value' => 8, 'label' => '8'],
-                        ['value' => 9, 'label' => '9'],
-                        ['value' => 10, 'label' => '10'],
-                        ['value' => 11, 'label' => '11'],
-                    ],
-                ], ['var' => 'breakpoint', 
-                 'label' => 'Breakpoint', 
-                 'initvalue' => 'md', 
-                 'type' => 'zaa-select', 'options' => [
-                        ['value' => 'xs', 'label' => 'xs'],
-                        ['value' => 'sm', 'label' => 'sm'],
-                        ['value' => 'md', 'label' => 'md'],
-                        ['value' => 'lg', 'label' => 'lg'],
-                        ['value' => 'xl', 'label' => 'xl'],
-                    ],
-                ],
-                ['var' => 'visibility', 
-                 'label' => 'Visibilità del blocco', 
-                 'description'=> 'Set visibility for all, only guest, only logged.',
-                 'initvalue' => '', 
-                 'type' => 'zaa-select', 'options' => [
-                        ['value' => '', 'label' => 'Visibile a tutti'],
-                        ['value' => 'guest', 'label' => 'Visibile solo ai non loggati'],
-                        ['value' => 'logged', 'label' => 'Visibile solo ai loggati'],                      
-                    ],
-                ],
-                ['var' => 'cache', 
-                 'label' => 'Enable cache',                  
-                 'initvalue' => '', 
-                 'type' => 'zaa-checkbox',
-                ],
-                
-            ],
-            'cfgs' => [
-                ['var' => 'leftColumnClasses', 'label' => Yii::t('backendobjects', 'block_layout_left_column_css_class'), 'type' => 'zaa-text'],
-                ['var' => 'rightColumnClasses', 'label' => Yii::t('backendobjects', 'block_layout_right_column_css_class'), 'type' => 'zaa-text'],
-                ['var' => 'rowDivClass', 'label' => Yii::t('backendobjects', 'block_layout_row_column_css_class'), 'type' => 'zaa-text'],
-                
-            ],
-            'placeholders' => [
-                [
-                    ['var' => 'left', 'cols' => $this->getExtraValue('leftWidth'), 'label' => Yii::t('backendobjects', 'block_layout_placeholders_left')],
-                    ['var' => 'right', 'cols' => $this->getExtraValue('rightWidth'), 'label' => Yii::t('backendobjects', 'block_layout_placeholders_right')],
-                ]
-            ],
-        ];
-        
-        $this->cacheEnabled = $this->getVarValue('cache');
-        
-        return $configs;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function extraVars()
-    {
-        return [
-            'leftWidth' => $this->getVarValue('width', 6),
-            'rightWidth' => 12 - $this->getVarValue('width', 6),
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function admin()
-    {
-        return $this->frontend();
+        return Module::t('two-columns-layout-open20');
     }
     /**
      * @inheritdoc
      */
     public function blockGroup()
     {
-        return ContenitoreGroup::class;
+        return LegacyGroup::class;
     }
 }
