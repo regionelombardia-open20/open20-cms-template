@@ -10,7 +10,7 @@ $currentAsset = BootstrapItaliaDesignAsset::register($this);
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
             <a class="text-decoration-none" href="<?= Yii::$app->menu->home->link ?>">
-                <svg class="icon icon-sm icon-black align-top">
+                <svg class="icon icon-sm align-top">
                     <use xlink:href=" <?= $currentAsset->baseUrl ?>/sprite/material-sprite.svg#home"></use>
                 </svg>
             </a>

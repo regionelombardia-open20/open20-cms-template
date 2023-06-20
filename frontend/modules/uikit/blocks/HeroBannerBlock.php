@@ -35,7 +35,7 @@ final class HeroBannerBlock extends BaseUikitBlock {
      * @inheritdoc
      */
     public function icon() {
-        return 'featured_play_list';
+        return 'call_to_action';
     }
 
     /**

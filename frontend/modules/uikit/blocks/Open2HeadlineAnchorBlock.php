@@ -38,7 +38,7 @@ final class Open2HeadlineAnchorBlock  extends BaseUikitBlock
      */
     public function icon()
     {
-        return 'attach_file';
+        return 'format_color_text';
     }
 
     /**

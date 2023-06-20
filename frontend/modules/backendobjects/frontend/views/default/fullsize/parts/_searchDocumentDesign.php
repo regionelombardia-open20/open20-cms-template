@@ -75,7 +75,7 @@ $hideSearchPubblicationDates = $documentsModule->hideSearchPubblicationDates;
             </div>
         <?php endif; ?>
 
-        <?php if ($documentsModule->enableExtensionFilter): ?>
+        <?php if (isset($documentsModule->enableExtensionFilter) && $documentsModule->enableExtensionFilter): ?>
             <div class="col-lg-3 col-md-4 form-group">
                 <?php
                 $extensionsString = $documentsModule->whiteListFilesExtensions;

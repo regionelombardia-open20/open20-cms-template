@@ -17,10 +17,10 @@ final class Open2SubnavBlock extends BaseUikitBlock
      */
     public $component = "open2subnav";
 
-    public function disable()
-    {
-        return true;
+    public function disable() {
+        return 1;
     }
+    
     /**
      * @inheritdoc
      */

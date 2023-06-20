@@ -18,6 +18,24 @@
             "type": "zaa-checkbox"
         },
         {
+            "var": "rounded_image",
+            "label": "Forma dell'immagine",
+            "description": "Seleziona la forma dell'immagine. Un'immagine di forma rotonda è consigliata se quella originale ha altezza e larghezza delle stesse dimensioni.",
+            "initvalue": "",
+            "options": [{
+                    "value": "",
+                    "label": "Originale"
+                }, {
+                    "value": "rounded",
+                    "label": "Bordi arrotondati"
+                }, {
+                    "value": "rounded-circle",
+                    "label": "Immagine rotonda"
+                }
+            ],
+            "type": "zaa-select"
+        },
+        {
             "var": "link",
             "label": "Link dell'immagine",
             "description": "Se selezionato permette di rendere l'immagine cliccabile.",

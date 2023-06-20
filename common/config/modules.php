@@ -93,17 +93,14 @@ return [
       ],
       ], */
     ],
-    'chrono' => [
-        'class' => 'amos\chrono\Module',
-    ],
     'comuni' => [
         'class' => 'open20\amos\comuni\AmosComuni',
     ],
-    'cwh' => [
+    /*'cwh' => [
         'class' => 'open20\amos\cwh\AmosCwh',
         'cached' => false,
         'regolaPubblicazioneFilter' => true
-    ],
+    ],*/
     'dashboard' => [
         'class' => 'open20\amos\dashboard\AmosDashboard',
     ],

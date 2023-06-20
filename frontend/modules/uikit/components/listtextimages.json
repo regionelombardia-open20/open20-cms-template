@@ -50,6 +50,12 @@
                     "initValue": "",
                     "placeholder": "http:\/\/",
                     "type": "zaa-link"
+                }, {
+                    "var": "link_target",
+                    "label": "Apri link in una nuova finestra",
+                    "description": "Se selezionato al click del link si aprirà il link di destinazione in una nuova finestra.",
+                    "initvalue": "",
+                    "type": "zaa-checkbox"
                 }
              
             ]
@@ -58,7 +64,8 @@
             "var" : "vertical_element",
             "label": "Disposizione verticale degli elementi",
             "description": "Visualizza gli elementi con i componenti (immagine, titolo, testo e link) disposti uno sotto l'altro invece che uno di fianco all'altro.",
-            "type" : "zaa-checkbox"
+            "initvalue": "",
+            "type": "zaa-checkbox"
         }
     ],
     "cfgs": [

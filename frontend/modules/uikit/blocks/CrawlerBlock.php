@@ -47,7 +47,7 @@ final class CrawlerBlock extends BaseUikitBlock
      */
     public function icon()
     {
-        return 'view_module';
+        return 'search';
     }
 
     /**

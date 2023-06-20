@@ -13,7 +13,7 @@ $bootstrap[] = 'log';
 //$bootstrap[] = 'translation';
 $bootstrap[] = 'email';
 $bootstrap[] = 'amosadmin';
-$bootstrap[] = 'cwh';
+//$bootstrap[] = 'cwh';
 
 
 return $bootstrap;

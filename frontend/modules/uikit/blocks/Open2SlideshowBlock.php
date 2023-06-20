@@ -57,18 +57,7 @@ final class Open2SlideshowBlock extends BaseUikitBlock
      */
     public function admin()
     {
-        $output = '';
-        if($this->getVarValue('carousel_item_style')=='text-carousel'){
-            $output = '<img src="/img/carousel/carousel-tx.PNG">';
-        }else{
-            $output = '<img src="/img/carousel/carousel-img.PNG">';
-
-        }
-        if($this->frontend()) {
-            return $output;
-        } else {
-            return '<div><span class="block__empty-text">' . Module::t('Inserisci delle immagini per visualizzare il carousel.') . '</span></div>';
-        }
+        return '<img src="/img/carousel/placeholder-carousel.png">';
     }
     
     public function config() {

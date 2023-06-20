@@ -136,6 +136,6 @@ final class LineBlock extends BaseUikitBlock
      */
     public function admin()
     {
-        return '<p><hr /></p>';
+        return '<p><hr class="cms-bk-hr"/></p>';
     }
 }

@@ -28,7 +28,7 @@ final class ThumbSliderBlock extends BaseUikitBlock {
     }
 
     public function icon() {
-        return 'view_module';
+        return 'featured_play_list';
     }
     
     public function config() {

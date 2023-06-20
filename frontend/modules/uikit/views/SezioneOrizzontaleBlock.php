@@ -16,18 +16,18 @@ $canSeeBlock = true;
 $visibility = $data['visibility'];
 
 
-switch($visibility){
+switch ($visibility) {
     case 'guest':
-        $canSeeBlock = Yii::$app->user->isGuest;        
-    break;
+        $canSeeBlock = Yii::$app->user->isGuest;
+        break;
     case 'logged':
 
-        $canSeeBlock = !Yii::$app->user->isGuest; 
-		$n_class = $this->varValue('addclass');
-		if($canSeeBlock && !empty($n_class)){
-			$canSeeBlock = BaseUikitBlock::visivility($n_class);
-		}
-    break;
+        $canSeeBlock = !Yii::$app->user->isGuest;
+        $n_class = $this->varValue('addclass');
+        if ($canSeeBlock && !empty($n_class)) {
+            $canSeeBlock = BaseUikitBlock::visivility($n_class);
+        }
+        break;
 }
 
 
@@ -42,30 +42,69 @@ if (!empty($permissions)) {
     }
 }
 
+$activateGradient = false;
+if (!empty($data['gradient_align']) || !empty($data['color_gradient_1']) || !empty($data['color_gradient_2']) || !empty($data['gradient_percent'])) {
+    $activateGradient = true;
+}
+if ($activateGradient) :
+
+    $gradientAlign = $data['gradient_align'] ? $data['gradient_align'] : '90deg';
+    $gradientPercent = $data['gradient_percent'] ? $data['gradient_percent'] . '%' : '';
+    $gradientFirstColor = $data['color_gradient_1'] ? $data['color_gradient_1'] : '#000';
+    $gradientSecondColor = $data['color_gradient_2'] ? $data['color_gradient_2'] : 'transparent';
+
+
 
 ?>
-<?php if ($canSeeBlock): ?>
-    <div class="uk-section <?=$class ? $class : '';?>"
-        <?php if(!empty( $data['image'])): ?>
-            style="
-            <?=$data['image'] ? 'background-image:url('.$data['image'].');'  : '';?>
-            <?=$data['image_size'] ? 'background-size:'.$data['image_size'].';'  : '';?>
-            <?=$data['image_position'] ? 'background-position:'.$data['image_position'].';'  : '';?>
-            <?=$data['image_repeat'] ? 'background-repeat: repeat;'  : 'background-repeat: no-repeat;';?>
-            "
+    <style>
+        .gradient-section,
+        .bg-opacity-section {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            z-index: 0;
+        }
+    </style>
+<?php endif; ?>
+<?php
+
+$activateBackground = false;
+if (!empty($data['opacity']) || !empty($data['brandbook_background'])) {
+    $activateBackground = true;
+}
+?>
+<?php if ($canSeeBlock) : ?>
+    <div class="uk-section <?= ($activateGradient || $activateBackground) ? 'position-relative' : ''; ?> <?= $class ? $class : ''; ?> " <?php if (!empty($data['image'])) : ?> style="
+
+            <?= $data['image'] ? 'background-image:url(' . $data['image'] . ');'  : ''; ?>
+            <?= $data['image_size'] ? 'background-size:' . $data['image_size'] . ';'  : ''; ?>
+            <?= $data['image_position'] ? 'background-position:' . $data['image_position'] . ';'  : ''; ?>
+            <?= $data['image_repeat'] ? 'background-repeat: repeat;'  : 'background-repeat: no-repeat;'; ?>
+            " <?php endif; ?>>
+        
+        <?php if ($activateBackground) : ?>
+            <div class="bg-opacity-section <?= ($data['brandbook_background']) ?  'bg-'.$data['brandbook_background'] : ''; ?> " style="<?= ($data['opacity']) ? 'opacity:' . $data['opacity'] . '%;' : 'opacity:100%'; ?>"></div>
         <?php endif; ?>
-    
-    >
-    <?php if(!$data['not_embed_container']): ?>
-        <div class="uk-container">
-    <?php endif; ?>
-        <?= $data['content'] ?>
-    <?php if(!$data['not_embed_container']): ?>
-        </div>
-    <?php endif; ?>
+        <?php if ($activateGradient) : ?>
+            <div class="gradient-section <?= $data['opacity'] ? 'opacity-' . $data['opacity'] : ''; ?>" style="background:linear-gradient(<?= $gradientAlign  ?>, <?= $gradientFirstColor ?> <?= $gradientPercent ?>, <?= $gradientSecondColor ?>);"></div>
+        <?php endif; ?>
+
+        <?php if (!$data['not_embed_container']) : ?>
+            <div class="uk-container <?= $activateBackground ? 'position-relative' : ''; ?>">
+            <?php endif; ?>
+            <?= $data['content'] ?>
+            <?php if (!$data['not_embed_container']) : ?>
+            </div>
+        <?php endif; ?>
 
 
-      
+
+
+
     </div>
-<?php endif; 
-
+<?php endif;

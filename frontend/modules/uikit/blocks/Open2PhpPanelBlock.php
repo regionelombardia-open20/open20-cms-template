@@ -30,9 +30,8 @@ class Open2PhpPanelBlock extends BaseUikitBlock
     }
 
     
-    public function disable()
-    {
-        return true;
+    public function disable() {
+        return 1;
     }
 
     /**

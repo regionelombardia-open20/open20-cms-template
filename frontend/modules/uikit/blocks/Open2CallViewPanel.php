@@ -1,4 +1,5 @@
 <?php
+
 namespace app\modules\uikit\blocks;
 
 use Yii;
@@ -8,16 +9,15 @@ use app\modules\backendobjects\frontend\blockgroups\SviluppoGroup;
 use trk\uikit\Uikit;
 use yii\helpers\ArrayHelper;
 
-
 /**
  * Description of CallViewPanel
  *
  */
 final class Open2CallViewPanel extends BaseUikitBlock {
-    
+
     public $cacheEnabled = false;
-    
-   /**
+
+    /**
      * @inheritdoc
      */
     protected $component = "open2callviewpanel";
@@ -29,10 +29,8 @@ final class Open2CallViewPanel extends BaseUikitBlock {
         return SviluppoGroup::class;
     }
 
-    
-    public function disable()
-    {
-        return true;
+    public function disable() {
+        return 1;
     }
 
     /**
@@ -59,16 +57,15 @@ final class Open2CallViewPanel extends BaseUikitBlock {
             return '<div><span class="block__empty-text">' . Module::t('no_content') . '</span></div>';
         }
     }
-    
+
     /**
      * @param array $params
      * @return mixed
      */
-    public function frontend(array $params = array())
-    {
-        if(!Uikit::element('data', $params, '')) {
+    public function frontend(array $params = array()) {
+        if (!Uikit::element('data', $params, '')) {
             $configs = $this->getValues();
-            $configs["id"] =  Uikit::unique($this->component);
+            $configs["id"] = Uikit::unique($this->component);
             $params['data'] = Uikit::configs($configs);
             $params['debug'] = $this->config();
             $params['filters'] = $this->filters;
@@ -76,15 +73,13 @@ final class Open2CallViewPanel extends BaseUikitBlock {
         return $this->view->render($this->getVarValue('viewName'), $params, $this);
     }
 
-	/**
-	 * @inheritdoc
-	 */
-    public function getViewPath()
-    {
-        return  $this->getVarValue('viewPath');
+    /**
+     * @inheritdoc
+     */
+    public function getViewPath() {
+        return $this->getVarValue('viewPath');
     }
-    
-    
+
     public function config() {
         $configs = [
             'vars' => [
@@ -118,4 +113,5 @@ final class Open2CallViewPanel extends BaseUikitBlock {
 
         return ArrayHelper::merge(parent::config(), $configs);
     }
+
 }

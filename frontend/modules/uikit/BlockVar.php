@@ -24,7 +24,7 @@ class BlockVar extends BlockConfigElement
             'options' => $this->get('options'),
             'initvalue' => $this->get('initvalue'),
             'required' => $this->get('required', 0),
-            'onlyAdmin' => $this->get('onlyAdmin', false),
+            'onlyAdmin' => $this->get('onlyAdmin', false),            
         ];
     }
 }

@@ -25,4 +25,16 @@ class AdminUser extends \luya\admin\components\AdminUser
         
         return $isAdmin;
     }
+    
+    /**
+     * After loging out, the useronline status must be refreshed and the current user must be deleted from the user online list.
+     */
+    public function onBeforeLogout()
+    {
+        UserOnline::removeUser($this->id);
+        
+        $this->identity->updateAttributes([
+            'auth_token' => Yii::$app->security->hashData(Yii::$app->security->generateRandomString(), $this->identity->password_salt),
+        ]);
+    }
 }

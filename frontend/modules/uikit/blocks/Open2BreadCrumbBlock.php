@@ -39,7 +39,7 @@ class Open2BreadCrumbBlock extends BaseUikitBlock
      */
     public function icon()
     {
-        return 'data_usage';
+        return 'arrow_forward';
     }
 
     /**

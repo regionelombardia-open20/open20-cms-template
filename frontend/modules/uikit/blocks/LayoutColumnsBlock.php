@@ -89,7 +89,7 @@ final class LayoutColumnsBlock extends BaseUikitBlock {
             'cfgs' => [
                 [
                     'var' => 'addClass',
-                    'label' => 'Classi aggiuntive',
+                    'label' => 'Impostazioni aggiuntive',
                     'description' => 'Se selezionate aggiungono delle classi alle colonne (previa selezione per numero). ',
                     'initvalue' => '',
                     'type' => 'zaa-multiple-inputs',
@@ -114,8 +114,39 @@ final class LayoutColumnsBlock extends BaseUikitBlock {
                             'placeholder' => '',
                             'type' => 'zaa-text',
                         ],
+                        [
+                            'var' => 'border',
+                            'label' => 'Bordo da aggiungere alla colonna',
+                            'initvalue' => '',
+                            'type' => 'zaa-select',
+                            'options' => [
+                                ['value' => '', 'label' => 'Nessun bordo'],
+                                ['value' => 'border border-100', 'label' => 'Bordo grigio chiaro'],
+                                ['value' => 'border border-600', 'label' => 'Bordo grigio scuro'],
+                                ['value' => 'border border-black', 'label' => 'Bordo nero'],
+                                ['value' => 'border border-primary', 'label' => 'Bordo primario'],
+                                ['value' => 'border border-secondary', 'label' => 'Bordo secondario'],
+                                ['value' => 'border border-tertiary', 'label' => 'Bordo terziario']
+                            ],
+                        ]
                     ],
-                ], [
+                ],
+                [
+                    'var' => 'add_affix',
+                    'label' => 'Seleziona la colonna da fissare',
+                    'description' => 'Se selezionata imposta la colonna da fissare in alto',
+                    'initvalue' => '',
+                    'type' => 'zaa-select', 
+                    'options' => [
+                        ['value' => 'affix-column-1', 'label' => 'Prima colonna'],
+                        ['value' => 'affix-column-2', 'label' => 'Seconda colonna'],
+                        ['value' => 'affix-column-3', 'label' => 'Terza colonna'],
+                        ['value' => 'affix-column-4', 'label' => 'Quarta colonna'],
+                        ['value' => 'affix-column-5', 'label' => 'Quinta colonna'],
+                    ],
+                ],
+                
+                [
                     'var' => 'rowDivClass',
                     'label' => 'Classe css',
                     'description' => 'Classe css associata al contenitore delle colonne.',

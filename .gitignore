@@ -48,7 +48,8 @@ Thumbs.db
 *.mov
 *.wmv
 
-/nbproject/private/
-.vscode/sftp.json
-nbproject/project.properties
-nbproject/project.xml
+.project
+
+.vscode/
+nbproject/
+.settings/

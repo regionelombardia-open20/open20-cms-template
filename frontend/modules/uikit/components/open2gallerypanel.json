@@ -65,6 +65,13 @@
                     "initvalue": "",
                     "placeholder": "http:\/\/",
                     "type": "zaa-link"
+                },
+                {
+                    "var": "link_target",
+                    "label": "Apri link in una nuova finestra",
+                    "description": "Se selezionato al click del link si aprirà il link di destinazione in una nuova finestra.",
+                    "initvalue": "",
+                    "type": "zaa-checkbox"
                 }
                 
             ]

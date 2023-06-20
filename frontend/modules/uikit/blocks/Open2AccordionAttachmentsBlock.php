@@ -8,7 +8,6 @@ use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
 use app\modules\uikit\BaseUikitBlock;
 use yii\helpers\ArrayHelper;
 
-
 class Open2AccordionAttachmentsBlock extends BaseUikitBlock {
 
     /**
@@ -17,7 +16,7 @@ class Open2AccordionAttachmentsBlock extends BaseUikitBlock {
     protected $component = "open2accordionattachments";
 
     public function disable() {
-        return true;
+        return 1;
     }
 
     /**

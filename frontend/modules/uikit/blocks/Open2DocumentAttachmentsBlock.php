@@ -9,70 +9,62 @@ use trk\uikit\Uikit;
 use app\modules\uikit\BaseUikitBlock;
 use yii\helpers\ArrayHelper;
 
+class Open2DocumentAttachmentsBlock extends BaseUikitBlock {
 
-class Open2DocumentAttachmentsBlock extends BaseUikitBlock
-{
-   /**
+    /**
      * @inheritdoc
      */
     protected $component = "open2documentattachments";
 
-    public function disable()
-    {
-        return true;
+    public function disable() {
+        return 1;
     }
+
     /**
      * @inheritdoc
      */
-    public function blockGroup()
-    {
+    public function blockGroup() {
         return ElementiBaseGroup::class;
     }
 
     /**
      * @inheritdoc
      */
-    public function name()
-    {
+    public function name() {
         return Yii::t('backendobjects', 'block_module_backend_documentattachments');
     }
 
     /**
      * @inheritdoc
      */
-    public function icon()
-    {
+    public function icon() {
         return 'attach_file';
     }
 
     /**
      * @inheritdoc
      */
-    public function admin()
-    {
-        if(count($this->getVarValue('items', []))) {
+    public function admin() {
+        if (count($this->getVarValue('items', []))) {
             return $this->frontend();
         } else {
             return '<div><span class="block__empty-text">' . Module::t('no_content') . '</span></div>';
         }
     }
-    
-    
-    public function frontend(array $params = array()) 
-    {
+
+    public function frontend(array $params = array()) {
         $blockId = $this->getEnvOption('id');
         $params['blockItemId'] = $blockId;
-        if(!Uikit::element('data', $params, '')) {
+        if (!Uikit::element('data', $params, '')) {
             $configs = $this->getValues();
-            $configs["id"] =  Uikit::unique($this->component);
+            $configs["id"] = Uikit::unique($this->component);
             $params['data'] = Uikit::configs($configs);
             $params['debug'] = $this->config();
             $params['filters'] = $this->filters;
         }
         return $this->view->render($this->getViewFileName('php'), $params, $this);
-        
     }
-    
+
     public function config() {
         $configs = [
             'vars' => [
@@ -106,4 +98,5 @@ class Open2DocumentAttachmentsBlock extends BaseUikitBlock
 
         return ArrayHelper::merge(parent::config(), $configs);
     }
+
 }

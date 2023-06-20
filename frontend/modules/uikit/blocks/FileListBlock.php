@@ -89,7 +89,18 @@ final class FileListBlock extends BaseUikitBlock
                     'label' => Yii::t('backendobjects', "block_file_list_files_showtype_label"),
                     'initvalue' => 0,
                     'type' => 'zaa-select',
-                    'description' => Yii::t('backendobjects', "Se selezionato per ogni file mostrerà il nome e la sua estensione. Di default non è selezionato, e quindi l'estensione non si vede."),
+                    'description' => Yii::t('backendobjects', "Se selezionato per ogni file mostrerà la sua estensione. Di default non è selezionato, e quindi l'estensione non si vede."),
+                    'options' => [
+                        ['value' => '1', 'label' => Yii::t('backendobjects', "block_file_list_showtype_yes")],
+                        ['value' => '0', 'label' => Yii::t('backendobjects', "block_file_list_showtype_no")],
+                    ],
+                ],
+                [
+                    'var' => 'showSize',
+                    'label' => Yii::t('backendobjects', "block_file_list_files_showsize_label"),
+                    'initvalue' => 0,
+                    'type' => 'zaa-select',
+                    'description' => Yii::t('backendobjects', "Se selezionato per ogni file mostrerà il nome il suo peso. Di default non è selezionato, e quindi il peso non si vede."),
                     'options' => [
                         ['value' => '1', 'label' => Yii::t('backendobjects', "block_file_list_showtype_yes")],
                         ['value' => '0', 'label' => Yii::t('backendobjects', "block_file_list_showtype_no")],

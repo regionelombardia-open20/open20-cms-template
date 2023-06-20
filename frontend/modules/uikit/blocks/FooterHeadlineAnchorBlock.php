@@ -43,7 +43,7 @@ final class FooterHeadlineAnchorBlock  extends BaseUikitBlock
      */
     public function icon()
     {
-        return 'format_size';
+        return 'format_color_text';
     }
 
     /**

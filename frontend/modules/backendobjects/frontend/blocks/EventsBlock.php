@@ -31,6 +31,9 @@ class EventsBlock extends PhpBlock
      */
     public function blockGroup()
     {
+        if(empty(\Yii::$app->getModule('eventi'))){
+            return \app\modules\backendobjects\frontend\blockgroups\DisabledGroup::class;
+        }
         return ContenutoDinamicoGroup::className();
     }
 

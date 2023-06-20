@@ -39,7 +39,7 @@ class Open2LastPageUpdateBlock extends BaseUikitBlock
      */
     public function icon()
     {
-        return 'data_usage';
+        return 'brightness_high';
     }
 
     /**

@@ -36,9 +36,11 @@ $config = [
         '@common' => dirname(__DIR__) . '/../common',
         '@open20' => '@vendor/open20',
         '@frontend' => dirname(__DIR__),
+        '@backend' => dirname(__DIR__),
         '@npm' => '@vendor/npm-asset',
         '@open20' => '@vendor/open20',
-	'@amos' => '@vendor/amos',
+	    '@amos' => '@vendor/amos',
+        '@console' => dirname(__DIR__) . '/../console',
     ],
     'name' => 'Open20 Cms Template',
     /*
@@ -71,6 +73,10 @@ $config = [
         ],
         'platform' => [
             'class' => 'app\controllers\UtilityController',
+        ],
+        'migrate' => [
+            'class' => 'open20\amos\core\migration\MigrateController',
+            'migrationLookup' => require(__DIR__ . '/../../console/config/migrations.php'),
         ],
     ],
 ];

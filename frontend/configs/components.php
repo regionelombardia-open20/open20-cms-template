@@ -107,7 +107,7 @@ return [
             'site/to-menu-url' => 'site/to-menu-url',
             'site/privacy' => 'site/privacy-policy',
             //'img/<file:.*>' => 'files/img',
-            '<module:\w+>/<controller:\w+>/<id:\d+>/<title:.*?>' => '<module>/<controller>/view',
+            '<module:\w+>/<controller:.*?>/<id:\d+>/<title:.*?>' => '<module>/<controller>/view',
         ]
     ],
     'view' => [

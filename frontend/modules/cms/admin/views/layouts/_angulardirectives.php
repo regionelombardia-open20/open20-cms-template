@@ -175,7 +175,7 @@ $isAdmin = AdminUser::isAdmin();
         <?php if (Yii::$app->adminuser->canRoute('admin/storage/index')): ?>
         <div class="imageupload-filter" ng-show="!noFilters() && imageinfo != null">
             <select name="filterId" ng-model="filterId" ng-change="changeFilter()" convert-to-number>
-                <option value="0"><?= Admin::t('adatta al contenitore'); ?></option>
+                <option value="0"><?= Admin::t('Adatta al contenitore'); ?></option>
                 <option ng-repeat="item in filtersData" value="{{ item.id }}">{{ item.name }} ({{ item.identifier }})</option>
             </select>
         </div>

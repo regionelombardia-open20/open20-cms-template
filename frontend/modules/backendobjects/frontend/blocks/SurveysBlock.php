@@ -31,6 +31,9 @@ class SurveysBlock extends PhpBlock
      */
     public function blockGroup()
     {
+        if(empty(\Yii::$app->getModule('sondaggi'))){
+            return \app\modules\backendobjects\frontend\blockgroups\DisabledGroup::class;
+        }
         return ContenutoDinamicoGroup::className();
     }
 

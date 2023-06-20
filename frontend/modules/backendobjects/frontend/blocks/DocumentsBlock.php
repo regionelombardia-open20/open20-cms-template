@@ -31,6 +31,9 @@ class DocumentsBlock extends PhpBlock
      */
     public function blockGroup()
     {
+        if(empty(\Yii::$app->getModule('documenti'))){
+            return \app\modules\backendobjects\frontend\blockgroups\DisabledGroup::class;
+        }
         return ContenutoDinamicoGroup::className();
     }
 

@@ -116,6 +116,56 @@ if (!empty($userCms)) {
                     ]
                 ) . '</li>';
 
+                if($nav->is_offline){
+                    $ver = 0;
+                    if($navItem->nav_item_type == 1)
+                        $ver = $navItem->nav_item_type_id;
+                   
+                    if($ver)
+                        $urlP = ['/' . OpenModule::getModuleName() . '/d1/publish-version', 'id' => $ver, 'url' => '/dashboards/d1/pagine'];
+                    else
+                        $urlP = ['/' . OpenModule::getModuleName() . '/d1/publish-page', 'nav_id' => $navId, 'url' => '/dashboards/d1/pagine'];
+                    
+                    if(!$canPublish)
+                        $urlP = ['/' . OpenModule::getModuleName() . '/d1/publication-request', 'nav_id' => $navId, 'item_id' => $navItem->id, 'version_id' => $ver, 'url' => $url];
+                            
+                    $buttons[] = '<li>' . Html::a(
+                        $canPublish ? OpenModule::txt('Pubblica la pagina') : OpenModule::txt('Richiedi la pubblicazione della pagina'),
+                        $urlP,
+                        [
+                            'title' => OpenModule::txt('Richiedi la pubblicazione della pagina'),
+                            'style' => 'color:#297a38;',
+                            'data-confirm' => OpenModule::txt('Sei sicuro di voler pubblicare la pagina?'),
+                        ]
+                    ) . '</li>';
+                }else{
+                    
+                    $urlP = ['/' . OpenModule::getModuleName() . '/d1/unpublishing-request', 'nav_id' => $navId, 'url' => '/dashboards/d1/pagine'];
+                    
+                    if($canPublish)
+                        $urlP = ['/' . OpenModule::getModuleName() . '/d1/unpublish-page', 'nav_id' => $navId, 'url' => '/dashboards/d1/pagine'];
+                    
+                    if(!$nav->is_home)
+                        $buttons[] = '<li>' . Html::a(
+                            $canPublish ? OpenModule::txt('Riporta in Bozza') : OpenModule::txt('Riporta la pagina allo stato Bozza'),
+                            $urlP,
+                            [
+                                'title' => OpenModule::txt('Riporta la pagina allo stato Bozza'),
+                                'style' => 'color:#a61919; border-top:1px solid #ccc',
+                                'data-confirm' => OpenModule::txt('Sei sicuro di voler riportare la pagina in stato Bozza?<br>La pagina non sarà più raggiungibile da url.'),
+                            ]
+                        ) . '</li>';
+                    
+                    $buttons[] = '<li>' . Html::a(
+                        $nav->is_hidden ? OpenModule::txt('Rendi visibile nel menu') : OpenModule::txt('Nascondi nel menu'),
+                        ['/' . OpenModule::getModuleName() . '/d1/set-visibility-menu', 'id' => $navId, 'value'=> !$nav->is_hidden ,'url' => '/dashboards/d1/pagine'],
+                        [
+                            'title' => $nav->is_hidden ? OpenModule::txt('Rendi visibile nel menu') : OpenModule::txt('Nascondi nel menu'),
+                            
+                        ]
+                    ) . '</li>';
+                }
+                
                 //Cancella pagina
                 $disabled = false;
                 if (!$nav->is_offline && !$canPublish) {
@@ -136,7 +186,7 @@ if (!empty($userCms)) {
                 ])), [
                     'title' => ($disabled ? OpenModule::txt('Non è possibile eliminare la pagina in quanto online oppure ha dei figli.') : OpenModule::txt('Elimina')),
                     //'class' => 'btn btn-danger-inverse',
-                    'style' => ($disabled ? 'display:none;' : 'color:#a61919;'),
+                    'style' => ($disabled ? 'display:none;' : 'color:#a61919; border-top:1px solid #ccc'),
                     'data-confirm' => ($disabled ? null : OpenModule::txt('Sei sicuro di voler eliminare la pagina {pageName}? L\'operazione non è reversibile.', ['pageName' => $navItem->title])),
                 ]) . '</li>';
                 ?>

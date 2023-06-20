@@ -3,6 +3,7 @@
 namespace app\modules\cms\error;
 
 use Yii;
+use open20\amos\core\response\Response;
 
 class ErrorHandler extends \yii\web\ErrorHandler {
 

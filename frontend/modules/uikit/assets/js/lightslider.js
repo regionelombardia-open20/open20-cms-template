@@ -370,7 +370,7 @@
                         var thumbLink = $children.eq(i * settings.slideMove).attr('data-link');
                         // if (settings.gallery === true) {
                         if (settings.gallery === true && thumb != null) {
-                            pagers += '<li class="thumb-item"><a href="' + thumbLink + '"><div class="thumb-image"><img src="' + thumb + '" /></div></a><div class="thumb-caption"><p class="card-category badge mb-2 px-2 py-1" style="background-color:' + thumbCategoryColor + '">' + thumbCategory + '</p><a href="' + thumbLink + '" class="thumblinktarget"><p class="card-title">' + Base64.decode(thumbCaption) + '</p></a></div></li>';
+                            pagers += '<li class="thumb-item"><a title="' + Base64.decode(thumbCaption) + '"  href="' + thumbLink + '"><div class="thumb-image"><img alt="' + Base64.decode(thumbCaption) + '" src="' + thumb + '" /></div></a><div class="thumb-caption"><p class="card-category badge mb-2 px-2 py-1" style="background-color:' + thumbCategoryColor + '">' + thumbCategory + '</p><a title="' + Base64.decode(thumbCaption) + '" href="' + thumbLink + '" class="thumblinktarget"><p class="card-title">' + Base64.decode(thumbCaption) + '</p></a></div></li>';
                         } else {
                             pagers += '<li><a href="' + thumbLink + '">' + (i + 1) + '</a></li>';
                         }

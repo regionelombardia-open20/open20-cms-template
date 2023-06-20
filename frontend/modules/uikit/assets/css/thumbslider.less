@@ -23,7 +23,7 @@
     padding-left: 16% !important;
     padding-right: 16% !important;
     padding-bottom: 3%;
-    z-index: 10;
+    z-index: 6;
 
     @media screen and (max-width: 1199px) {
       padding: 5% 2% !important;
@@ -361,7 +361,7 @@
   color: #fff;
   cursor: pointer;
   padding-left: 16%;
-  z-index: 10;
+  z-index: 6;
 
   @media screen and (max-width: 1199px) {
     padding: 0 2% !important;
@@ -444,11 +444,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            a{
-              color:white;
+
+            a {
+              color: white;
               text-decoration: none;
             }
-        
+
           }
 
           p:first-child {
@@ -501,7 +502,7 @@
       display: -ms-flexbox !important;
       display: flex !important;
       justify-content: center;
-      z-index: 10;
+      z-index: 6;
 
       li {
         float: none;
@@ -672,41 +673,52 @@ ul.lSPager.lSGallery .thumb-caption {
 
 /* NUOVA GRAFICA */
 .thumbslider-container {
-  .wrap-lightslider.galleryThumb{
-    .lSSlideOuter{
+  .wrap-lightslider.galleryThumb {
+    .lSSlideOuter {
       height: auto !important;
-      ul.lightSlider{
+
+      ul.lightSlider {
         height: 60vh !important;
-        @media (max-width:991px){
+
+        @media (max-width:991px) {
           height: 50vh !important;
           padding-bottom: 0 !important;
         }
-        li.lSliderItem{
+
+        li.lSliderItem {
           height: 60vh !important;
-          @media (max-width:991px){
+
+          @media (max-width:991px) {
             height: 50vh !important;
           }
+
           img {
             @media (max-width: 575px) {
-                height: 100% !important;
+              height: 100% !important;
             }
           }
-          .caption{
+
+          .caption {
             background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.746167) 100%);
             background-blend-mode: multiply;
-            @media (max-width:991px){
+
+            @media (max-width:991px) {
               padding: 0 2%;
             }
-            .el-content{
-              bottom: 50%;
+
+            .el-content {
+              bottom: 0;
               display: flex;
               justify-content: center;
-              @media (max-width:991px){
+              height: 100%;
+              display: flex;
+              align-items: center;
+              @media (max-width:991px) {
                 font-size: 2em;
-                bottom: 30%;
                 padding-bottom: 0 2% 20px;
-                width: 100%  !important;
+                // width: 100% !important;
               }
+
               a {
                 display: inline-block;
               }
@@ -715,39 +727,69 @@ ul.lSPager.lSGallery .thumb-caption {
         }
       }
     }
+
     /**CARD SOTTO */
-    .lSPager.lSGallery{
+    .lSPager.lSGallery {
       padding: 0;
       margin-top: -100px !important;
       position: relative !important;
-      @media (max-width:991px){
+
+      @media (max-width:991px) {
         left: 0;
         right: 0;
         padding-left: 12px;
         padding-right: 12px;
         margin-top: 0 !important;
       }
-      @media (max-width:575px){
-        display: none !important;
+
+      @media (max-width:575px) {
+        display: flex;
+        justify-content: center;
       }
-      li.thumb-item{
+
+      // @media (max-width:575px){
+      //   // display: none !important;
+
+      // }
+      li.thumb-item {
         border: 0 !important;
         width: calc(100% / 3);
         display: flex;
         align-items: flex-end;
         padding-top: 0 !important;
-        &.active/* ,
-        &:hover */ {
+        overflow: visible;
+
+        @media (max-width:575px) {
+          width: auto;
+        }
+
+        &.active
+
+        /* ,
+        &:hover */
+          {
           .thumb-image {
             border: 5px solid @primary-color;
           }
-        }
-        a{
-          &:hover{
-            text-decoration: underline;
+
+          a {
+            @media (max-width:575px) {
+              background-color: #5b5b5b;
+            }
           }
         }
-        .thumb-image{
+
+        a {
+          &:hover {
+            text-decoration: underline;
+
+            .thumb-image {
+              scale: 1.04;
+            }
+          }
+        }
+
+        .thumb-image {
           height: 174px;
           min-height: 174px;
           width: 174px;
@@ -755,27 +797,35 @@ ul.lSPager.lSGallery .thumb-caption {
           border: 0;
           border-radius: 8px;
         }
-        .thumb-caption{
+
+        .thumb-caption {
           width: 100%;
           height: 100% !important;
           color: black !important;
           display: flex !important;
           flex-direction: column !important;
           align-items: flex-start !important;
-          
+
           @media (min-width:992px) and (max-width: 1199px) {
             padding-right: 0;
           }
-          @media (max-width:991px){
-              width: 100%;
-              padding-right: 10px;
+
+          @media (max-width:991px) {
+            width: 100%;
+            padding-right: 10px;
           }
-          .card-title{  
+
+          .card-title {
             color: black !important;
             font-size: 1em;
-            line-height: 1.1rem;
+            line-height: 1.2rem;
+
+            @media (max-width:575px) {
+              display: none;
+            }
           }
-          .card-category{
+
+          .card-category {
             display: flex !important;
             align-items: flex-end !important;
             justify-content: flex-start !important;
@@ -783,19 +833,36 @@ ul.lSPager.lSGallery .thumb-caption {
             display: inline-block;
             padding: 0.25em 0.4em;
             font-size: 75%;
+
+            @media (max-width:575px) {
+              display: none !important;
+            }
+
+          }
+
+
+        }
+        a {
+          @media (max-width:575px) {
+            border-radius: 50px;
+            width: 24px !important;
+            height: 24px;
+            background-color: #a5a5a5;
           }
         }
       }
     }
+
     /*FRECCE*/
-    .lSAction{
-      a{
+    .lSAction {
+      a {
         background-color: transparent;
         font-size: 3.5em;
-        top: 40% !important;
-        @media (max-width:991px){
-            top: 25% !important;
-        }
+        top: 45% !important;
+
+        // @media (max-width:991px) {
+        //   top: 45% !important;
+        // }
       }
     }
   }
@@ -809,6 +876,7 @@ ul.lSPager.lSGallery .thumb-caption {
   font-size: 3px;
   line-height: 5;
 }
+
 .isGalleryClass .lSSlideOuter .lSPager.lSGallery li.active a {
   background-color: #fff;
 }

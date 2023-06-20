@@ -97,7 +97,7 @@ class NavItemPage extends \luya\cms\models\NavItemPage {
         return $return;
     }
 
-    public static function getPlaceholder($placeholderVar, $prevId, NavItemPage $navItemPage) {
+    public static function getPlaceholder($placeholderVar, $prevId, \luya\cms\models\NavItemPage $navItemPage) {
 
         $isAdmin = AdminUser::isAdmin();
 

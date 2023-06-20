@@ -26,7 +26,7 @@ $linkTarget = $data['link_target'];
 
 // Shadow
 $imgClass = $data['image_box_shadow'] ? $imgClass . ' shadow' : $imgClass;
-
+$adatta = (empty($data['image_id_filter'])? 'w-100 ' : ' ');
 
 ?>
 <?php if ($canSeeBlock): ?>
@@ -34,13 +34,13 @@ $imgClass = $data['image_box_shadow'] ? $imgClass . ' shadow' : $imgClass;
         <?php if ($data['link']) : ?>
             <a href="<?= $data['link'] ?>" target="<?= $linkTarget ?>" title="<?= Yii::t('amosplatform', 'Vai alla pagina').' '.$linkTarget ?>">
                 <div>
-                    <img src="<?= $data['image'] ?>" class="<?= $imgClass ?>" alt="<?= $data['image_alt'] ?>">
+                    <img src="<?= $data['image'] ?>" class="img-fluid <?= $adatta . $imgClass ?> <?= $data['rounded_image'] ?>" alt="<?= $data['image_alt'] ?>">
                 </div>
                 
             </a>
         <?php else : ?>
             <div>
-                <img src="<?= $data['image'] ?>" class="<?= $imgClass ?>" alt="<?= $data['image_alt'] ?>">
+                <img src="<?= $data['image'] ?>" class="img-fluid  <?= $adatta . $imgClass ?> <?= $data['rounded_image'] ?>" alt="<?= $data['image_alt'] ?>">
             </div>
         
         <?php endif ?>

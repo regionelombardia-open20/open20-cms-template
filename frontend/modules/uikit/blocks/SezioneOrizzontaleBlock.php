@@ -91,7 +91,7 @@ final class SezioneOrizzontaleBlock extends BaseUikitBlock
      */
     public function icon()
     {
-        return 'aspect_ratio';
+        return 'crop_7_5';
     }
 
     /**

@@ -60,7 +60,10 @@ switch($visibility){
 							</div>
 							<div class="it-right-zone">
 								<span class="text">
-									<?= $file['caption']; ?><?php if ($this->cfgValue('showType')): ?> (<?= $file['extension'];?>)<?php endif; ?>
+									<?= $file['caption']; ?>
+									<?php if ($this->cfgValue('showType')): ?> (<?= $file['extension'];?>)<?php endif; ?>
+									<?php if ($this->cfgValue('showSize')): ?> - <?= round(($file['size']/1000)).'KB'; ?><?php endif; ?>
+										
 								</span>
 							</div>
 						</a>

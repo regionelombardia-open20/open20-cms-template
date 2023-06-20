@@ -30,7 +30,7 @@ switch($visibility){
 $attrs = $data['attrs'];
 $class = $data['class'];
 
-$externalGridClass='it-grid-list-wrapper';
+$externalGridClass=$class.' it-grid-list-wrapper it-image-label-grid';
 $internalGridClass='';
 $columnClass='';
 $extraExternalAttributes= '';
@@ -38,7 +38,7 @@ $extraExternalAttributes= '';
 
 switch($data['gallery_type']){
     case 2: 
-        $externalGridClass= $externalGridClass.' '.'it-image-label-grid it-masonry';
+        $externalGridClass= $externalGridClass.' '.'it-masonry';
         $internalGridClass= $internalGridClass.'card-columns';
         $columnClass= $columnClass.'col-12';
         $extraExternalAttributes= 'data-bs-toggle="masonry"';

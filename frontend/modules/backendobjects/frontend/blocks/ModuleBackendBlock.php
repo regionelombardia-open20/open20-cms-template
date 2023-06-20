@@ -51,7 +51,7 @@ class ModuleBackendBlock extends PhpBlock
      */
     public function icon()
     {
-        return 'apps';
+        return 'dashboard';
     }
 
     /**

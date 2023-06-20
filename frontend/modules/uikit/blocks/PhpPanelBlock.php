@@ -7,7 +7,7 @@ namespace app\modules\uikit\blocks;
 
 use app\modules\uikit\Module;
 use luya\cms\frontend\blockgroups\TextGroup;
-use app\modules\backendobjects\frontend\blockgroups\LegacyGroup;
+use app\modules\backendobjects\frontend\blockgroups\SviluppoGroup;
 
 class PhpPanelBlock extends \app\modules\uikit\BaseUikitBlock
 {
@@ -23,7 +23,7 @@ class PhpPanelBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function blockGroup()
     {
-        return LegacyGroup::class;
+        return SviluppoGroup::class;
     }
 
     /**
@@ -31,7 +31,7 @@ class PhpPanelBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function name()
     {
-        return Module::t('phppanel');
+        return Module::t('Codice PHP');
     }
 
     /**
@@ -39,7 +39,7 @@ class PhpPanelBlock extends \app\modules\uikit\BaseUikitBlock
      */
     public function icon()
     {
-        return 'line_weight';
+        return 'code';
     }
 
     /**
@@ -50,7 +50,7 @@ class PhpPanelBlock extends \app\modules\uikit\BaseUikitBlock
         if(count($this->getVarValue('items', []))) {
             return $this->frontend();
         } else {
-            return '<div><span class="block__empty-text">' . Module::t('no_content') . '</span></div>';
+            return '<div><span class="block__empty-text">' . Module::t('Codice PHP') . '</span></div>';
         }
     }
 }

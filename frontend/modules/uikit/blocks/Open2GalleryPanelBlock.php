@@ -39,7 +39,7 @@ final class Open2GalleryPanelBlock extends BaseUikitBlock
 
     public function icon()
     {
-        return 'view_module';
+        return 'collections';
     }
     
     public function config() {

@@ -16,7 +16,7 @@ final class Open2LayoutTwoColumnsBlock extends BaseUikitBlock {
      * @inheritdoc
      */
     public function disable() {
-        return true;
+        return 1;
     }
 
     public function name() {

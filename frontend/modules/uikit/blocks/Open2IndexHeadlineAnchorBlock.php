@@ -38,7 +38,7 @@ class Open2IndexHeadlineAnchorBlock extends BaseUikitBlock {
      * @inheritdoc
      */
     public function icon() {
-        return 'attach_file';
+        return 'book';
     }
 
     /**

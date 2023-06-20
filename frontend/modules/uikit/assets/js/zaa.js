@@ -37,8 +37,9 @@ zaa.directive("zaaTinymce", function () {
                         height: 200,
                         theme: 'modern',
                         convert_urls: false,
+                        language : 'it',
                         plugins: 'print searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools  contextmenu colorpicker textpattern help',
-                        toolbar1: 'formatselect | bold italic strikethrough | link unlink image | alignleft aligncenter | numlist bullist outdent indent  | removeformat',
+                        toolbar1: 'formatselect | bold italic strikethrough | link unlink image | alignleft aligncenter alignright | numlist bullist outdent indent  | removeformat',
                         image_advtab: true,
                         templates: [
                             {title: 'Test template 1', content: 'Test 1'},
@@ -226,8 +227,17 @@ zaa.directive("zaaSocialSearch", function () {
                 $scope.model = [];
             }
             
+            $scope.social = [];
+            $scope.selectedSocial = [];
+            $scope.listSocial = [];
+            
             $scope.searching = 'Cerca';
             $scope.searchHistory = [];
+            
+            $http.post('admin/api-cms-admin/get-social').then(function(response) {
+                var data = response.data;             
+                $scope.social = data;
+            });
 
             $scope.preselectOptionValuesToModel = function (options) {
                 angular.forEach(options, function (value) {
@@ -313,25 +323,31 @@ zaa.directive("zaaSocialSearch", function () {
                 if(!$scope.searchHistory.includes(keys) && keys != '')
                     $scope.searchHistory.push(keys);
     
-                $http.post('admin/api-cms-admin/get-posts',{keys:keys}).then(function(response) {
+                console.log($scope.listSocial);
+                var tokens = $scope.listSocial.join(", ");
+                var url = 'socialwall/socialwall/preview-socialwall?socialwallTokensIds='+tokens+'&keywords='+keys+'&render=false';
+                $http.post(url).then(function(response) {
                     
                     var posts = [];
                     angular.forEach(response.data, function (value) {
+                        console.log(value);
                         posts.push({ 
                             'id': value.id, 
-                            'social': value.social, 
-                            'value': value.value, 
-                            'image': value.image, 
-                            'user': value.user, 
-                            'user_icon': value.user_icon,
-                            'date': value.date,
-                            'link': value.link,
-                            'user_link': value.user_link,
-                            'tot_share': value.tot_share,
-                            'tot_comments': value.tot_comments,
-                            'tot_like': value.tot_like,
+                            'social': value.type, 
+                            'value': value.post_text, 
+                            'image': value.post_image_url, 
+                            'user': value.name, 
+                            'user_icon': value.profile_picture_url,
+                            'date': value.post_nice_datetime,
+                            'link': value.permalink,
+                            'user_link': value.profile_url,
+                            'tot_share': 0,
+                            'tot_comments': 0,
+                            'tot_like': 0,
                         });
                     });
+                    
+                    $scope.model = posts;
                     
                     angular.forEach($scope.model, function (value) {
                         posts.push({ 
@@ -359,12 +375,43 @@ zaa.directive("zaaSocialSearch", function () {
                 });
                 
             }
+            
+            $scope.onSocialChange = function (selectedSocial,id) {
+                if (selectedSocial) {
+                    // il valore dell'elemento di input è stato selezionato
+                    $scope.listSocial.push(id);
+                   // esegui altre azioni necessarie qui
+                } else {
+                    // il valore dell'elemento di input è stato deselezionato
+                    const index = $scope.listSocial.indexOf(id);
+                    if (index >= 0) {
+                      $scope.listSocial.splice(index, 1);
+                    }
+                    // esegui altre azioni necessarie qui
+                }
+                console.log(selectedSocial);
+                console.log(id);
+            }
         }],
         link: function (scope) {
             scope.random = Math.random().toString(36).substring(7);
         },
         template: function () {
             return '<div class="form-group form-side-by-side" ng-class="{\'input--hide-label\': i18n}">' +
+                        '<div class="form-side form-side-label">' +
+                            '<label for="social">Social configurati</label>' +
+                        '</div>' +
+                        '<div class="form-side">' + 
+                            '<div style="display:flex">' +                    
+                                '<div ng-repeat="(k,item) in social track by k">' +
+                                    '<input id="{{random}}_{{k}}" type="checkbox" class="form-control" value="{{item.id}}" ng-model="selectedSocial" ng-change="onSocialChange(selectedSocial,{{item.id}})" />' + 
+                                    '<label for="{{random}}_{{k}}">{{item.value}}</label>' +
+                                '</div>' +
+                            '</div>' +                         
+                        '</div>' +                    
+                    '</div>' +
+            
+                    '<div class="form-group form-side-by-side" ng-class="{\'input--hide-label\': i18n}">' +
                         '<div class="form-side form-side-label">' +
                             '<label for="key_social">Inserisci chiave di ricerca contenuti social</label>' +
                         '</div>' +
@@ -401,7 +448,7 @@ zaa.directive("zaaSocialSearch", function () {
                 '</div>' +
 
                 '<div class="form-check" ng-repeat="(k, item) in optionitems track by k">' +
-                '<input type="checkbox" class="form-check-input" ng-checked="isChecked(item)" id="{{random}}_{{k}}" ng-click="toggleSelection(item)" />' +
+                '<input ng-if="false" type="checkbox" class="form-check-input" ng-checked="isChecked(item)" id="{{random}}_{{k}}" ng-click="toggleSelection(item)" />' +
                 '<label for="{{random}}_{{k}}">' +
                     '<span class="nome_social" ng-if="item.social">{{item.social}}</span>' + 
                     '<img class="{{item.social}}" ng-if="item.image" src="{{item.image}}" alt=""/>' +

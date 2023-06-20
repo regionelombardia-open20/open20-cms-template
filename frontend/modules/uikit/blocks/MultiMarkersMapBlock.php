@@ -9,45 +9,39 @@ use Yii;
 use yii\helpers\VarDumper;
 use yii\helpers\ArrayHelper;
 
+final class MultiMarkersMapBlock extends BaseUikitBlock {
 
-final class MultiMarkersMapBlock extends BaseUikitBlock
-{
     /**
      * @inheritdoc
      */
     public $cacheEnabled = true;
-    
-    public function disable()
-    {
-        return true;
+
+    public function disable() {
+        return 1;
     }
 
     /**
      * @inheritdoc
      */
-    public function name()
-    {
+    public function name() {
         return Yii::t('backendobjects', 'block_module_multimarkersmap_name');
     }
-    
-    public function blockGroup()
-    {
+
+    public function blockGroup() {
         return ContenutoGroup::class;
     }
 
     /**
      * @inheritdoc
      */
-    public function icon()
-    {
+    public function icon() {
         return 'add_location_alt';
     }
 
     /**
      * @inheritdoc
      */
-    public function config()
-    {
+    public function config() {
         return [
             'vars' => [
                 [
@@ -55,7 +49,7 @@ final class MultiMarkersMapBlock extends BaseUikitBlock
                     'label' => Yii::t('backendobjects', 'Id Canvas'),
                     'type' => self::TYPE_TEXT,
                     'initvalue' => '',
-                ],        
+                ],
                 [
                     'var' => 'zoom',
                     'label' => Yii::t('backendobjects', 'block_map_zoom_label'),
@@ -107,13 +101,12 @@ final class MultiMarkersMapBlock extends BaseUikitBlock
                             'label' => Yii::t('backendobjects', 'block_map_address_label'),
                             'type' => self::TYPE_TEXT,
                             'placeholder' => ''
-                        ],[
+                        ], [
                             'var' => 'description',
                             'label' => Yii::t('backendobjects', 'block_map_description_label'),
                             'type' => self::TYPE_TEXT,
                             'placeholder' => ''
                         ]
-                        
                     ],
                 ],
                 [
@@ -149,14 +142,12 @@ final class MultiMarkersMapBlock extends BaseUikitBlock
         ];
     }
 
-    public function getFieldHelp()
-    {
+    public function getFieldHelp() {
         return [
             'snazzymapsUrl' => Yii::t('backendobjects', 'block_map_snazzymapsUrl_help'),
             'mapsKey' => Yii::t('backendobjects', 'block_map_api_key_help'),
         ];
     }
-
 
     public function frontend(array $params = array()) {
 
@@ -166,15 +157,15 @@ final class MultiMarkersMapBlock extends BaseUikitBlock
         $configs = $this->getValues();
         $configs["id"] = Uikit::unique($this->component);
         $params['data'] = Uikit::configs($configs);
-        
-        
+
         return $this->view->render($this->getViewFileName('php'), $params, $this);
     }
+
     /**
      * @inheritdoc
      */
-    public function admin()
-    {
+    public function admin() {
         return $this->frontend();
     }
+
 }

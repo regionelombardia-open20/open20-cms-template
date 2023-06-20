@@ -8,6 +8,7 @@ use app\modules\uikit\Module;
 use app\modules\backendobjects\frontend\blockgroups\NavigazioneGroup;
 use trk\uikit\Uikit;
 use yii\helpers\ArrayHelper;
+use open20\cms\dashboard\utilities\Utility;
 
 
 class Open2SiteMapBlock extends BaseUikitBlock
@@ -46,7 +47,7 @@ class Open2SiteMapBlock extends BaseUikitBlock
      */
     public function icon()
     {
-        return 'data_usage';
+        return 'import_contacts';
     }
 
     /**
@@ -98,7 +99,34 @@ class Open2SiteMapBlock extends BaseUikitBlock
             ],
         ];
 
-        return ArrayHelper::merge(parent::config(), $configs);
+
+        $params = ArrayHelper::merge(parent::config(), $configs);
+        
+        $containers = Utility::getAllCmsContainer();
+        
+        foreach($params as $param => $p){
+            if($param == 'vars'){
+                foreach($p as $k => $array){
+                    if(isset($array['var']) && $array['var'] == 'container'){
+                        
+                        if(isset($array['options'])){
+                            $options = [];
+                            foreach ($containers as $localcontainer) {
+                                $options[] = [
+                                    'value' =>$localcontainer['alias'],
+                                    'label' =>$localcontainer['name'],
+                                ];
+                            }  
+                            $params[$param][$k]['options'] = $options;
+                        }
+                       
+                        break 2;
+                    }
+                }
+            }
+        }
+        
+        return $params;
     }
 
     

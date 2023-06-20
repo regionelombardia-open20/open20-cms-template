@@ -17,9 +17,8 @@ class Open2VerticalMenuListBlock extends BaseUikitBlock
      */
     protected $component = "open2verticalmenulist";
 
-    public function disable()
-    {
-        return true;
+    public function disable() {
+        return 1;
     }
 
     /**

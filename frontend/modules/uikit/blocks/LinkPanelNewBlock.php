@@ -33,7 +33,7 @@ final class LinkPanelNewBlock extends BaseUikitBlock {
      * @inheritdoc
      */
     public function icon() {
-        return 'line_weight';
+        return 'link';
     }
 
     /**

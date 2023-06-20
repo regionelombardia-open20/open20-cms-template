@@ -22,9 +22,8 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use app\modules\uikit\BaseUikitBlock;
 
+class Open2LandingFormBlock extends BaseUikitFormBlock {
 
-class Open2LandingFormBlock extends BaseUikitFormBlock
-{
     public $cacheEnabled = false;
 
     /**
@@ -36,30 +35,25 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
      *
      * @return string
      */
-    public function name()
-    {
+    public function name() {
         return Yii::t('backendobjects', 'block_module_backend_landingform');
     }
 
     /**
      * @inheritdoc
      */
-    public function blockGroup()
-    {
+    public function blockGroup() {
         return SviluppoGroup::class;
     }
 
-    
-    public function disable()
-    {
-        return true;
+    public function disable() {
+        return 1;
     }
 
     /**
      * @inheritdoc
      */
-    public function icon()
-    {
+    public function icon() {
         return 'featured_play_list';
     }
 
@@ -68,15 +62,13 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
      * @param array $params
      * @return string
      */
-    public function frontend(array $params = array())
-    {
+    public function frontend(array $params = array()) {
 
         $configs = $this->getValues();
         $cfg = Uikit::configs($configs);
         $result = $this->getPostResponse();
         $get = $_GET;
-        if ($result == self::NO_POST) 
-        {
+        if ($result == self::NO_POST) {
             $user = null;
             $social = isset(Yii::$app->request->get()['social']) ? Yii::$app->request->get()['social'] : null;
             if (!empty($social)) {
@@ -124,7 +116,7 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
                 /** @var  $event Event */
                 $event = $this->getEvent($cfg['community_id']);
                 if ($event) {
-                    if($event->eventType->event_type == EventType::TYPE_INFORMATIVE){
+                    if ($event->eventType->event_type == EventType::TYPE_INFORMATIVE) {
                         return '';
                     }
                     $params['data'] = $this->getSocialRegConfig($event, $params['data']);
@@ -134,9 +126,7 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
                         return "<h3>" . \Yii::t('app', "Registrazioni chiuse") . "</h3>";
                     }
 
-                    if ($event->eventType->limited_seats == true
-                        && ($currentPariticipants >= $event->seats_available)
-                        && !$event->manage_waiting_list) {
+                    if ($event->eventType->limited_seats == true && ($currentPariticipants >= $event->seats_available) && !$event->manage_waiting_list) {
                         return "<h3>" . \Yii::t('app', "Registrazioni chiuse, i posti sono esauriti") . "</h3>";
                     }
                 }
@@ -154,7 +144,7 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
                     } else {
                         if ($result == self::ALREADY_PRESENT) {
                             return $this->goTo($cfg['already_present_page']);
-                        } 
+                        }
                     }
                 }
             }
@@ -166,13 +156,11 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
      *
      * @return integer
      */
-    private function getPostResponse()
-    {
+    private function getPostResponse() {
         $ret = self::NO_POST;
         $user = null;
 
-        if ($this->request->isPost) 
-        {
+        if ($this->request->isPost) {
             $configs = $this->getValues();
             $data = Uikit::configs($configs);
             $post = $this->request->post();
@@ -189,15 +177,15 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
                             if (in_array($fld, $attachmentsFields)) {
 
                                 $file = File::find()->andWhere(['itemId' => $model->id,
-                                    'attribute' => $fld, 'model' => RecordDynamicModel::className(),
-                                    'table_name_form' => $model->getTableName()])->one();
+                                            'attribute' => $fld, 'model' => RecordDynamicModel::className(),
+                                            'table_name_form' => $model->getTableName()])->one();
                                 $fileUrlProvv = $file->getUrl();
                                 if (strpos($fileUrlProvv, '/it') == 0) {
                                     $fileUrlProvv = substr($fileUrlProvv, 3);
                                 }
                                 $fileUrl = \Yii::$app->params['platform']['backendUrl'] . $fileUrlProvv;
                                 $connection->createCommand()->update($model->getTableName(), [$fld => $fileUrl],
-                                    "id = {$model->id}")->execute();
+                                        "id = {$model->id}")->execute();
                                 $model->$fld = $fileUrl;
                             }
                         }
@@ -215,8 +203,7 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
                             if ($data['send_content_by_email'] && !empty($data['send_content_by_email_text'])) {
                                 $this->sendContentByEmail($model, $data, $post);
                             }
-                            $ret = $isWaiting ? self::SAVED_WAITING : (($data['register_on_platform'] == false || ($data['register_on_platform']
-                                    && !is_null($user))) ? self::SAVED : self::SAVED_NOACCOUNT);
+                            $ret = $isWaiting ? self::SAVED_WAITING : (($data['register_on_platform'] == false || ($data['register_on_platform'] && !is_null($user))) ? self::SAVED : self::SAVED_NOACCOUNT);
                         } else {
                             //Uikit::trace($model->getErrors());
                             $this->model = $model;
@@ -240,8 +227,7 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
      *
      * @return RegisterUser
      */
-    private function buildRegisterUser(array $data)
-    {
+    private function buildRegisterUser(array $data) {
         $register = new RegisterUser();
         $register->setCommunityID($data['community_id']);
         $register->setFacilitatorID($data['facilitator_id']);
@@ -281,11 +267,10 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
      *
      * @return integer
      */
-    private function countSeats($model)
-    {
+    private function countSeats($model) {
         return (new Query())
-            ->from($model->tableName)
-            ->count();
+                        ->from($model->tableName)
+                        ->count();
     }
 
     /**
@@ -294,8 +279,7 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
      * @return bool
      * @throws InvalidConfigException
      */
-    private function isSeatOverflow($model, $data)
-    {
+    private function isSeatOverflow($model, $data) {
         $max_seats = $data['seats_available'];
         if (!empty($max_seats)) {
             $event = $this->getEvent($data['community_id']);
@@ -320,8 +304,7 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
      *
      * @param RecordDynamicModel $model
      */
-    public function sendMail($model, $data, $waiting)
-    {
+    public function sendMail($model, $data, $waiting) {
         $m = new Mustache_Engine;
 
         $mailModule = Yii::$app->getModule("email");
@@ -344,7 +327,7 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
 
             $toField = $data['to_form_field'];
 
-            if ($toField == 'email' || $toField == 'mail'){
+            if ($toField == 'email' || $toField == 'mail') {
                 $toField = implode([$model->$toField], ';');
             }
 
@@ -359,8 +342,7 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
      * @throws InvalidConfigException
      * @throws InvalidConfigException
      */
-    public function checkIfCanRegister($community)
-    {
+    public function checkIfCanRegister($community) {
         $context = $community->context;
         if ($context == 'open20\amos\events\models\Event') {
             $event = Event::find()->andWhere(['community_id' => $community->id])->one();
@@ -374,8 +356,7 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
      * @param type $data
      * @return boolean
      */
-    private function already_present($model, $data)
-    {
+    private function already_present($model, $data) {
         $ret = false;
 
         $var = $data['already_present_field'];
@@ -387,7 +368,7 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
             if ($context == 'open20\amos\events\models\Event') {
                 $event = Event::find()->andWhere(['community_id' => $community->id])->one();
                 $eventinvitation = EventInvitation::find()->andWhere([
-                    'event_id' => $event->id, "$var" => $model->$var])->one();
+                            'event_id' => $event->id, "$var" => $model->$var])->one();
                 $ret = !is_null($eventinvitation);
             }
         }
@@ -401,8 +382,7 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
      * @param type $post
      * @return type
      */
-    public function sendContentByEmail($model, $data, $post)
-    {
+    public function sendContentByEmail($model, $data, $post) {
         $m = new Mustache_Engine;
 
         $mailModule = Yii::$app->getModule("email");
@@ -436,8 +416,7 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
      * @param type $model
      * @return type
      */
-    public function prepareContent($post, $data, $model)
-    {
+    public function prepareContent($post, $data, $model) {
         $content = [];
 
         foreach ($post['RecordDynamicModel'] as $k => $v) {
@@ -462,8 +441,7 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
      * @param type $data
      * @return type
      */
-    public function getAttachmentsFields($data)
-    {
+    public function getAttachmentsFields($data) {
         $fields = [];
         foreach ($data['items'] as $k => $v) {
             if ($v['type'] == 'attachmentsInput') {
@@ -478,8 +456,7 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
      * @return null
      * @throws InvalidConfigException
      */
-    public function getEvent($community_id)
-    {
+    public function getEvent($community_id) {
         $event = null;
         $community = Community::findOne($community_id);
         if ($community) {
@@ -496,8 +473,7 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
      * @param $cfg
      * @return mixed
      */
-    public function getSocialRegConfig($event, $cfg)
-    {
+    public function getSocialRegConfig($event, $cfg) {
         $landing = $event->eventLanding;
         if ($landing) {
             $cfg['facebook_reg'] = $landing->facebook_reg;
@@ -507,7 +483,7 @@ class Open2LandingFormBlock extends BaseUikitFormBlock
         }
         return $cfg;
     }
-    
+
     public function config() {
         $configs = [
             'vars' => [

@@ -31,6 +31,9 @@ class DiscussionsBlock extends PhpBlock
      */
     public function blockGroup()
     {
+        if(empty(\Yii::$app->getModule('discussioni'))){
+            return \app\modules\backendobjects\frontend\blockgroups\DisabledGroup::class;
+        }
         return ContenutoDinamicoGroup::className();
     }
 

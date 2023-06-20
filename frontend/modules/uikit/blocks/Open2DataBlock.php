@@ -8,15 +8,14 @@ use app\modules\backendobjects\frontend\blockgroups\SviluppoGroup;
 use trk\uikit\Uikit;
 use yii\helpers\ArrayHelper;
 
+class Open2DataBlock extends BaseUikitBlock {
 
-class Open2DataBlock extends BaseUikitBlock
-{
     public $cacheEnabled = false;
 
-    public function disable()
-    {
-        return true;
+    public function disable() {
+        return 1;
     }
+
     /**
      * @inheritdoc
      */
@@ -25,46 +24,40 @@ class Open2DataBlock extends BaseUikitBlock
     /**
      * @inheritdoc
      */
-    public function blockGroup()
-    {
+    public function blockGroup() {
         return SviluppoGroup::class;
     }
 
     /**
      * @inheritdoc
      */
-    public function name()
-    {
+    public function name() {
         return Yii::t('backendobjects', 'block_module_backend_data');
     }
 
     /**
      * @inheritdoc
      */
-    public function icon()
-    {
+    public function icon() {
         return 'data_usage';
     }
 
     /**
      * @inheritdoc
      */
-    public function admin(array $params = array())
-    {
+    public function admin(array $params = array()) {
         if (!Uikit::element('data', $params, '')) {
-            $configs        = $this->getValues();
-            $configs["id"]  = Uikit::unique($this->component);
+            $configs = $this->getValues();
+            $configs["id"] = Uikit::unique($this->component);
             $params['data'] = Uikit::configs($configs);
         }
         return $this->view->render($this->getViewFileName('php'), $params, $this);
     }
 
-    public function frontend(array $params = array())
-    {
+    public function frontend(array $params = array()) {
         return "";
     }
-    
-    
+
     public function config() {
         $configs = [
             'vars' => [
@@ -98,4 +91,5 @@ class Open2DataBlock extends BaseUikitBlock
 
         return ArrayHelper::merge(parent::config(), $configs);
     }
+
 }

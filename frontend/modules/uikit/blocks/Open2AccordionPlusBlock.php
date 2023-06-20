@@ -38,7 +38,7 @@ final class Open2AccordionPlusBlock extends BaseUikitBlock
      */
     public function icon()
     {
-        return 'line_weight';
+        return 'list';
     }
 
     /**

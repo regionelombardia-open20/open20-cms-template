@@ -1,9 +1,8 @@
 #!/usr/bin/env php
 <?php
-use elitedivision\amos\core\applications\CmsBoot;
+use open20\amos\core\applications\CmsBoot;
 
 
- 
 /* 
  Use ENC_KEY for encript properties.
  export ENC_KEY=1234567890 // from platform env.
@@ -36,7 +35,7 @@ foreach ($loaders as $file) {
 	}	
 }
 
-$configFilePaths = [__DIR__ . '/frontend/configs/env.php', 'configs/env.php'];
+$configFilePaths = [__DIR__ . '/configs/env.php'];
 foreach ($configFilePaths as $configFile) {
 	if (file_exists($configFile)) {
 		break;

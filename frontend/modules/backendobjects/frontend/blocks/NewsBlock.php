@@ -31,6 +31,9 @@ class NewsBlock extends PhpBlock
      */
     public function blockGroup()
     {
+        if(empty(\Yii::$app->getModule('news'))){
+            return \app\modules\backendobjects\frontend\blockgroups\DisabledGroup::class;
+        }
         return ContenutoDinamicoGroup::className();
     }
 
@@ -51,7 +54,7 @@ class NewsBlock extends PhpBlock
      */
     public function icon()
     {
-        return 'apps';
+        return 'description';
     }
 
     /**
@@ -62,17 +65,41 @@ class NewsBlock extends PhpBlock
         return [
             'vars' => [
                 [
+                    'var' => 'withoutTitle', 
+                    'label' => Yii::t('backendobjects', 'block_module_contenuti_dinamici_withoutTitle_label'), 
+                    'type' => self::TYPE_CHECKBOX, 
+                    'description' => Yii::t('backendobjects', 'Se selezionato nasconde la testata del plugin.'),
+                ],
+                [
                     'var' => 'withPagination', 
                     'label' => Yii::t('backendobjects', 'block_module_contenuti_dinamici_withPagination_label'), 
                     'type' => self::TYPE_CHECKBOX, 
                     'description' => Yii::t('backendobjects', 'Se selezionato visualizza un numero massimo di elementi per pagina, raggruppando i rimanenti all\interno di un paginatore. Se non selezionato visualizza tutti gli elementi nella prima schermata.'),
                 ],
-
                 [
                     'var' => 'numElementsPerPage', 
                     'label' => Yii::t('backendobjects', 'block_module_contenuti_dinamici_numElementsPerPage_label'), 
                     'type' => self::TYPE_NUMBER,  
                     'description' => Yii::t('backendobjects', 'Da compilare solo se ho selezionato il paginatore, definisce il numero di elementi per ogni pagina.')
+                ],
+
+                [
+                    'var' => 'visualization',
+                    'label' => Yii::t('backendobjects', 'block_module_contenuti_dinamici_visualization_label'), 
+                    'initvalue' => '1',
+                    'description' => 'Le dimensioni e la formattazione del layout riguardano gli schermi desktop. Per schermi mobile ogni colonna avrà larghezza 100%.',
+                    'type' => 'zaa-radio',
+                    'options' => [
+                        ['value' => 'card', 'label' => 'Visualizzazione a card', 'image' => '/img/assets/cards.png'],
+                        ['value' => 'item', 'label' => 'Visualizzazione a lista', 'image' => '/img/assets/list.png'],
+                        ['value' => 'carousel', 'label' => 'Visualizzazione a carousel', 'image' => '/img/assets/carousel.png'],
+                    ],
+                ],
+                [
+                    'var' => 'hideIfEmpty', 
+                    'label' => Yii::t('backendobjects', 'block_module_contenuti_dinamici_withoutElements_label'), 
+                    'type' => self::TYPE_CHECKBOX, 
+                    'description' => Yii::t('backendobjects', 'Se selezionato in caso non esistano news da visualizzare viene nascosto tutto il modulo.'),
                 ],
                 [
                     'var' => 'visibility',
@@ -121,7 +148,7 @@ class NewsBlock extends PhpBlock
                     'type' => self::TYPE_TEXT, 
                     'description' => Yii::t('backendobjects', 'Va specificato solo il nome del file, senza estensione.')
                 ],
-                [
+                /*[
                     'var' => 'withoutSearch', 
                     'label' => Yii::t('backendobjects', 'Visualizza ricerca'), 
                     'type' => self::TYPE_CHECKBOX, 
@@ -132,13 +159,19 @@ class NewsBlock extends PhpBlock
                     'var' => 'methodSearch', 
                     'label' => 'ModelSearch', 
                     'type' => self::TYPE_TEXT, 
-                    'description' => Yii::t('backendobjects', 'block_module_contenuti_dinamici_methodSearch_label')
-                ],
+                    'description' => Yii::t('backendobjects', 'block_module_backend_methodSearch_label')
+                ],*/
                 [
                     'var' => 'conditionSearch', 
                     'label' => Yii::t('backendobjects', 'block_module_contenuti_dinamici_conditionSearch_label'), 
                     'type' => self::TYPE_TEXT, 
                     'description' => Yii::t('backendobjects', 'Se inseriti permettono il filtraggio di elementi secondo specifiche condizioni.')
+                ],
+                [
+                    'var' => 'onlyHighlightsNews', 
+                    'label' => Yii::t('backendobjects', 'Visualizza solo notizie in evidenza'), 
+                    'type' => self::TYPE_CHECKBOX, 
+                    'description' => Yii::t('backendobjects', 'Se selezionato vengono visualizzate nell\'elenco solo le notizie contrassegnate come in eviedenza.'),
                 ],
 
             ],
@@ -151,6 +184,7 @@ class NewsBlock extends PhpBlock
     public function getFieldHelp()
     {
         return [
+            'withPagination' => Yii::t('backendobjects', 'Se selezionato visualizza un numero massimo di elementi per pagina, raggruppando i rimanenti all\interno di un paginatore. Se non selezionato visualizza tutti gli elementi nella prima schermata.'),
             'withPagination' => Yii::t('backendobjects', 'Se selezionato visualizza un numero massimo di elementi per pagina, raggruppando i rimanenti all\interno di un paginatore. Se non selezionato visualizza tutti gli elementi nella prima schermata.'),
             'viewFields' => Yii::t('backendobjects', 'block_module_backend_viewFields_help'),
             'numElementsPerPage' => Yii::t('backendobjects', 'Da compilare solo se ho selezionato il paginatore, definisce il numero di elementi per ogni pagina.'),
@@ -174,37 +208,23 @@ class NewsBlock extends PhpBlock
         $moduleName = "";
 
         $str_view = '';
-        
-        /*
-        switch ($this->getVarValue('backendModule')) {
-            case "open20\\amos\\news\\AmosNews":
-                $moduleName = "News";
-                $str_view .= '<img src="/img/preview_cms/news-preview.png">';
+
+        $viewImage='cards';
+        switch($this->getVarValue('visualization')){
+            case 'card':
+                $viewImage='cards';
                 break;
-            case "open20\\amos\\community\\AmosCommunity":
-                $moduleName = "Community";
-                $str_view .= '<img src="/img/preview_cms/community-preview.png">';
+            case 'item':
+                $viewImage='list';
                 break;
-            case "open20\\amos\\partnershipprofiles\\Module":
-                $moduleName = "Partnership Profiles";
-                $str_view .= '<img src="/img/preview_cms/partnershipprofiles-preview.png">';
-                break;
-            case "open20\\amos\\discussioni\\AmosDiscussioni":
-                $moduleName = "Discussioni";
-                $str_view .= '<img src="/img/preview_cms/discussioni-preview.png">';
-                break;
-            case "open20\\amos\\events\\AmosEvents":
-                $moduleName = "Eventi";
-                $str_view .= '<img src="/img/preview_cms/events-preview.png">';
-                break;
-            case "open20\\amos\\sondaggi\\AmosSondaggi":
-                $moduleName = "Eventi";
-                $str_view .= '<img src="/img/preview_cms/sondaggio-preview.png">';
+            case 'carousel':
+                $viewImage='carousel';
                 break;
         }
-        */
+        
+       
         $moduleName = "News";
-        $str_view .= '<img src="/img/preview_cms/news-preview.png">';
+        $str_view .= '<img src="/img/assets/'.$viewImage.'.png">';
 
         return $str_view_module . $moduleName . '</strong></p>{% endif %}' . $str_view;
     }
@@ -299,6 +319,32 @@ class NewsBlock extends PhpBlock
         $reflection = Yii::createObject(['class' => ModuleReflection::class, 'module' => $frontendModule]);
         $reflection->suffix = $this->getEnvOption('restString');
 
+        $moduleView='listCardNewsDesign';
+        switch($this->getVarValue('visualization')){
+            case 'card':
+                $moduleView='listCardNewsDesign';
+                break;
+            case 'item':
+                $moduleView='listItemNewsDesign';
+                break;
+            case 'carousel':
+                $moduleView='listOwlCarouselSingleCardNewsDesign';
+                break;
+        }
+
+        $additionalClass='';
+        if($this->getVarValue('withoutTitle')){
+            $additionalClass="hide-bi-plugin-header";
+        }
+        if($this->getVarValue('hideIfEmpty')){
+            $additionalClass="hide-module-if-empty-list";
+        }
+        
+        $modelSearchMethod='';
+        if($this->getCfgValue('onlyHighlightsNews')){
+            $modelSearchMethod='searchHighlightedAndHomepageNews';
+        }
+        
         $args = [
             'parms' => [
                 "backendModule" => 'open20\\amos\\news\\AmosNews',
@@ -306,10 +352,12 @@ class NewsBlock extends PhpBlock
                 "viewFields" => $this->getVarValue('viewFields'),
                 "withPagination" => $this->getVarValue('withPagination'),
                 "withoutSearch" => $this->getCfgValue('withoutSearch'),
-                "cssClass" => $this->getCfgValue('cssClass'),
-                "listPage" => $this->getCfgValue('listPage', 'listCardNewsDesign'),
+                "cssClass" => $this->getCfgValue('cssClass').' '.$additionalClass,
+
+                "listPage" => $this->getCfgValue('listPage', $moduleView),
+
                 "detailPage" => $this->getCfgValue('detailPage'),
-                "methodSearch" => $this->getCfgValue('methodSearch'),
+                "methodSearch" => $modelSearchMethod,
                 "conditionSearch" => $this->getCfgValue('conditionSearch'),
                 "blockItemId" => $this->getEnvOption('id')
             ],

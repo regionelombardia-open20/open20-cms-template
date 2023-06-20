@@ -224,7 +224,7 @@ class ContenutiDinamiciBlock extends PhpBlock
         $data = [];
         $backendModule = $this->getVarValue('backendModule', false);
 
-        if (!empty($backendModule)) {
+        if (!empty($backendModule) && !empty($backendModule::instance())) {
             $modelSearchClass = $backendModule::getModelSearchClassName();
             $searchModel = new $modelSearchClass();
             $viewFields = $searchModel->cmsViewFields();

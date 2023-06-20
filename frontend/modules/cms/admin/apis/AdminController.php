@@ -32,6 +32,10 @@ class AdminController extends \luya\cms\admin\apis\AdminController
             
             $blocks = [];
 
+            if($blockGroup->identifier == 'disabled'){
+                continue;
+            }
+            
             if($blockGroup->identifier == 'development-group' && (($uikitModule->disableDevelopmentGroup) || (!$isAdmin) )){
                  
                 continue;
@@ -146,14 +150,14 @@ class AdminController extends \luya\cms\admin\apis\AdminController
             $client = new \yii\httpclient\Client();
             $response = $client->createRequest()            
                 ->setMethod('GET')
-                ->addHeaders(['content-type' => 'application/json'])
-                ->setUrl(\Yii::$app->params['platform']['frontendUrl'].'/socialwall/api/wall-posts-per-social')
-                ->setData(['tag' => $keys])
+                ->addHeaders(['content-type' => 'application/json','Accept' => 'application/json',])
+                ->setUrl(\Yii::$app->params['platform']['frontendUrl'].'/socialwall/socialwall/preview-socialwall?socialwallTokensIds=1,2,3&keywords='.$keys.'&render=false')
+                //->setData(['socialwallTokensIds' => '1,2,3'])
                 ->send();
 
             if ($response->isOk) {
                 $r = json_decode($response->content);
-           
+           die(var_dump($response->content));
                 foreach($r as $type=>$social){
 
                     foreach($social as $row){ 
@@ -219,6 +223,17 @@ class AdminController extends \luya\cms\admin\apis\AdminController
             }
         }
  
+        return $data;
+    }
+    
+    public function actionGetSocial()
+    {
+        $data = [];
+        $social = \open20\socialwall\utility\Social::getSocialwallTokensEnabled();
+        
+        foreach($social as $id => $val)
+            $data[] = ['id'=>$id,'value'=>$val];
+       
         return $data;
     }
 }

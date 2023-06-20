@@ -6,7 +6,7 @@ use open20\design\utility\DesignIcon;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 
-
+ \open20\socialwall\assets\ModuleSocialWallAsset::register($this); 
 $currentAsset = BootstrapItaliaDesignAsset::register($this);
 use app\modules\uikit\BaseUikitBlock;
 
@@ -39,38 +39,71 @@ $lang =  substr(Yii::$app->language, 0, 2);
 
 
 $posts = $data['posts'];
-$groupped_post = ArrayHelper::index($posts, null, 'social');
 
-$template = $this->extraValue('template');
+if(is_null(\Yii::$app->getModule('socialwall'))) {
+    $canSeeBlock = false;
+}
 
 
 ?>
 <?php if ($canSeeBlock): ?>
-    <div class="col-xs-12 section-form social-wall">
-        <h2 class="subtitle-form"><?= Yii::t('backendobjects', 'Social Wall') ?></h2>
-        <div class="row">     
-            <?php foreach($template as $col): 
-                
-                $social_type = $col['social'];
-                
-            ?>
-                <?php if(count($groupped_post[$social_type])>0): ?>
-            
-                    <div class="<?= $col['class']?>">
-                        <p class="h5 font-weight-bold text-uppercase mt-3"><?= $social_type ?></h5>
-                        <div class="social-container">
-                                <?php foreach($groupped_post[$social_type] as $post): ?> 
-                                    
-                                    <?= $this->render('socialwall/post', compact('item', 'post')) ?>
-                                    
-                                <?php endforeach; ?>
-                        </div>                
-                    </div>
-                <?php endif; ?>
+    
+    <?php 
+    
+        /*echo \open20\socialwall\widgets\SocialwallFromModelWidget::widget([
+            'model' => $model,
+        ]);*/
+    ?>
 
-            
-            <?php endforeach; ?>
-        </div>
+    <div class="col-xs-12 section-form social-wall">
+        <?php
+        $displayWidget = false;
+        $blockId = $this->block->getEnvOption('id');
+        $blockItem = \luya\cms\models\NavItemPageBlockItem::findOne(['id' => $blockId]);
+        $page = null;
+        $navItem = null;
+        $navId = null;
+        if(!empty($blockItem)) {
+            $page = \luya\cms\models\NavItemPage::findOne(['id' => $blockItem->nav_item_page_id]);
+            if(!empty($page)) {
+                $navItem = \app\modules\cms\models\NavItem::findOne(['id' => $page->nav_item_id]);
+            }
+            if(!empty($navItem)) {
+                $navId = $navItem->nav_id;
+            }
+        }
+        if(!empty($navId)) {
+            $displayWidget = true;
+        }
+        ?>
+        <?php if($displayWidget): ?>
+            <?php \open20\socialwall\assets\ModuleSocialWallAsset::register($this); ?>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <?=
+                    \open20\socialwall\widgets\SocialwallFromModelWidget::widget([
+                        'explicitModuleId' => 'cms',
+                        'explicitModuleRecordId' => $navId,
+                    ]);
+                    ?>
+                </div>
+            </div>
+        <?php endif; ?>
+<!--        <h2 class="subtitle-form">--><?php //= Yii::t('backendobjects', 'Social Wall') ?><!--</h2>-->
+<!--        <div class="row">-->
+<!---->
+<!--            <div class="col-xs-12">-->
+<!--                <div class="social-container">-->
+<!--                    --><?php //foreach($posts as $post): ?>
+<!---->
+<!--                        --><?php ////$this->render('socialwall/post', compact('item', 'post')) ?>
+<!---->
+<!--                    --><?php //endforeach; ?>
+<!--                </div>-->
+<!--            </div>-->
+<!---->
+<!--        </div>-->
 
         
     </div>

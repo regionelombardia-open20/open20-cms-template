@@ -7,26 +7,21 @@ use app\modules\uikit\BaseUikitBlock;
 use app\modules\backendobjects\frontend\blockgroups\ContenitoreGroup;
 use yii\helpers\ArrayHelper;
 
+final class Open2LayoutSectionBlock extends BaseUikitBlock {
 
-
-final class Open2LayoutSectionBlock extends BaseUikitBlock
-{
     public $isContainer = true;
     public $cacheEnabled = false;
+
     /**
      * @inheritdoc
      */
-
-     
-    public function disable()
-    {
-        return true;
+    public function disable() {
+        return 1;
     }
 
-    
     protected $component = "open2layoutsection";
 
-    public function config(){
+    public function config() {
         $configs = [
             'vars' => [
                 [
@@ -58,37 +53,34 @@ final class Open2LayoutSectionBlock extends BaseUikitBlock
         ];
         $config = ArrayHelper::merge(parent::config(), $configs);
         $this->cacheEnabled = $this->getVarValue('cache');
-        
+
         return $config;
     }
+
     /**
      * @inheritdoc
      */
-    public function name()
-    {
+    public function name() {
         return Yii::t('backendobjects', 'block_module_backend_layoutsection');
     }
 
     /**
      * @inheritdoc
      */
-    public function icon()
-    {
+    public function icon() {
         return 'aspect_ratio';
     }
 
     /**
      * @inheritdoc
      */
-    protected function getPlaceholders()
-    {
+    protected function getPlaceholders() {
         return [
             ['var' => 'content', 'cols' => $this->getExtraValue('content')]
         ];
     }
 
-    public function extraVars()
-    {
+    public function extraVars() {
         $this->extraValues['content'] = 12;
         return parent::extraVars();
     }
@@ -96,16 +88,15 @@ final class Open2LayoutSectionBlock extends BaseUikitBlock
     /**
      * @inheritdoc
      */
-    public function admin()
-    {
+    public function admin() {
         return '';
     }
 
     /**
      * @inheritdoc
      */
-    public function blockGroup()
-    {
+    public function blockGroup() {
         return ContenitoreGroup::class;
     }
+
 }

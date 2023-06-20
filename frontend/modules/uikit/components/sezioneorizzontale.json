@@ -6,7 +6,100 @@
             "description": "Se selezionato la sezione occuperà l'intera larghezza di pagina.",
             "initvalue": "",
             "type": "zaa-checkbox"
-        },{
+        },
+        {
+            "var": "brandbook_background",
+            "label": "Colore di sfondo da brandbook",
+            "description": "Definisce il colore di sfondo appartenente al brandbook della riga.",
+            "initvalue": "",
+            "options": [           
+                {
+                    "value": "primary",
+                    "image" : "/img/sezione_orizzontale/bg-primary.PNG"
+
+                }, {
+                    "value": "secondary",
+                    "image" : "/img/sezione_orizzontale/bg-secondary.PNG"
+                }, {
+                    "value": "tertiary",
+                    "image" : "/img/sezione_orizzontale/bg-tertiary.PNG"
+                }, {
+                    "value": "brandbook-neutral-1",
+                    "image" : "/img/sezione_orizzontale/bg-neutral-1.PNG"
+                }, {
+                    "value": "brandbook-neutral-2",
+                    "image" : "/img/sezione_orizzontale/bg-neutral-2.PNG"
+                }, {
+                    "value": "white",
+                    "image" : "/img/sezione_orizzontale/bg-white.PNG"
+                }
+            
+            
+            
+            ],
+            "type": "zaa-radio"
+        },
+        {
+            "var": "opacity",
+            "label": "Opacità",
+            "description": "Definisce la percentuale di opacità della sezione attraverso un numero da 0 a 100. Di default è al 100%.",
+            "initvalue": "100",
+            "placeholder": "100",
+            "max": "100",
+            "type": "zaa-number"
+        },
+        {
+            "var": "gradient_percent",
+            "label": "Percentuale del gradiente",
+            "description": "Definisce la percentuale di gradiente, quindi l'espansione del primo colore in una scala che va da 0 a 100.",
+            "initvalue": "0",
+            "placeholder": "0",
+            "max": "100",
+            "type": "zaa-number"
+        }, 
+        {
+            "var": "gradient_align",
+            "label": "Allineamento del gradiente",
+            "description": "Definisce se la sfumatura del gradiente è verticale (dall'alto verso il basso) oppure orizzontale (da sinistra verso destra).",
+            "initvalue": "",
+            "options": [
+                {
+                    "value": "",
+                    "image" : "/img/nessun-gradiente.png"
+
+                },           
+                {
+                    "value": "90deg",
+                    "image" : "/img/horizontal-gradient.PNG"
+
+                }, {
+                    "value": "180deg",
+                    "image" : "/img/vertical-gradient.PNG"
+                }],
+            "type": "zaa-radio"
+        }, 
+        {
+            "var": "color_gradient_1",
+            "label": "Primo colore del gradiente",
+            "description": "Definisce il colore con il quale inizia la sfumatura del gradiente.",
+            "initValue": "",
+            "type": "zaa-color"
+        },
+        {
+            "var": "color_gradient_2",
+            "label": "Secondo colore del gradiente",
+            "description": "Definisce il colore con il quale finisce la sfumatura del gradiente.",
+            "initValue": "",
+            "type": "zaa-color"
+        },
+        
+        
+        
+        
+        
+        
+        
+        {
             "var": "image",
             "label": "Immagine di sfondo",
             "description": "Se selezionata la sezione avrà un'immagine di sfondo.",

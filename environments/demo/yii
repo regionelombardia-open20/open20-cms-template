@@ -1,6 +1,6 @@
 ##!/usr/bin/env php
 <?php
-use elitedivision\amos\core\applications\CmsBoot;
+use open20\amos\core\applications\CmsBoot;
 
 
  

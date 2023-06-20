@@ -15,7 +15,7 @@
         "php": ">=8.1.0",
         "open20/cmsbridge": "1.5.0",
         "open20/open2-cms-module-userauth": "1.6.0",
-        "open20/amos-admin": "^2.18.2",
+        "open20/amos-admin": "2.18.2",
         "open20/amos-attachments": "^1.15.1",
         "open20/amos-audit": "~1.0.1",
         "open20/amos-comments": "1.11.0",

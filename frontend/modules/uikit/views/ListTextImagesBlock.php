@@ -31,9 +31,10 @@ $attrs_cell = [];
 
 ?>
 <?php if ($canSeeBlock): ?>
-    <ul class="pl-0 <?= $item['vertical_element']? 'd-flex flex-wrap' : '' ?>">
+    <ul class="pl-0 <?= $data['vertical_element']? 'd-flex flex-wrap' : '' ?>">
         <?php foreach ($data["items"] as $item) : ?>
-            <li class="el-item my-3 col-12 row <?= $item['vertical_element']? 'flex-column' : '' ?>">
+           
+            <li class="el-item my-4 col-12 row">
                 <?= $this->render('list-text-images/item', compact('item', 'data')) ?>
             </li>
         <?php endforeach ?>

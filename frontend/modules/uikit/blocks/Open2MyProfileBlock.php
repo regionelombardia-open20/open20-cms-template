@@ -46,9 +46,8 @@ class Open2MyProfileBlock extends BaseUikitBlock
         $this->cacheEnabled = false;
     }
 
-    public function disable()
-    {
-        return true;
+    public function disable() {
+        return 1;
     }
 
     /**

@@ -8,55 +8,49 @@ use app\modules\backendobjects\frontend\blockgroups\ElementiBaseGroup;
 use app\modules\uikit\BaseUikitBlock;
 use yii\helpers\ArrayHelper;
 
+class Open2AttachmentsBlock extends BaseUikitBlock {
 
-class Open2AttachmentsBlock extends BaseUikitBlock
-{
     /**
      * @inheritdoc
      */
     protected $component = "open2attachments";
 
-    public function disable()
-    {
-        return true;
+    public function disable() {
+        return 1;
     }
+
     /**
      * @inheritdoc
      */
-    public function blockGroup()
-    {
+    public function blockGroup() {
         return ElementiBaseGroup::class;
     }
 
     /**
      * @inheritdoc
      */
-    public function name()
-    {
+    public function name() {
         return Yii::t('backendobjects', 'block_module_backend_attachments');
     }
 
     /**
      * @inheritdoc
      */
-    public function icon()
-    {
+    public function icon() {
         return 'attach_file';
     }
 
     /**
      * @inheritdoc
      */
-    public function admin()
-    {
-        if(count($this->getVarValue('items', []))) {
+    public function admin() {
+        if (count($this->getVarValue('items', []))) {
             return $this->frontend();
         } else {
             return '<div><span class="block__empty-text">' . Module::t('no_content') . '</span></div>';
         }
     }
-    
-    
+
     public function config() {
         $configs = [
             'vars' => [
@@ -90,4 +84,5 @@ class Open2AttachmentsBlock extends BaseUikitBlock
 
         return ArrayHelper::merge(parent::config(), $configs);
     }
+
 }
