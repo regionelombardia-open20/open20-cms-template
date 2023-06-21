@@ -18,7 +18,7 @@ return[
     '@vendor/open20/amos-comments/src/migrations',
     '@vendor/open20/amos-comuni/src/migrations',
     '@vendor/open20/amos-core/migrations',
-    '@vendor/open20/amos-cwh/src/migrations',
+    //'@vendor/open20/amos-cwh/src/migrations',
     '@vendor/open20/amos-dashboard/src/migrations',
     '@vendor/open20/amos-email-manager/src/migrations',
     '@vendor/open20/amos-my-activities/src/migrations',
