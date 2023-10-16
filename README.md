@@ -1,3 +1,9 @@
+requisiti per farlo partire in ambiente di sviluppo:
+- avere installato docker e docker compose
+- dalla root del repository digitare il comando "docker compose up"
+- aspettare il boot di tutti i servizi
+- aprire il browser su http://localhost:8080
+
 elenco dei cambiamenti effettuati per farlo partire:
 
 - aggiunto ambiente docker compose con zendphp per tirare su rapidamente un ambiente di sviluppo. Tutti gli step di installazione "una tantum" sono all'interno del file zend/entrypoint.d/00-init.sh
