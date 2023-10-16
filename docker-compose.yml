@@ -1,0 +1,76 @@
+version: '3.9'
+
+volumes:
+  db:
+
+
+services:
+  open20:
+    image: localhost/open20_zendphp_8.2:alpine-3.18-apache
+    container_name: open20
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - HTTP_PROXY=
+        - HTTPS_PROXY=
+        - ZENDPHP_REPO_USERNAME=
+        - ZENDPHP_REPO_PASSWORD=
+        - ZEND_PROFILE=development
+        - POST_BUILD_BASH=
+    depends_on:
+      open20_mysql:
+        condition: service_healthy
+    platform: linux/amd64
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./www:/var/www/open20
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  open20_phpmyadmin:
+    container_name: open20_phpmyadmin
+    image: phpmyadmin:5.2.0
+    depends_on:
+      open20_mysql:
+        condition: service_healthy
+    environment:
+      PMA_HOST: open20_mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+      MEMORY_LIMIT: 1G
+      UPLOAD_LIMIT: 1024M
+      MAX_EXECUTION_TIME: 0
+    ports:
+      - "8081:80"
+    restart: always
+
+  open20_mysql:
+    container_name: open20_mysql
+    image: mysql:8.0.34-debian
+    platform: linux/amd64
+    command: --log_bin_trust_function_creators=true
+    cap_add:
+      - SYS_NICE
+    environment:
+      TIMEZONE: "Europe/Rome"
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "database"
+      MYSQL_USER: "db_user"
+      MYSQL_PASSWORD: "db_passwd"
+    healthcheck:
+      test: "mysql -uroot -proot --execute=\"SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'database';\""
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    ports:
+      - "3366:3306"
+    restart: unless-stopped
+    volumes:
+      - db:/var/lib/mysql
+    logging:
+      options:
+        max-size: "50m"
+        max-file: "5"

@@ -13,7 +13,7 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=database',
+            'dsn' => 'mysql:host=open20_mysql;dbname=database',
             'username' => 'db_user',
             'password' => 'db_passwd',
             'charset' => 'utf8',

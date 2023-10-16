@@ -15,7 +15,7 @@ return yii\helpers\ArrayHelper::merge(
     [
         'components' => [
             'db' => [
-                'dsn' => 'mysql:host=localhost;dbname=test',
+                'dsn' => 'mysql:host=open20_mysql;dbname=test',
                 'password' => 'root',
             ]
         ],

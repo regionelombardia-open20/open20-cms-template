@@ -85,7 +85,7 @@ return [
     'composition' => [
         'hidden' => false, // no languages in your url (most case for pages which are not multi lingual)
         'pattern' => '<langShortCode:[a-z]{2}>',
-        'default' => ['langShortCode' => 'it'], // the default language for the composition should match your default language shortCode in the language table.
+        'default' => ['langShortCode' => 'en'], // the default language for the composition should match your default language shortCode in the language table.
     ],
     'errorHandler' => [
         'class' => 'app\modules\cms\error\ErrorHandler',

@@ -39,6 +39,7 @@ return yii\helpers\ArrayHelper::merge([
         '@file' => dirname(__DIR__),
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
+        '@backend' => dirname(__DIR__),
     ],
     'language' => 'it-IT',
     'timeZone' => 'Europe/Rome',
