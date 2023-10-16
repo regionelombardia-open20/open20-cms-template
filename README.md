@@ -23,6 +23,6 @@ elenco dei cambiamenti effettuati per farlo partire:
 
 richieste:
 
-- controllare la lista delle dipendenze e fornire un composer.lock funzionante in quanto fare un composer install adesso non fa partire l'applicativo (pagina bianca)
+- controllare la lista delle dipendenze e fornire un composer.lock "ufficiale"
 - valutare l'aggiunta della configurazione alias "@backend": è stata messa al posto giusto?
 - migliorare lo script php init facendo in modo che crei tutte le cartelle "vuote" (non versionabili) necessarie al funzionamento dell'applicazione o aggiungere un file .gitkeep dentro ognuna di esse
