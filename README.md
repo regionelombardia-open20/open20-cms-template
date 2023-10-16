@@ -17,5 +17,5 @@ elenco dei cambiamenti effettuati per farlo partire:
 
 richieste:
 
-- fornire il file composer.lock per freezare le dipendenze esterne
+- controllare la lista delle dipendenze e fornire un composer.lock funzionante in quanto fare un composer install adesso non fa partire l'applicativo (pagina bianca)
 - valutare l'aggiunta della configurazione alias "@backend": è stata messa al posto giusto?
