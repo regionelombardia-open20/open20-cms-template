@@ -1,0 +1,7 @@
+.git/
+.gitignore
+www/vendor/
+www/tests/
+.vscode/
+Dockerfile
+docker-compose.yml

@@ -26,6 +26,22 @@ dist/
 # JetBrains IDE
 .idea/
 
+# netbeans project files
+nbproject
+
+# zend studio for eclipse project files
+.buildpath
+.project
+.settings
+
+# sublime text project / workspace files
+*.sublime-project
+*.sublime-workspace
+
+# visual studio code project files
+.vscode/
+!.vscode/launch.json
+
 # Unit test reports
 TEST*.xml
 
@@ -50,6 +66,49 @@ Thumbs.db
 
 .project
 
-.vscode/
-nbproject/
-.settings/
+# composer vendor dir
+/www/vendor
+# cubrid install dir
+/cubrid
+
+# composer itself is not needed
+composer.phar
+
+# composer.lock in applications is ignored since it's automatically created by composer when application is installed
+/apps/*/composer.lock
+
+# phpunit itself is not needed
+phpunit.phar
+# local phpunit config
+/phpunit.xml
+
+# ignore dev installed apps and extensions
+/apps
+/extensions
+/packages
+
+# NPM packages
+/node_modules
+.env
+package-lock.json
+
+/www/frontend/web/assets/
+/www/frontend/web/index.php
+/www/frontend/web/index-test.php
+/www/frontend/web/robots.txt
+/www/frontend/configs/env-local.php
+/www/frontend/configs/params-local.php
+/www/common/config/main-local.php
+/www/common/config/params-local.php
+/www/common/config/test-local.php
+/www/console/config/main-local.php
+/www/console/config/params-local.php
+/www/empty_dir
+/www/luya
+/www/yii
+/www/yii_test
+/www/yii_test.bat
+/www/tests
+/www/yii.modified
+
+/zend/entrypoint.d/runfile
