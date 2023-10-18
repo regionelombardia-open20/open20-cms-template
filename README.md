@@ -49,14 +49,65 @@ Requisiti
 
 I requisiti qui esposti sono intesi per un'ambiente di sviluppo o con bassa affluenza di utenti
 
-### Hardware
+#### Hardware
 
 - 2 Core
 - 2GB Ram
 - 2GB Disco
-  - Lo storage va dimensionato in base alla mole di allegati che si vuole gestire
+  - Lo storage va dimensionato in base alla mole di dati e allegati che si vuole gestire
 
-### Software
+
+
+Installazione con Docker
+-------------------
+E' possibile avviare l'applicativo sotto forma di container utilizzando Docker in pochi step e a patto di posserede le risorse hardware adatte
+
+Il metodo consigliato per l'installazione in un'ambiente di sviluppo &eacute; mediante __docker compose__ e bastano i seguenti passaggi
+
+- Copiare il file __.env.sample__ in __.env__ modificandolo secondo le proprie preferenze e seguendo le indicazioni sulle variabili d'ambiente in questo documento
+- Pacchettizzare il container applicativo con il comando __docker compose build__
+- Avviare il cluster con il comando __docker compose up -d__ (-d consente di avviare il cluster di container in background)
+
+_* Il file docker-compose.yml contiene la definizione del cluster applicativo che verrà avviato con i comandi sopra indicati e contiene varia software a supporto dell'applicazione Open 2.0 come un Database MySQL, un'Antivirus, un motore di ricerca e un pannello di gestione del database_
+
+Variabili D'ambiente
+-------------------
+
+Si può personalizzare la propria installazione modificando il valore delle seguenti variabili d'ambiente
+
+#### DOMAIN_FRONTEND,DOMAIN_BACKEND
+Rappresentano i domini di "backend" e "frontend" per applicazioni multi-ambiente
+
+#### ENC_KEY
+Chiave di cifratura per configurazioni e informazioni applicative
+
+#### ENABLE_CRON
+Imposta a "true" per abilitare la CRONTAB nel container applicativo (Default: true)
+
+#### ENABLE_APACHE
+Imposta a "true" per abilitare il Webserver nel container applicativo (Default: true)
+
+#### ENABLE_PHP
+Imposta a "true" per abilitare l'interprete PHP nel container applicativo (Default: true)
+
+#### DB_HOST
+Host del Database MySQL
+
+#### DB_NAME
+Nome del database da utilizzare per l'applicazione
+
+#### DB_USER
+Username dell'utente usato per connettersi al database
+
+#### DB_PASS
+Password dell'utente usato per connettersi al database
+
+Installazione Manuale Applicativo
+-------------------
+
+L'applicazione prevede solo un processo di installazione manuale per personale esperto, non è quindi presente un'interfaccia web poichè l'architettura per consentire un'elevata flessibilità nella gestione delle configurazioni richiede una certa preparazione hardware e software
+
+#### Requisiti Software
 
 - PHP: >= 8.2
     - APC
@@ -74,11 +125,7 @@ I requisiti qui esposti sono intesi per un'ambiente di sviluppo o con bassa affl
     - Curl
 - MySQL >= 5.6
 
-Installazione Applicativo
--------------------
-
-L'applicazione prevede solo un processo di installazione manuale per personale esperto, non è quindi presente un'interfaccia web poichè l'architettura per consentire un'elevata flessibilità nella gestione delle configurazioni richiede una certa preparazione hardware e software
-
+#### Configurazione
 Gli step minimi per l'installazione prevedono la configurazione del database e l'esecuzione delle migrazion (o nella maggior parte dei casi d'uso, l'importazione di un dump del set di dati di sviluppo nel database dove lo si vuole rendere operativo)
 
 - Inizializzazione del set di configurazioni per l'ambiente specifico su cui si desidera lavorare, per eseguire questa procedura si lavorerà con l'eseguibile __init__ (in ambiente windows è possibile utilizzare __init.bat__)

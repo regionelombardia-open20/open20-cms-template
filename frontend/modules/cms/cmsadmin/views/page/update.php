@@ -20,7 +20,7 @@ if (!empty($userCms)) {
     if (!empty($userProfile)) {
         $nomeCognome = $userProfile->nome . ' ' . $userProfile->cognome;
     }
-}
+}cmsv
 ?>
 <div class="cmsadmin" ng-controller="NavController" ng-show="!isDeleted" ng-class="{'cmsadmin-blockholder-collapsed' : !isBlockholderSmall}">
 

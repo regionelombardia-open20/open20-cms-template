@@ -13,33 +13,34 @@ use luya\helpers\Url;
 use luya\web\Application;
 use Yii;
 
-class Module extends BaseModule implements CoreModuleInterface
-{
+class Module extends BaseModule implements CoreModuleInterface {
+
     private $original_module = null;
 
     /**
      * @var string The version label name of the first version, version alias is running through yii2 messaging system.
      */
     const VERSION_INIT_LABEL = 'Initial';
-    const ROUTE_PAGE_CREATE  = 'cmsadmin/page/create';
-    const ROUTE_PAGE_UDPATE  = 'cmsadmin/page/update';
-    const ROUTE_PAGE_DELETE  = 'cmsadmin/page/delete';
-    const ROUTE_PAGE_DRAFTS  = 'cmsadmin/page/drafts';
-    const ROUTE_CONFIG       = 'cmsadmin/config/index';
+    const ROUTE_PAGE_CREATE = 'cmsadmin/page/create';
+    const ROUTE_PAGE_UDPATE = 'cmsadmin/page/update';
+    const ROUTE_PAGE_DELETE = 'cmsadmin/page/delete';
+    const ROUTE_PAGE_DRAFTS = 'cmsadmin/page/drafts';
+    const ROUTE_CONFIG = 'cmsadmin/config/index';
 
     /**
      * @inheritdoc
      */
-    public $apis     = [
+    public $apis = [
         'api-cms-admin' => 'app\modules\cms\admin\apis\AdminController',
-        'api-cms-navitempageblockitem' => 'luya\cms\admin\\apis\\NavItemPageBlockItemController',
+        'api-cms-navitempageblockitem' => 'luya\cms\admin\apis\NavItemPageBlockItemController',
         'api-cms-nav' => 'luya\cms\admin\apis\NavController',
-        'api-cms-navitem' => 'app\modules\cms\admin\apis\NavItemController',
-        'api-cms-navitempage' => 'luya\cms\admin\\apis\\NavItemPageController',
+        //'api-cms-navitem' => 'app\modules\cms\admin\apis\NavItemController',
+        'api-cms-navitem' => 'luya\cms\admin\apis\NavItemController',
+        'api-cms-navitempage' => 'luya\cms\admin\apis\NavItemPageController',
         'api-cms-menu' => 'luya\cms\admin\apis\MenuController',
-        'api-cms-layout' => 'luya\cms\admin\\apis\\LayoutController',
-        'api-cms-block' => 'luya\cms\admin\\apis\\BlockController',
-        'api-cms-blockgroup' => 'luya\cms\admin\\apis\\BlockgroupController',
+        'api-cms-layout' => 'luya\cms\admin\apis\LayoutController',
+        'api-cms-block' => 'luya\cms\admin\apis\BlockController',
+        'api-cms-blockgroup' => 'luya\cms\admin\apis\BlockgroupController',
         'api-cms-navcontainer' => 'luya\cms\admin\apis\NavContainerController',
         'api-cms-navitemblock' => 'luya\cms\admin\apis\NavItemBlockController',
         'api-cms-redirect' => 'luya\cms\admin\apis\RedirectController',
@@ -52,20 +53,20 @@ class Module extends BaseModule implements CoreModuleInterface
      * @inheritdoc
      */
     public $dashboardObjects = [
-        [
-            'class' => 'luya\admin\dashboard\ListDashboardObject',
-            'template' => '
-				<a ng-repeat="item in data" ui-sref="custom.cmsedit({ navId : item.nav_id, templateId: \'cmsadmin/default/index\'})" class="list-group-item list-group-item-action flex-column align-items-start">
-				    <div class="d-flex w-100 justify-content-between">
-				      <h5 class="mb-1">{{item.title}}</h5>
-				      <small>{{item.timestamp_update * 1000 | date:\'short\'}}</small>
-				    </div>
-				    <small>by {{item.updateUser.firstname}} {{item.updateUser.lastname}}</small>
-				</a>
-			',
-            'dataApiUrl' => 'admin/api-cms-navitem/last-updates',
-            'title' => ['cmsadmin', 'cmsadmin_dashboard_lastupdate'],
-        ],
+            /* [
+              'class' => 'luya\admin\dashboard\ListDashboardObject',
+              'template' => '
+              <a ng-repeat="item in data" ui-sref="custom.cmsedit({ navId : item.nav_id, templateId: \'cmsadmin/default/index\'})" class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{item.title}}</h5>
+              <small>{{item.timestamp_update * 1000 | date:\'short\'}}</small>
+              </div>
+              <small>by {{item.updateUser.firstname}} {{item.updateUser.lastname}}</small>
+              </a>
+              ',
+              'dataApiUrl' => 'admin/api-cms-navitem/last-updates',
+              'title' => ['cmsadmin', 'cmsadmin_dashboard_lastupdate'],
+              ], */
     ];
 
     /**
@@ -116,7 +117,7 @@ class Module extends BaseModule implements CoreModuleInterface
      * @since 1.0.6
      */
     public $cmsLayouts = [];
-    private $_blocks   = [];
+    private $_blocks = [];
 
     /**
      * Setter method for additional cms blocks.
@@ -139,8 +140,7 @@ class Module extends BaseModule implements CoreModuleInterface
      *
      * @since 1.0.4
      */
-    public function setBlocks($definition)
-    {
+    public function setBlocks($definition) {
         $this->_blocks = (array) $definition;
     }
 
@@ -152,10 +152,10 @@ class Module extends BaseModule implements CoreModuleInterface
      * @return array
      * @since 1.0.4
      */
-    public function getBlocks()
-    {
+    public function getBlocks() {
         return $this->_blocks;
     }
+
     private $_previewUrl;
 
     /**
@@ -176,8 +176,7 @@ class Module extends BaseModule implements CoreModuleInterface
      * @param string $url The url to use as preview url, without trailing slash. Params will be auto added.
      * @since 1.0.2
      */
-    public function setPreviewUrl($url)
-    {
+    public function setPreviewUrl($url) {
         $this->_previewUrl = rtrim($url, '/');
     }
 
@@ -189,10 +188,10 @@ class Module extends BaseModule implements CoreModuleInterface
      * @return string Returns the preview url used for autoPreview and preview button click.
      * @since 1.0.2
      */
-    public function getPreviewUrl()
-    {
-        return $this->_previewUrl === null ? Url::home(true).'cms-page-preview' : $this->_previewUrl;
+    public function getPreviewUrl() {
+        return $this->_previewUrl === null ? Url::home(true) . 'cms-page-preview' : $this->_previewUrl;
     }
+
     private $_blockVariations;
 
     /**
@@ -214,8 +213,7 @@ class Module extends BaseModule implements CoreModuleInterface
      *
      * @param array $config
      */
-    public function setBlockVariations(array $config)
-    {
+    public function setBlockVariations(array $config) {
         $_variations = [];
         foreach ($config as $key => $content) {
             if (is_numeric($key) && is_array($content)) {
@@ -232,46 +230,43 @@ class Module extends BaseModule implements CoreModuleInterface
      *
      * @return array
      */
-    public function getBlockVariations()
-    {
+    public function getBlockVariations() {
         return $this->_blockVariations;
     }
 
     /**
      * @inheritdoc
      */
-    public function getMenu()
-    {
+    public function getMenu() {
         return (new AdminMenuBuilder($this))
-                ->nodeRoute('menu_node_cms', 'note_add',
-                    'cmsadmin/default/index', 'luya\cms\models\NavItem')
-                ->node('menu_node_cmssettings', 'settings')
-                ->group('menu_group_env')
-                ->itemRoute('menu_group_item_env_permission',
-                    "cmsadmin/permission/index", 'gavel')
-                ->itemApi('menu_group_item_env_container',
-                    'cmsadmin/navcontainer/index', 'label_outline',
-                    'api-cms-navcontainer')
-                ->itemApi('menu_group_item_env_layouts',
-                    'cmsadmin/layout/index', 'view_quilt', 'api-cms-layout')
-                ->itemRoute('menu_group_item_env_config',
-                    'cmsadmin/config/index', 'build')
-                ->itemApi('menu_group_item_env_redirections',
-                    'cmsadmin/redirect/index', 'compare_arrows',
-                    'api-cms-redirect')
-                ->group('menu_group_elements')
-                ->itemApi('menu_group_item_elements_group',
-                    'cmsadmin/blockgroup/index', 'view_module',
-                    'api-cms-blockgroup')
-                ->itemApi('menu_group_item_elements_blocks',
-                    'cmsadmin/block/index', 'format_align_left', 'api-cms-block');
+                        ->nodeRoute('menu_node_cms', 'note_add',
+                                'cmsadmin/default/index', 'luya\cms\models\NavItem')
+                        ->node('menu_node_cmssettings', 'settings')
+                        ->group('menu_group_env')
+                        ->itemRoute('menu_group_item_env_permission',
+                                "cmsadmin/permission/index", 'gavel')
+                        ->itemApi('menu_group_item_env_container',
+                                'cmsadmin/navcontainer/index', 'label_outline',
+                                'api-cms-navcontainer')
+                        ->itemApi('menu_group_item_env_layouts',
+                                'cmsadmin/layout/index', 'view_quilt', 'api-cms-layout')
+                        ->itemRoute('menu_group_item_env_config',
+                                'cmsadmin/config/index', 'build')
+                        ->itemApi('menu_group_item_env_redirections',
+                                'cmsadmin/redirect/index', 'compare_arrows',
+                                'api-cms-redirect')
+                        ->group('menu_group_elements')
+                        ->itemApi('menu_group_item_elements_group',
+                                'cmsadmin/blockgroup/index', 'view_module',
+                                'api-cms-blockgroup')
+                        ->itemApi('menu_group_item_elements_blocks',
+                                'cmsadmin/block/index', 'format_align_left', 'api-cms-block');
     }
 
     /**
      * @inheritdoc
      */
-    public function extendPermissionApis()
-    {
+    public function extendPermissionApis() {
         return [
             ['api' => 'api-cms-navitempageblockitem', 'alias' => static::t('module_permission_page_blocks')],
             ['api' => 'api-cms-navitempage', 'alias' => static::t('module_permission_page')],
@@ -281,8 +276,7 @@ class Module extends BaseModule implements CoreModuleInterface
     /**
      * @inheritdoc
      */
-    public function extendPermissionRoutes()
-    {
+    public function extendPermissionRoutes() {
         return [
             ['route' => self::ROUTE_PAGE_CREATE, 'alias' => static::t('module_permission_add_new_page')],
             ['route' => self::ROUTE_PAGE_UDPATE, 'alias' => static::t('module_permission_update_pages')],
@@ -295,8 +289,7 @@ class Module extends BaseModule implements CoreModuleInterface
     /**
      * @inheritdoc
      */
-    public function import(ImportControllerInterface $importer)
-    {
+    public function import(ImportControllerInterface $importer) {
         return [
             BlockImporter::class,
             CmslayoutImporter::class,
@@ -307,8 +300,7 @@ class Module extends BaseModule implements CoreModuleInterface
     /**
      * @inheritdoc
      */
-    public function getAdminAssets()
-    {
+    public function getAdminAssets() {
         return [
             'luya\cms\admin\assets\Main',
             'app\modules\cms\admin\assets\CustomContentPage',
@@ -318,8 +310,7 @@ class Module extends BaseModule implements CoreModuleInterface
     /**
      * @inheritdoc
      */
-    public function getJsTranslationMessages()
-    {
+    public function getJsTranslationMessages() {
         return [
             'js_added_translation_ok', 'js_added_translation_error', 'js_page_add_exists',
             'js_page_property_refresh', 'js_page_confirm_delete', 'js_page_delete_error_cause_redirects',
@@ -338,12 +329,11 @@ class Module extends BaseModule implements CoreModuleInterface
     /**
      * @inheritdoc
      */
-    public static function onLoad()
-    {
+    public static function onLoad() {
         self::registerTranslation('cmsadmin*',
-            self::staticBasePath().'/messages',
-            [
-                'cmsadmin' => 'cmsadmin.php',
+                self::staticBasePath() . '/messages',
+                [
+                    'cmsadmin' => 'cmsadmin.php',
         ]);
     }
 
@@ -354,10 +344,10 @@ class Module extends BaseModule implements CoreModuleInterface
      * @param array $params
      * @return string
      */
-    public static function t($message, array $params = [])
-    {
+    public static function t($message, array $params = []) {
         return parent::baseT('cmsadmin', $message, $params);
     }
+
     private static $_authorUserId = 0;
 
     /**
@@ -365,18 +355,17 @@ class Module extends BaseModule implements CoreModuleInterface
      *
      * @param integer $userId
      */
-    public static function setAuthorUserId($userId)
-    {
+    public static function setAuthorUserId($userId) {
         self::$_authorUserId = $userId;
     }
+
     private static $backendUserId;
 
     /**
      *
      * @param integer $cms_user_id
      */
-    public static function setBackendUserId($cms_user_id)
-    {
+    public static function setBackendUserId($cms_user_id) {
         self::$backendUserId = $cms_user_id;
     }
 
@@ -385,13 +374,11 @@ class Module extends BaseModule implements CoreModuleInterface
      *
      * @return integer
      */
-    public static function getAuthorUserId()
-    {
+    public static function getAuthorUserId() {
         if (!is_null(self::$backendUserId)) {
             return self::$backendUserId;
         }
-        return (Yii::$app instanceof Application) ? Yii::$app->adminuser->getId()
-                : self::$_authorUserId;
+        return (Yii::$app instanceof Application) ? Yii::$app->adminuser->getId() : self::$_authorUserId;
     }
 
     /**
@@ -400,11 +387,10 @@ class Module extends BaseModule implements CoreModuleInterface
      * @param class $parent
      * @param array $config
      */
-    public function __construct($id, $parent = null, $config = array())
-    {
+    public function __construct($id, $parent = null, $config = array()) {
         parent::__construct($id, $parent, $config);
-        $this->original_module     = new \luya\cms\admin\Module($id, $parent,
-            $config);
+        $this->original_module = new \luya\cms\admin\Module($id, $parent,
+                $config);
         $this->setBasePath($this->original_module->getBasePath());
         $this->setViewPath($this->original_module->getViewPath());
         $this->controllerNamespace = $this->original_module->controllerNamespace;
@@ -413,8 +399,7 @@ class Module extends BaseModule implements CoreModuleInterface
     /**
      * 
      */
-    public static function staticBasePath()
-    {
+    public static function staticBasePath() {
         return \luya\cms\admin\Module::staticBasePath();
     }
 }

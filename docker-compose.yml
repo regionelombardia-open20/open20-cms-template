@@ -1,0 +1,80 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    image: open2-application
+    env_file:
+        .env
+    environment:
+        DB_HOST: "database"
+        DB_NAME: "${DATABASE_NAME}"
+        DB_USER: "root"
+        DB_PASS: "${DATABASE_ROOT_PASSWORD}"
+    ports:
+      - "20443:443"
+    volumes:
+      - .:/var/www/app
+    depends_on:
+      - database
+    networks:
+      open2net:
+  database:
+    image: mariadb
+    restart: always
+    env_file:
+        .env
+    environment:
+      MARIADB_ROOT_PASSWORD: "${DATABASE_ROOT_PASSWORD}"
+      MARIADB_DATABASE: "${DATABASE_NAME}"   
+    volumes:
+      - dbdata:/var/lib/mysql
+      - applog:/var/log
+    expose:
+      - "3306"
+    #ports:
+    #  - "127.0.0.1:3306:3306"
+    networks:
+      open2net:
+  dbadmin:
+    image: phpmyadmin:fpm-alpine
+    restart: always
+    env_file:
+        .env
+    environment:
+      PMA_HOST: "database"
+      PMA_USER: "root"
+      PMA_PASSWORD: "${DATABASE_ROOT_PASSWORD}"
+      UPLOAD_LIMIT: "2G"
+    volumes:
+      - applog:/var/log
+    #ports:
+    #  - "127.0.0.1:8081:80"
+    depends_on:
+      - database
+    networks:
+      open2net:
+  elasticsearch:
+    image: elasticsearch:6.8.23
+    restart: always
+    volumes:
+      - applog:/var/log
+    expose:
+      - "9200"
+      - "9300"
+    networks:
+      open2net:
+  antivirus:
+    image: clamav/clamav:1.2
+    restart: always
+    volumes:
+      - .:/var/www/app
+      - applog:/var/log
+    expose:
+      - "3310"
+    networks:
+      open2net:
+volumes:
+  applog: {}
+  dbdata: {}
+networks:
+  open2net:

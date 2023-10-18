@@ -131,7 +131,9 @@ $moduleSeo = \Yii::$app->getModule('seo');
                                                 <div class="col" ng-class="{'bold-form-label': field.required}">
                                                     <!--<span ng-if="getInfo(field.var)" class="help-button btn btn-icon btn-help" tooltip tooltip-expression="getInfo(field.var)" tooltip-position="left"></span>-->
 
-                                                    <div ng-if="field.hasOwnProperty('image') && field.image != ''"><img src="{{ field.image }}" alt=""></div>
+                                                    <div ng-if="field.hasOwnProperty('image') && field.image != ''">
+                                                        <img src="{{ field.image }}" alt="">
+                                                    </div>
                                                     <zaa-injector dir="field.type == 'zaa-radio' ? 'zaa-radio-image' : field.type" options="field.options" fieldid="{{field.id}}" fieldname="{{field.var}}" initvalue="{{field.initvalue}}" placeholder="{{field.placeholder}}" label="{{field.label}}" model="data[field.var]"></zaa-injector>
                                                     <div type="input-hint"><i class="material-icons">info</i>{{ field.description }}</div>
 

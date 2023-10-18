@@ -2,7 +2,6 @@
 use luya\cms\admin\Module;
 use luya\admin\helpers\Angular;
 use app\modules\cms\components\AdminUser;
-use Yii;
 
 $isAdmin = AdminUser::isAdmin();
 

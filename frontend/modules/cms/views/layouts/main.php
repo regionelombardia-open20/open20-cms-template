@@ -2,7 +2,6 @@
 use luya\admin\Module as Admin;
 use luya\helpers\Url;
 use app\modules\cms\components\AdminUser;
-use Yii;
 
 $user = Yii::$app->adminuser->getIdentity();
 

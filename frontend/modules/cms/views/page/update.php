@@ -3,11 +3,9 @@
 use luya\cms\admin\Module;
 use luya\admin\Module as AdminModule;
 use luya\cms\helpers\Url;
-use Yii;
+use app\modules\cms\components\AdminUser;
 
-$navId = filter_input(INPUT_GET, 'navId');
-$nav = \app\modules\cms\models\Nav::findOne($navId);
-$navItem = \app\modules\cms\models\NavItem::find()->andWhere(['nav_id' => $navId])->one();
+$isAdmin = AdminUser::isAdmin();
 
 ?>
 <div class="cmsadmin" ng-controller="NavController" ng-show="!isDeleted" ng-class="{'cmsadmin-blockholder-collapsed' : !isBlockholderSmall}">
@@ -53,12 +51,14 @@ $navItem = \app\modules\cms\models\NavItem::find()->andWhere(['nav_id' => $navId
                     <div class="dropdown" ng-class="{'show': toggleSettings}"  ng-click="toggleSettings=!toggleSettings">
                         <button type="button" class="btn btn-outline-config btn-icon" ng-class="{'btn-active': toggleSettings}"></button>
                         <div class="dropdown-menu dropdown-menu-right" ng-class="{'show': toggleSettings}">
+                            <?php if($isAdmin):?>
                             <a class="dropdown-item" ng-click="togglePageSettingsOverlay(9)">
                                 <i class="material-icons">tag</i> <span><?= AdminModule::t('menu_system_item_tags'); ?></span>
-                            </a>    
+                            </a>
                             <a class="dropdown-item" ng-click="togglePageSettingsOverlay(2)" ng-if="propertiesData.length > 0">
                                 <i class="material-icons">settings</i> <span><?= Module::t('view_update_properties_title'); ?></span>
                             </a>
+                            <?php endif; ?>
 			                <a class="dropdown-item" ng-show="!isDraft" ng-click="togglePageSettingsOverlay(7)">
                                 <i class="material-icons">timelapse</i> <span><?= Module::t('cmsadmin_settings_time_title'); ?></span>
                             </a>
@@ -68,12 +68,14 @@ $navItem = \app\modules\cms\models\NavItem::find()->andWhere(['nav_id' => $navId
                             <a class="dropdown-item" ng-click="togglePageSettingsOverlay(8)">
                                 <i class="material-icons">collections</i> <span><?= Module::t('page_update_actions_deepcopyastemplate_title'); ?></span>
                             </a>
+                            <?php if($isAdmin):?>
                             <a class="dropdown-item" ng-show="!isDraft" ng-click="togglePageSettingsOverlay(5)">
                                 <i class="material-icons">home</i> <span><?= Module::t('cmsadmin_settings_homepage_title'); ?></span>
-                            </a>
+                            </a>                        
                             <a class="dropdown-item" ng-click="togglePageSettingsOverlay(3)">
                                 <i class="material-icons">web</i> <span><?= Module::t('page_update_actions_layout_title'); ?></span>
                             </a>
+                            <?php endif; ?>
                             <?php if (Yii::$app->adminuser->canRoute(Module::ROUTE_PAGE_DELETE)): ?>
                             <a class="dropdown-item" ng-click="togglePageSettingsOverlay(6)">
                                 <i class="material-icons">delete</i> <span><?= Module::t('cmsadmin_settings_trashpage_title'); ?></span>
@@ -86,7 +88,7 @@ $navItem = \app\modules\cms\models\NavItem::find()->andWhere(['nav_id' => $navId
             <div class="cmsadmin-pages">
                 <div class="row">
                     <div class="col" ng-repeat="lang in languagesData" ng-if="AdminLangService.isInSelection(lang.short_code)" ng-controller="NavItemController">
-                        <?= $this->render('_navitem', ['canBlockUpdate' => $canBlockUpdate, 'canBlockDelete' => $canBlockDelete, 'canBlockCreate' => $canBlockCreate, 'navItem' => $navItem]); ?>
+                        <?= $this->render('_navitem', ['canBlockUpdate' => $canBlockUpdate, 'canBlockDelete' => $canBlockDelete, 'canBlockCreate' => $canBlockCreate]); ?>
                     </div>
                 </div>
             </div>
