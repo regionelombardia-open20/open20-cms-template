@@ -65,7 +65,6 @@ return [
             ],
         ]
     ],
-    
     'backendobjects' => [
         'class' => 'app\modules\backendobjects\frontend\Module',
         'modulesEnabled' => [
@@ -73,7 +72,7 @@ return [
         ],
         'modelsDetailMapping' => [
         ]
-        //'useAppViewPath' => true, // When enabled the views will be looked up in the @app/views folder, otherwise the views shipped with the module will be used.
+    //'useAppViewPath' => true, // When enabled the views will be looked up in the @app/views folder, otherwise the views shipped with the module will be used.
     ],
     /*
      * Frontend module for the `cms` module.
@@ -84,7 +83,7 @@ return [
         'contentCompression' => true,
         'controllerMap' => [
             'default' => 'app\modules\cms\base\DefaultController'
-        ],       
+        ],
     ],
     /*
      * Admin module for the `cms` module.
@@ -93,6 +92,10 @@ return [
         'class' => 'app\modules\cms\admin\Module',
         'hiddenBlocks' => [],
         'blockVariations' => [],
+//        'controllerMap' => [
+//            'default' => 'app\modules\cms\cmsadmin\controllers\DefaultController',
+//            'page' => 'app\modules\cms\cmsadmin\controllers\PageController'
+//        ]
     ],
     'cmsapi' => [
         'class' => 'app\modules\cmsapi\frontend\Module',
@@ -124,8 +127,8 @@ return [
         'saveTimezone' => 'Europe/Rome',
         'autoWidgetSettings' => [
             Module::FORMAT_DATE => ['type' => 2, 'pluginOptions' => ['autoclose' => true]], // example
-            //Module::FORMAT_TIME => 'php:H:i:s',
-            //Module::FORMAT_DATETIME => 'php:Y-m-d H:i:s',
+        //Module::FORMAT_TIME => 'php:H:i:s',
+        //Module::FORMAT_DATETIME => 'php:Y-m-d H:i:s',
         ],
         'widgetSettings' => [
             Module::FORMAT_DATE => [
@@ -152,19 +155,18 @@ return [
         'uploadUrl' => '@web/uploadfiles/redactor',
         'imageAllowExtensions' => ['jpg', 'png', 'gif']
     ],
-    
     'sitemap' => [
         'class' => 'app\modules\sitemap\frontend\Module',
     ],
     /* 'social' => [
-        // the module class
-        'class' => 'kartik\social\Module',
-        // the global settings for the google analytic plugin widget
-        'googleAnalytics' => [
-            'id' => '',
-            'domain' => '',
-        ],
-    ], */
+      // the module class
+      'class' => 'kartik\social\Module',
+      // the global settings for the google analytic plugin widget
+      'googleAnalytics' => [
+      'id' => '',
+      'domain' => '',
+      ],
+      ], */
     'translatemanager' => [
         'class' => 'lajax\translatemanager\Module',
         'root' => [
@@ -211,6 +213,7 @@ return [
     ],
     'uikit' => [
         'class' => 'app\modules\uikit\Module',
+        'disableDevelopmentGroup' => false,
     ],
     'userauthfrontend' => [
         'class' => 'amos\userauth\frontend\Module',
@@ -222,4 +225,7 @@ return [
     'workflow' => [
         'class' => 'open20\amos\workflow\AmosWorkflow'
     ],
+//    'dashboards' => [
+//        'class' => 'open20\cms\dashboard\Module',
+//    ],
 ];

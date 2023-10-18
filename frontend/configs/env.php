@@ -68,9 +68,9 @@ $config = [
     'bootstrap' => $bootstrap,
     'params' => $params,
     'controllerMap' => [
-        'elastic' => [
-            'class' => 'open20\elasticsearch\commands\RebuildIndexController',
-        ],
+//        'elastic' => [
+//            'class' => 'open20\elasticsearch\commands\RebuildIndexController',
+//        ],
         'platform' => [
             'class' => 'app\controllers\UtilityController',
         ],

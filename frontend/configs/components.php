@@ -106,19 +106,20 @@ return [
             'site/logout' => 'site/logout',
             'site/to-menu-url' => 'site/to-menu-url',
             'site/privacy' => 'site/privacy-policy',
-            //'img/<file:.*>' => 'files/img',
-            '<module:\w+>/<controller:.*?>/<id:\d+>/<title:.*?>' => '<module>/<controller>/view',
+            //'img/<file:.*>' => 'files/img',            
+            '<module:(?!admin)[\w\-]+>/<controller:[\w\-]+>/<id:\d+>/<title:.*?>' => '<module>/<controller>/view',
+            '<module:\w+>/<controller:.*?>/partecipa/<id:\d+>/<title:.*?>' => '<module>/<controller>/partecipa',
         ]
     ],
     'view' => [
         'class' => 'app\modules\cms\base\CmsView',
-        'theme' => [
-            'pathMap' => [
-                '@vendor/luyadev/luya-module-admin/src/views/layouts' => '@frontend/modules/cms/views/layouts',
-                '@vendor/luyadev/luya-module-cms/src/admin/views/page' => '@frontend/modules/cms/views/page',
-                '@vendor/luyadev/luya-module-admin/src/views/template' => '@frontend/modules/cms/views/template',
-            ],
-        ],
+//        'theme' => [
+//            'pathMap' => [
+//                '@vendor/luyadev/luya-module-admin/src/views/layouts' => '@frontend/modules/cms/views/layouts',
+//                '@vendor/luyadev/luya-module-cms/src/admin/views/page' => '@frontend/modules/cms/views/page',
+//                '@vendor/luyadev/luya-module-admin/src/views/template' => '@frontend/modules/cms/views/template',
+//            ],
+//        ],
     ],
     'adminuser' => [
         'class' => 'app\modules\cms\components\AdminUser',
@@ -137,12 +138,12 @@ return [
     'response' => [
         'class' => 'open20\amos\core\response\Response',
         'cspDirectives' => [
-            'default-src' => "'self' 'unsafe-inline' google-analytics.com *.google-analytics.com use.fontawesome.com *.use.fontawesome.com *.googleapis.com cdn.jsdelivr.net *.jsdelivr.net *.juicer.io fonts.gstatic.com *.googletagmanager.com  consent.cookiebot.com *.jquery.com",
-            'connect-src' => "'self' 'unsafe-inline' google-analytics.com *.google-analytics.com consent.cookiebot.com consentcdn.cookiebot.com blob: cdn.jsdelivr.net *.jsdelivr.net *.juicer.io maps.googleapis.com",
-            'img-src' => "'self' 'unsafe-inline' data: blob: a4f6d9.emailsp.com *.emailsp.com *.ariaspa.it img.youtube.com *.youtube.com *.juicer.io maps.googleapis.com maps.gstatic.com streetviewpixels-pa.googleapis.com *.googleapis.com lh3.ggpht.com",
-            'script-src' => "'self' 'unsafe-inline' 'unsafe-eval' meet.test.demotestwip.it *.googletagmanager.com google-analytics.com *.google-analytics.com use.fontawesome.com *.use.fontawesome.com cdnjs.cloudflare.com *.googletagmanager.com *.google.com *.gstatic.com *.juicer.io consent.cookiebot.com consentcdn.cookiebot.com *.jquery.com maps.googleapis.com",
-            'style-src' => "'self' 'unsafe-inline' use.fontawesome.com *.usse.fontawesome.com cdn.jsdelivr.net *.googleapis.com *.juicer.io consent.cookiebot.com www.gstatic.com",
-            'frame-src' => "'self' 'unsafe-inline' meet.test.demotestwip.it *.youtube.com player.vimeo.com *.google.com *.cookiebot.com",
+            'default-src' => "'self' 'unsafe-inline' google-analytics.com *.google-analytics.com use.fontawesome.com *.use.fontawesome.com *.googleapis.com cdn.jsdelivr.net *.jsdelivr.net *.juicer.io fonts.gstatic.com *.googletagmanager.com  consent.cookiebot.com *.jquery.com *.tinymce.com",
+            'connect-src' => "'self' 'unsafe-inline' google-analytics.com *.google-analytics.com consent.cookiebot.com consentcdn.cookiebot.com blob: cdn.jsdelivr.net *.jsdelivr.net *.juicer.io maps.googleapis.com *.tinymce.com",
+            'img-src' => "'self' 'unsafe-inline' data: blob: a4f6d9.emailsp.com *.emailsp.com *.ariaspa.it img.youtube.com *.youtube.com *.juicer.io maps.googleapis.com maps.gstatic.com streetviewpixels-pa.googleapis.com *.googleapis.com lh3.ggpht.com *.tinymce.com",
+            'script-src' => "'self' 'unsafe-inline' 'unsafe-eval' meet.test.demotestwip.it *.googletagmanager.com google-analytics.com *.google-analytics.com use.fontawesome.com *.use.fontawesome.com cdnjs.cloudflare.com *.googletagmanager.com *.google.com *.gstatic.com *.juicer.io consent.cookiebot.com consentcdn.cookiebot.com *.jquery.com maps.googleapis.com *.tinymce.com",
+            'style-src' => "'self' 'unsafe-inline' use.fontawesome.com *.usse.fontawesome.com cdn.jsdelivr.net *.googleapis.com *.juicer.io consent.cookiebot.com www.gstatic.com *.tinymce.com",
+            'frame-src' => "'self' 'unsafe-inline' meet.test.demotestwip.it *.youtube.com player.vimeo.com *.google.com *.cookiebot.com *.tinymce.com",
         ],
         'frameLevel' => 1,
         'frameAllowFrom' => 'https://www.youtube.com/',

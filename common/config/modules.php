@@ -190,7 +190,7 @@ return [
             ]
         ],
     ],
-    'translation' => [
+    /*'translation' => [
         'class' => 'open20\amos\translation\AmosTranslation',
         'modelNs' => 'frontend\models\translations',
         'queryCache' => 'translateCache',
@@ -241,7 +241,7 @@ return [
         'defaultLanguage' => 'it-IT',
         'defaultUserLanguage' => 'it-IT',
         'pathsForceTranslation' => ['*'],
-    ],
+    ],*/
     'myactivities' => [
         'class' => 'open20\amos\myactivities\AmosMyActivities',
     ],

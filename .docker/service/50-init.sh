@@ -15,6 +15,9 @@ else
     echo "No Application To Configure"
 fi
 
+# Wait for DB to be Ready
+sleep 10
+
 # Run Migrations to Setup Database
 echo "-------------- RUN MIGRATIONS --------------"
 cd /var/www/app/ && php open2 migrate up --interactive=0 > /dev/stdout

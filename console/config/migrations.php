@@ -28,7 +28,7 @@ return[
     '@vendor/open20/amos-seo/src/migrations',
     '@vendor/open20/amos-social-auth/src/migrations',
     '@vendor/open20/amos-tag/src/migrations',
-    '@vendor/open20/amos-translation/src/migrations',
+    //'@vendor/open20/amos-translation/src/migrations',
     '@vendor/open20/amos-utility/src/migrations',
     '@vendor/open20/amos-workflow/src/migrations',
     '@vendor/open2/amos-ticket/src/migrations',

@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.0"
 services:
   web:
     build: .
@@ -32,7 +32,7 @@ services:
     expose:
       - "3306"
     ports:
-      - "127.0.0.1:3306:3306"
+      - "127.0.0.1:8306:3306"
     networks:
       open2net:
   dbadmin:
