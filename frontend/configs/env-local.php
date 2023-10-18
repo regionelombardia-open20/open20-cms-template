@@ -7,17 +7,11 @@
  */
 
 return [
-
-    'components' => [
-        'user' => [
-            'class' => 'open20\amos\core\user\AmosUser',
-            'identityClass' => 'open20\amos\core\user\User',
-            'loginUrl' => '/it/login',
-            'enableAutoLogin' => true,
-            'authTimeout' => 3600 * 12,
-            'autoRenewCookie' => true,
-            'enableSession' => true,
+    'components'=>[
+        'newReCaptcha' => [
+            'class' => 'himiklab\yii2\recaptcha\ReCaptchaConfig',
+            'siteKeyV2' => '',
+            'secretV2' => '',
         ],
-           
-    ],
+    ]
 ];
