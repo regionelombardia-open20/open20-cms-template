@@ -34,7 +34,7 @@ cd /var/www/app/ && php open2 migrate --migrationPath="@frontend/migrations/lang
 # Setup CMS Environment
 echo "-------------- SETUP CMS --------------"
 cd /var/www/app/ && php vendor/bin/luya import
-php vendor/bin/luya admin/setup --email=admin@open2.localapplication --password="${CMS_PASSWORD}" --firstname=Admin --lastname=User --interactive=0
+php vendor/bin/luya admin/setup --email=admin@open2.localapplication --password="${CMS_PASSWORD}" --firstname=Admin --lastname=User --interactive=0 | true
 
 
 # Run Migrations for Language and Default Page Login - ONLY FOR NEW WEBSITE
