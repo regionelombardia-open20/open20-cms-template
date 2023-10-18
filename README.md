@@ -70,6 +70,8 @@ Il metodo consigliato per l'installazione in un'ambiente di sviluppo &eacute; me
 
 _* Il file docker-compose.yml contiene la definizione del cluster applicativo che verrà avviato con i comandi sopra indicati e contiene varia software a supporto dell'applicazione Open 2.0 come un Database MySQL, un'Antivirus, un motore di ricerca e un pannello di gestione del database_
 
+_* Una volta completata l'installazione potrete raggiungere l'applicazionr all'indirizzo __https://127.0.0.1:8443__ col il vostro browser_
+
 Variabili D'ambiente
 -------------------
 

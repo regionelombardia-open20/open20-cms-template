@@ -11,7 +11,7 @@ services:
         DB_USER: "root"
         DB_PASS: "${DATABASE_ROOT_PASSWORD}"
     ports:
-      - "20443:443"
+      - "127.0.0.1:8443:443"
     volumes:
       - .:/var/www/app
     depends_on:
@@ -31,8 +31,8 @@ services:
       - applog:/var/log
     expose:
       - "3306"
-    #ports:
-    #  - "127.0.0.1:3306:3306"
+    ports:
+      - "127.0.0.1:3306:3306"
     networks:
       open2net:
   dbadmin:
@@ -47,8 +47,8 @@ services:
       UPLOAD_LIMIT: "2G"
     volumes:
       - applog:/var/log
-    #ports:
-    #  - "127.0.0.1:8081:80"
+    ports:
+      - "127.0.0.1:8081:80"
     depends_on:
       - database
     networks:
