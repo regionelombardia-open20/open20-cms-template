@@ -1,0 +1,15 @@
+Accesso all'Area Riservata
+Per effettuare un controllo funzionale, si prega di fare clic su "ACCEDI" situato nell'angolo in alto a destra dell'interfaccia visualizzata nella prima pagina.
+Successivamente, utilizzare le seguenti credenziali nella schermata di login:
+
+Indirizzo email: admin
+Password: Password01!
+
+----------------------
+
+Accesso al Modulo CMS
+Se si desidera accedere al modulo CMS, digitare "/admin" nella barra degli indirizzi del browser. 
+Successivamente, accedere nella schermata di login utilizzando le seguenti credenziali:
+
+Email: admin@open2.localapplication
+Password: Password01

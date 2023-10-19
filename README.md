@@ -56,6 +56,12 @@ I requisiti qui esposti sono intesi per un'ambiente di sviluppo o con bassa affl
 - 2GB Disco
   - Lo storage va dimensionato in base alla mole di dati e allegati che si vuole gestire
 
+Docker in ambiente Windows
+-------------------
+prima di scaricare il pachetto dalla repository di Git, per i sistemi Windows sarà necessario eseguire i seguneti comandi:
+
+git config --global core.eol lf
+git config --global core.autocrlf false
 
 
 Installazione con Docker
@@ -65,10 +71,12 @@ E' possibile avviare l'applicativo sotto forma di container utilizzando Docker i
 Il metodo consigliato per l'installazione in un'ambiente di sviluppo &eacute; mediante __docker compose__ e bastano i seguenti passaggi
 
 - Copiare il file __.env.sample__ in __.env__ modificandolo secondo le proprie preferenze e seguendo le indicazioni sulle variabili d'ambiente in questo documento
-- Pacchettizzare il container applicativo con il comando __docker compose build__
-- Avviare il cluster con il comando __docker compose up -d__ (-d consente di avviare il cluster di container in background)
+- Pacchettizzare il container applicativo con il comando __docker compose build --no-cache__
+- Avviare il cluster con il comando __docker compose up --force-recreate -d__ (-d consente di avviare il cluster di container in background)
 
 _* Il file docker-compose.yml contiene la definizione del cluster applicativo che verrà avviato con i comandi sopra indicati e contiene varia software a supporto dell'applicazione Open 2.0 come un Database MySQL, un'Antivirus, un motore di ricerca e un pannello di gestione del database_
+
+_* Il container con image __open2-application__ impiegherà alcuni minuti per terminare le attività di composer e per la creazione del DB tramite migrazioni. Il processo potrà essere seuito nel log del container._
 
 _* Una volta completata l'installazione potrete raggiungere l'applicazionr all'indirizzo __https://127.0.0.1:8443__ col il vostro browser_
 
@@ -177,3 +185,5 @@ Alcune delle principali componenti da configurare sono le seguenti
     - La definizione della gestione dei log applicativi può essere fatta mediante il componente __log__
         - Per definire la cofigurazione dei log bisognerà quindi agire sul componente __log__ dove è possibile definire uno o più __targets__ che rappresenteranno la destinazione dei log stessi
 
+
+_*  Terminata l'Installazione proseguire con il primo accesso comne descritto nel file first-access.txt_
