@@ -1,5 +1,5 @@
 # Install Vendors
-echo "___________ INSTALL DEPENDENCIES ____________"
+echo "___________ INSTALL COMPOSER DEPENDENCIES ____________"
 composer install
 
 # Init
