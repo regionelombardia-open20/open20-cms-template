@@ -186,4 +186,4 @@ Alcune delle principali componenti da configurare sono le seguenti
         - Per definire la cofigurazione dei log bisognerà quindi agire sul componente __log__ dove è possibile definire uno o più __targets__ che rappresenteranno la destinazione dei log stessi
 
 
-_*  Terminata l'Installazione proseguire con il primo accesso comne descritto nel file first-access.txt_
+_*  Terminata l'Installazione proseguire con il primo accesso comne descritto nel file __OPEN2.0_Primo_Accesso.pdf__ ._
