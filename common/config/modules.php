@@ -96,14 +96,14 @@ return [
     'comuni' => [
         'class' => 'open20\amos\comuni\AmosComuni',
     ],
-    /* 'cwh' => [
-      'class' => 'open20\amos\cwh\AmosCwh',
-      'cached' => false,
-      'regolaPubblicazioneFilter' => false
-      ], */
-    /* 'community' => [
-      'class' => 'open20\amos\community\AmosCommunity',
-      ], */
+    'cwh' => [
+        'class' => 'open20\amos\cwh\AmosCwh',
+        'cached' => false,
+        'regolaPubblicazioneFilter' => false
+    ],
+    'community' => [
+        'class' => 'open20\amos\community\AmosCommunity',
+    ],
     'dashboard' => [
         'class' => 'open20\amos\dashboard\AmosDashboard',
     ],
