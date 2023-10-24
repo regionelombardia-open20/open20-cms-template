@@ -15,7 +15,7 @@ use open20\amos\core\applications\CmsBoot;
 error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING & ~E_DEPRECATED & ~E_STRICT);
 
 defined('YII_DEBUG') or define('YII_DEBUG', false);
-defined('YII_ENV') or define('YII_ENV', 'prod');
+defined('YII_ENV') or define('YII_ENV', 'dev');
 
 /*if($_SERVER['REMOTE_ADDR'] != '77.89.1.132' && $_SERVER['REMOTE_ADDR'] != '127.0.0.1' && $_SERVER['REMOTE_ADDR'] != '172.17.0.1'){
 header("location: /offline/index.html");

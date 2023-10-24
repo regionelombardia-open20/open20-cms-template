@@ -58,7 +58,7 @@ $config = [
      */
     'defaultRoute' => 'cms',
     'consoleBaseUrl' => '/',
-    'consoleHostInfo' => 'http://localhost',
+    'consoleHostInfo' => 'http://127.0.0.1:8443',
     /*
      * Define the basePath of the project (Yii Configration Setup)
      */

@@ -9,7 +9,7 @@
  */
 return [
     'platform' => [
-        'frontendUrl' => 'http://localhost',
-        'backendUrl' => 'http://localhost',
+        'frontendUrl' => 'https://127.0.0.1:8443',
+        'backendUrl' => 'https://127.0.0.1:8443',
     ],
 ];

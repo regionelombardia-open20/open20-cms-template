@@ -28,6 +28,9 @@ return [
         'chrono',
         'cmsbridge'
     ],
+    'linkConfigurations' => [
+      'loginLinkCommon' => '/login',  
+    ],
     'befe' => true,
     'enablePositionalBreadcrumb' => true,
 ];

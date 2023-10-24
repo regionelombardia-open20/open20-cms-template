@@ -19,7 +19,7 @@ return [
     'google_places_api_key' => '',
     'google_recaptcha_site_key' => '',
     'platform' => [
-        'frontendUrl' => 'FRONTEND_URL',
-        'backendUrl' => 'FRONTEND_URL',
+        'frontendUrl' => 'https://127.0.0.1:8443',
+        'backendUrl' => 'https://127.0.0.1:8443',
     ],
 ];

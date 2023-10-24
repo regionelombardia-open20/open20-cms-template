@@ -36,6 +36,10 @@ return [
             'api-admin-proxy' => 'luya\admin\apis\ProxyController',
             'api-admin-config' => 'luya\admin\apis\ConfigController',
             'api-admin-queuelog' => 'luya\admin\apis\QueueLogController',
+            'api-admin-queuelogerror' => 'luya\admin\apis\QueueLogErrorController',
+            'api-admin-ngrestlog' => 'luya\admin\apis\NgrestLogController',
+            'api-admin-storageimage' => 'luya\admin\apis\StorageImageController',
+            'api-admin-property' => 'luya\admin\apis\PropertyController',
             'login' => 'app\modules\cms\controllers\LoginController',
             'login-cms-admin' => 'app\modules\cms\controllers\LoginController',
         ]
@@ -80,7 +84,7 @@ return [
     'cms' => [
         'class' => 'luya\cms\frontend\Module',
         'overlayToolbar' => false,
-        'contentCompression' => true,
+        'contentCompression' => false,
         'controllerMap' => [
             'default' => 'app\modules\cms\base\DefaultController'
         ],
@@ -154,6 +158,15 @@ return [
         'uploadDir' => '@webroot/uploadfiles/redactor',
         'uploadUrl' => '@web/uploadfiles/redactor',
         'imageAllowExtensions' => ['jpg', 'png', 'gif']
+    ],
+    'report' => [
+        'class' => 'open20\amos\report\AmosReport',
+        'modelsEnabled' => [
+        //'open20\amos\news\models\News',
+        //'open20\amos\documenti\models\Documenti',
+        //'open20\amos\discussioni\models\DiscussioniTopic',
+        //'open20\amos\events\models\Event',
+        ]
     ],
     'sitemap' => [
         'class' => 'app\modules\sitemap\frontend\Module',

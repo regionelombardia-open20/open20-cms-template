@@ -96,14 +96,20 @@ return [
     'comuni' => [
         'class' => 'open20\amos\comuni\AmosComuni',
     ],
-    /*'cwh' => [
-        'class' => 'open20\amos\cwh\AmosCwh',
-        'cached' => false,
-        'regolaPubblicazioneFilter' => true
-    ],*/
+    /* 'cwh' => [
+      'class' => 'open20\amos\cwh\AmosCwh',
+      'cached' => false,
+      'regolaPubblicazioneFilter' => false
+      ], */
+    /* 'community' => [
+      'class' => 'open20\amos\community\AmosCommunity',
+      ], */
     'dashboard' => [
         'class' => 'open20\amos\dashboard\AmosDashboard',
     ],
+    /* 'documenti' => [
+      'class' => 'open20\amos\documenti\models\Documenti',
+      ], */
     // 'elasticsearch' =>[
     //     'class' => '\open20\elasticsearch\Module',
     //     'modelsEnabled' => [
@@ -118,6 +124,9 @@ return [
         'batchFromDate' => '2019-08-26',
         'confirmEmailNotification' => false,
     ],
+    /* 'news' => [
+      'class' => 'open20\amos\news\AmosNews',
+      ], */
     'privileges' => [
         'class' => 'open20\amos\privileges\AmosPrivileges',
     ],
@@ -190,58 +199,58 @@ return [
             ]
         ],
     ],
-    /*'translation' => [
-        'class' => 'open20\amos\translation\AmosTranslation',
-        'modelNs' => 'frontend\models\translations',
-        'queryCache' => 'translateCache',
-        'cached' => true,
-        'translationBootstrap' => [
-            'configuration' => [
-                'translationLabels' => [
-                    'classBehavior' => \lajax\translatemanager\behaviors\TranslateBehavior::className(),
-                    'models' => [
-                        [
-                            'namespace' => 'cornernote\workflow\manager\models\Status',
-                            //'connection' => 'db', //if not set it use 'db'
-                            //'classBehavior' => NULL,//if not set it use default classBehavior 'lajax\translatemanager\behaviors\TranslateBehavior'
-                            'attributes' => ['label'],
-                        ],
-                    ],
-                ],
-                'translationContents' => [
-                    'classBehavior' => \open20\amos\translation\behaviors\TranslateableBehavior::className(),
-                    'models' => [
-                        ['namespace' => 'open20\amos\tag\models\Tag',
-                            //'connection' => 'db', //if not set it use 'db'
-                            //'classBehavior' => NULL,//if not set it use default classBehavior 'open20\amos\translation\behaviors\TranslateableBehavior'
-                            'enableWorkflow' => FALSE, //if not set it use default configuration of the plugin
-                            'attributes' => ['nome', 'descrizione'],
-                            'plugin' => 'tag'
-                        ],
-                    ],
-                ],
-            ],
-        ],
-        'module_translation_labels' => 'translatemanager',
-        'module_translation_labels_options' => ['roles' => ['ADMIN', 'CONTENT_TRANSLATOR'],
-            'root' => [
-                '@vendor/amos/',
-                '@vendor/openinnovation/',
-                '@vendor/',
-                '@app',
-                '@frontend',
-                '@vendor/open20/',
-            ],
-        ], //all the options of the translatemanager
-        'components' => [
-            'translatemanager' => [
-                'class' => 'lajax\translatemanager\Component'
-            ],
-        ],
-        'defaultLanguage' => 'it-IT',
-        'defaultUserLanguage' => 'it-IT',
-        'pathsForceTranslation' => ['*'],
-    ],*/
+    /* 'translation' => [
+      'class' => 'open20\amos\translation\AmosTranslation',
+      'modelNs' => 'frontend\models\translations',
+      'queryCache' => 'translateCache',
+      'cached' => true,
+      'translationBootstrap' => [
+      'configuration' => [
+      'translationLabels' => [
+      'classBehavior' => \lajax\translatemanager\behaviors\TranslateBehavior::className(),
+      'models' => [
+      [
+      'namespace' => 'cornernote\workflow\manager\models\Status',
+      //'connection' => 'db', //if not set it use 'db'
+      //'classBehavior' => NULL,//if not set it use default classBehavior 'lajax\translatemanager\behaviors\TranslateBehavior'
+      'attributes' => ['label'],
+      ],
+      ],
+      ],
+      'translationContents' => [
+      'classBehavior' => \open20\amos\translation\behaviors\TranslateableBehavior::className(),
+      'models' => [
+      ['namespace' => 'open20\amos\tag\models\Tag',
+      //'connection' => 'db', //if not set it use 'db'
+      //'classBehavior' => NULL,//if not set it use default classBehavior 'open20\amos\translation\behaviors\TranslateableBehavior'
+      'enableWorkflow' => FALSE, //if not set it use default configuration of the plugin
+      'attributes' => ['nome', 'descrizione'],
+      'plugin' => 'tag'
+      ],
+      ],
+      ],
+      ],
+      ],
+      'module_translation_labels' => 'translatemanager',
+      'module_translation_labels_options' => ['roles' => ['ADMIN', 'CONTENT_TRANSLATOR'],
+      'root' => [
+      '@vendor/amos/',
+      '@vendor/openinnovation/',
+      '@vendor/',
+      '@app',
+      '@frontend',
+      '@vendor/open20/',
+      ],
+      ], //all the options of the translatemanager
+      'components' => [
+      'translatemanager' => [
+      'class' => 'lajax\translatemanager\Component'
+      ],
+      ],
+      'defaultLanguage' => 'it-IT',
+      'defaultUserLanguage' => 'it-IT',
+      'pathsForceTranslation' => ['*'],
+      ], */
     'myactivities' => [
         'class' => 'open20\amos\myactivities\AmosMyActivities',
     ],
