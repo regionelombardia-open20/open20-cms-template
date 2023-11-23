@@ -134,6 +134,7 @@ L'applicazione prevede solo un processo di installazione manuale per personale e
     - Zip
     - Curl
 - MySQL >= 5.6
+    - sql_mode = "STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
 
 #### Configurazione
 Gli step minimi per l'installazione prevedono la configurazione del database e l'esecuzione delle migrazion (o nella maggior parte dei casi d'uso, l'importazione di un dump del set di dati di sviluppo nel database dove lo si vuole rendere operativo)
